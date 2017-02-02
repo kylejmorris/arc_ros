@@ -1,0 +1,18 @@
+<launch>
+    <include file="$(find arc_control)/launch/default.launch"/>
+    <test test-name="hztest_laser_sensor" pkg="rostest" type="hztest">
+        <param name="topic" value="laser_scan"/>
+        <param name="hz" value="10"/>
+        <param name="hzerror" value="2"/>
+        <param name="test_duration" value="15"/>
+        <param name="wait_time" value="10"/>
+    </test>
+
+    <test test-name="hztest_odometry_sensor" pkg="rostest" type="hztest">
+        <param name="topic" value="odom"/>
+        <param name="hz" value="10"/>
+        <param name="hzerror" value="2"/>
+        <param name="test_duration" value="15"/>
+        <param name="wait_time" value="10"/>
+    </test>
+</launch>
