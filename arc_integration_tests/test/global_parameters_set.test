@@ -1,0 +1,8 @@
+<launch>
+<!-- Test if a specific parameter is not empty. -->
+<test pkg="rostest" type="paramtest" name="paramtest_nonempty" test-name="paramtest_nonempty">
+    <param name="param_name_target" value="test_param" />
+    <param name="test_duration" value="5.0" />
+    <param name="wait_time" value="20.0" />
+</test>
+</launch>

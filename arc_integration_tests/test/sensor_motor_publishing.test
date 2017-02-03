@@ -1,18 +1,35 @@
 <launch>
-    <include file="$(find arc_control)/launch/default.launch"/>
-    <test test-name="hztest_laser_sensor" pkg="rostest" type="hztest">
-        <param name="topic" value="laser_scan"/>
-        <param name="hz" value="10"/>
-        <param name="hzerror" value="2"/>
-        <param name="test_duration" value="15"/>
+
+<!-- DEBUG_ROBOT_NAME Is the robot we want to do the tests on. Must all be in namespace or else stuff breaks.-->
+<group ns="arc/$(env DEBUG_ROBOT_NAME)">
+    <node pkg="arc_integration_tests" name="mock_sensor_publisher" type="mock_sensor_publisher"/>
+    <node pkg="arc_integration_tests" name="mock_cmd_publisher" type="mock_cmd_publisher"/>
+
+    <!-- test for odom pub topic -->
+    <test test-name="hztest_odom_publishing" pkg="rostest" type="hztest">
+        <param name="topic" value="odom" />
+        <param name="hz" value="10.0" />
+        <param name="hzerror" value="2.0" />
+        <param name="test_duration" value="5.0" />
+        <param name="check_intervals" value="false" />
         <param name="wait_time" value="10"/>
     </test>
 
-    <test test-name="hztest_odometry_sensor" pkg="rostest" type="hztest">
-        <param name="topic" value="odom"/>
+    <!-- is the laser publishing? -->
+    <test test-name="hztest_laser_publishing" pkg="rostest" type="hztest">
+        <param name="topic" value="scan"/>
         <param name="hz" value="10"/>
         <param name="hzerror" value="2"/>
-        <param name="test_duration" value="15"/>
+        <param name="test_duration" value="5"/>
         <param name="wait_time" value="10"/>
     </test>
+
+    <test test-name="hztest_cmd_vel_publish" pkg="rostest" type="hztest">
+        <param name="topic" value="cmd_vel"/>
+        <param name="hz" value="10"/>
+        <param name="hzerror" value="2"/>
+        <param name="test_duration" value="5"/>
+        <param name="wait_time" value="10"/>
+    </test>
+</group>
 </launch>

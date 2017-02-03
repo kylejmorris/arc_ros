@@ -127,16 +127,22 @@ include_directories(
 # add_dependencies(arc_integration_tests ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
-# add_executable(arc_integration_tests_node src/arc_integration_tests_node.cpp)
+add_executable(mock_sensor_publisher src/mock_sensor_publisher_node.cpp)
+add_executable(mock_cmd_publisher src/mock_cmd_publisher_node.cpp)
+
+target_link_libraries(mock_sensor_publisher
+  ${catkin_LIBRARIES}
+)
+
+target_link_libraries(mock_cmd_publisher
+  ${catkin_LIBRARIES}
+)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 # add_dependencies(arc_integration_tests_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-# target_link_libraries(arc_integration_tests_node
-#   ${catkin_LIBRARIES}
-# )
 
 #############
 ## Install ##
@@ -185,3 +191,7 @@ include_directories(
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
+
+if(CATKIN_ENABLE_TESTING)
+    find_package(rostest REQUIRED)
+endif()
