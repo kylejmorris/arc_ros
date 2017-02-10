@@ -1,0 +1,90 @@
+include "objects.inc"
+include "kyle_robots.inc"
+include "environment.inc"
+
+
+maxbot(
+	name "test_bot2"
+	pose [0.0 0.0 0.0 0.0]
+	color "blue"
+	#fiducial_return 1
+)
+
+maxbot(
+	name "test_bot10"
+	pose [-3 0.0 0.0 0.0]
+	color "blue"
+	#fiducial_return 1
+)
+
+maxbot(
+	name "test_bot12"
+	pose [-3 0.0 0.0 0.0]
+	color "blue"
+	#fiducial_return 1
+)
+maxbot(
+	name "test_bot11"
+	pose [-3 0.0 0.0 0.0]
+	color "blue"
+	#fiducial_return 1
+)
+maxbot(
+	name "test_bot13"
+	pose [-3 0.0 0.0 0.0]
+	color "blue"
+	#fiducial_return 1
+)
+
+midbot(
+	name "test_midbot1"
+	pose [1 0 0.0 0.0]
+	color "blue"
+)
+
+debrisbot(
+	name "test_debrisbot1"
+	pose [3 0 0.0 0.0]
+	color "green"
+)
+
+
+
+smallbot(
+	name "test_smallbot1"
+	pose [2 0 0.0 0.0]
+	color "green"
+)
+
+smallbot(
+	name "test_smallbot2"
+	pose [4 0 0.0 0.0]
+	color "green"
+)
+
+smallbot(
+	name "test_smallbot3"
+	pose [3 0 0.0 0.0]
+	color "green"
+)
+
+
+#victims
+person(name "person0" pose [ 0 1 0 0.8 ])
+
+#markers
+marker(name "marker0" fiducial_return 6 pose [ 0.0 2 0.0 0.0 ])
+
+
+#TESTS
+#testd single debris bot: valid sensors
+#tested 
+
+#start adding environment boundaries
+walls(name "walls0" pose [ -7.40538 5.47981 0.0 0.0 ] size [0.5 0.5 0.8])
+walls(name "walls1" pose [ -6.90538 5.47981 0.0 0.0 ] size [0.5 0.5 0.8])
+walls(name "walls2" pose [ -6.40538 5.47981 0.0 0.0 ] size [0.5 0.5 0.8])
+debris(name "debris3" pose [ -5.90538 5.47981 0.0 0.0 ] size [0.5 0.5 0.09])
+debris(name "debris4" pose [ -5.40538 5.47981 0.0 0.0 ] size [0.5 0.5 0.09])
+debris(name "debris5" pose [ -4.90538 5.47981 0.0 0.0 ] size [0.5 0.5 0.09])
+debris(name "debris6" pose [ -4.40538 5.47981 0.0 0.0 ] size [0.5 0.5 0.09])
