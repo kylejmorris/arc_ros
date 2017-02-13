@@ -6,6 +6,7 @@ project(arc_behaviour)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   roscpp
+  rospy
 )
 
 ## System dependencies are found with CMake's conventions
@@ -184,3 +185,9 @@ include_directories(
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
+
+add_executable(arc_base src/arc_base_node.cpp src/ArcBase.cpp src/ArcBase.h)
+
+target_link_libraries(arc_base
+  ${catkin_LIBRARIES}
+)
