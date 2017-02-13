@@ -20,10 +20,11 @@ void ArcBase::setup() {
     this->setupSchemas();
 }
 
+
 bool ArcBase::toggleSchema(std::string type) {
     return false;
 }
 
-geometry_msgs::TwistStamped ArcBase::getActionVector() {
-    return geometry_msgs::TwistStamped();
+geometry_msgs::Twist ArcBase::getActionVector() {
+    return geometry_msgs::Twist();
 }

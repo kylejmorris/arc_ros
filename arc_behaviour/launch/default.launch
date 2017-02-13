@@ -1,0 +1,3 @@
+<launch>
+    <node name="arc_base" pkg="arc_behaviour" type="arc_base" />
+</launch>

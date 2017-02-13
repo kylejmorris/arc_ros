@@ -58,7 +58,7 @@ public:
      * motor schema action vectors.
      * @return Twist message representing final vector.
      */
-    geometry_msgs::TwistStamped getActionVector();
+    geometry_msgs::Twist getActionVector();
 };
 };
 

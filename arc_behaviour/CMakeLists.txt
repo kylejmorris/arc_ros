@@ -7,6 +7,8 @@ project(arc_behaviour)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
+  marker_msgs
+  geometry_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -185,9 +187,12 @@ include_directories(
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
-
 add_executable(arc_base src/arc_base_node.cpp src/ArcBase.cpp src/ArcBase.h)
 
 target_link_libraries(arc_base
   ${catkin_LIBRARIES}
 )
+
+#PERCEPTUAL SCHEMAS
+add_executable(detect_marker_ps src/DetectMarkerPS.cpp src/DetectMarkerPS.h src/detect_marker_ps_node.cpp)
+target_link_libraries(detect_marker_ps ${catkin_LIBRARIES} )

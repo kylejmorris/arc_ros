@@ -4,14 +4,8 @@ include "environment.inc"
 
 
 maxbot(
-	name "test_maxbot_1"
+	name "test_bot"
 	pose [0.0 0.0 0.0 0.0]
-	color "blue"
-)
-
-midbot(
-	name "test_midbot_1"
-	pose [1 0 0.0 0.0]
 	color "blue"
 )
 

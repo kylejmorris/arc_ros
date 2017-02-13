@@ -435,7 +435,7 @@ robot_sensor
 
 	# Return hit in the "everything else" category
 	obstacle_return "0b001"
-	color "black"
+	color "red"
 	# the maxbot should use a tracked drive, meaning that it should be able to overcome short obstacles
 	obstacle_mask "0b011"
 

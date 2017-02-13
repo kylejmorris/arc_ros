@@ -168,7 +168,8 @@ define pioneer3dx pioneer_base
 
     # a dark top looks more realistic, but isn't very useful 
     # for a top-down view
-    color "gray10"
+    #color "gray10"
+    color "red"
   )
 
     # The pioneer's center of rotation is offset from its center of area
