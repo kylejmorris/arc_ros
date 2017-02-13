@@ -1,8 +1,8 @@
 <launch>
-<-- All content of ARC will be contained in the /arc namespace -->
-    <group ns="arc/$(env DEBUG_ROBOT_NAME)">
+<!-- All content of ARC will be contained in the /arc namespace -->
+    <group ns="arc">
         <group ns="test_bot">
-            <node pkg="stage_ros" type="stageros" name="stageros" args="$(find
+		<include file="$(find arc_stage)/launch/default.launch" />
         </group>
     </group>
 </launch>

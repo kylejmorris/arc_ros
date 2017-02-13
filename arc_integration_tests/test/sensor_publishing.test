@@ -1,10 +1,7 @@
 <launch>
-
-<!-- DEBUG_ROBOT_NAME Is the robot we want to do the tests on. Must all be in namespace or else stuff breaks.-->
-<group ns="arc/$(env DEBUG_ROBOT_NAME)">
-    <node pkg="arc_integration_tests" name="mock_sensor_publisher" type="mock_sensor_publisher"/>
-    <node pkg="arc_integration_tests" name="mock_cmd_publisher" type="mock_cmd_publisher"/>
-
+<!-- STAGE_LAUNCH_NAME is the launch file we will call for stage. IE if you want to use a certain stage setup. -->
+    <!--set up stage -->
+    <include file="$(find arc_stage)/launch/$(env STAGE_LAUNCH_NAME)"/>
     <!-- test for odom pub topic -->
     <test test-name="hztest_odom_publishing" pkg="rostest" type="hztest">
         <param name="topic" value="odom" />
@@ -23,13 +20,4 @@
         <param name="test_duration" value="5"/>
         <param name="wait_time" value="10"/>
     </test>
-
-    <test test-name="hztest_cmd_vel_publish" pkg="rostest" type="hztest">
-        <param name="topic" value="cmd_vel"/>
-        <param name="hz" value="10"/>
-        <param name="hzerror" value="2"/>
-        <param name="test_duration" value="5"/>
-        <param name="wait_time" value="10"/>
-    </test>
-</group>
 </launch>

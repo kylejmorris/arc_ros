@@ -4,27 +4,15 @@ include "environment.inc"
 
 
 maxbot(
-	name "test_bot2"
+	name "test_maxbot_1"
 	pose [0.0 0.0 0.0 0.0]
 	color "blue"
 )
 
 midbot(
-	name "test_midbot1"
+	name "test_midbot_1"
 	pose [1 0 0.0 0.0]
 	color "blue"
-)
-
-smallbot(
-	name "test_smallbot1"
-	pose [2 0 0.0 0.0]
-	color "green"
-)
-
-debrisbot(
-	name "test_debrisbot1"
-	pose [3 0 0.0 0.0]
-	color "green"
 )
 
 #drawing walls

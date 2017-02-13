@@ -1,69 +1,21 @@
-#=====EnvironmentID: fc875cbe-0cc2-4ccd-93d9-5208f33f45db
-#============================================
-# this environment was generated randomly (8)
-#    Target Coverage 0.13
-#    Actual Coverage 0.13694444444444445
-#    Local Minima 193.0
-#    Wall Area 493.0
-#============================================
-
-include "environment.inc"
+#default testing world with a single robot.
 include "objects.inc"
 include "kyle_robots.inc"
-resolution 0.02
-speedup -1.0
-paused 1
-#============================================
-#Load the simulation manager
-#============================================
-model
-(
-  size [ 0.001 0.001 0.001 ]
-  obstacle_return "0b000"
-  ranger_return 0
-  blob_return 0
-  laser_return 0
-  gripper_return 0
+include "environment.inc"
+
+maxbot(
+	name "test_bot"
+	pose [0.0 0.0 0.0 0.0]
+	color "blue"
 )
-#============================
-# add the following positive victims
-#============================
-person(name "person0" pose [ 14.61361 -27.35362 0.0 0.0 ])
-person(name "person1" pose [ -2.86058 -7.81507 0.0 0.0 ])
-person(name "person2" pose [ -21.16533 -3.91016 0.0 0.0 ])
-person(name "person3" pose [ -20.44381 -2.03700 0.0 0.0 ])
-person(name "person4" pose [ -13.33099 17.69574 0.0 0.0 ])
-person(name "person5" pose [ 3.83920 19.24095 0.0 0.0 ])
-person(name "person6" pose [ 15.01703 27.88191 0.0 0.0 ])
-person(name "person7" pose [ -13.86614 -17.27997 0.0 0.0 ])
-person(name "person8" pose [ 9.07287 -13.58139 0.0 0.0 ])
-person(name "person9" pose [ 28.75234 6.08309 0.0 0.0 ])
-person(name "person10" pose [ -8.32658 11.71694 0.0 0.0 ])
-person(name "person11" pose [ -2.21779 15.81876 0.0 0.0 ])
-person(name "person12" pose [ -21.12910 -26.26651 0.0 0.0 ])
-person(name "person13" pose [ 8.81520 17.33406 0.0 0.0 ])
-person(name "person14" pose [ 4.33741 -24.64374 0.0 0.0 ])
-person(name "person15" pose [ 18.73898 25.48698 0.0 0.0 ])
-person(name "person16" pose [ -15.18179 -4.07072 0.0 0.0 ])
-person(name "person17" pose [ 4.17886 -28.44497 0.0 0.0 ])
-person(name "person18" pose [ -8.63574 9.23534 0.0 0.0 ])
-person(name "person19" pose [ -29.36019 -1.59468 0.0 0.0 ])
-#==============================
-# add the following negative victims
-#==============================
-unperson(name "unperson0" pose [ -7.28327 -21.14607 0.0 0.0 ])
-unperson(name "unperson1" pose [ 7.07568 17.65460 0.0 0.0 ])
-unperson(name "unperson2" pose [ -1.25469 2.24986 0.0 0.0 ])
-unperson(name "unperson3" pose [ -16.95177 12.51502 0.0 0.0 ])
-unperson(name "unperson4" pose [ -24.66215 27.90201 0.0 0.0 ])
-unperson(name "unperson5" pose [ -9.62013 -20.14928 0.0 0.0 ])
-unperson(name "unperson6" pose [ 27.62507 24.43532 0.0 0.0 ])
-unperson(name "unperson7" pose [ -8.27825 24.97450 0.0 0.0 ])
-unperson(name "unperson8" pose [ 9.13887 -26.10188 0.0 0.0 ])
-unperson(name "unperson9" pose [ -15.44096 -22.28290 0.0 0.0 ])
-#============================
-# add the following rooms
-#============================
+
+#midbot(
+#	name "test_midbot_1"
+#	pose [1 0 0.0 0.0]
+#	color "blue"
+#)
+
+#drawing walls
 walls(name "walls0" pose [ -7.40538 5.47981 0.0 0.0 ] size [0.5 0.5 0.8])
 walls(name "walls1" pose [ -6.90538 5.47981 0.0 0.0 ] size [0.5 0.5 0.8])
 walls(name "walls2" pose [ -6.40538 5.47981 0.0 0.0 ] size [0.5 0.5 0.8])
@@ -1948,15 +1900,3 @@ walls(name "walls1880" pose [ -23.82270 -1.49241 0.0 0.0 ] size [0.5 0.5 0.8])
 debris(name "debris1881" pose [ 14.35132 6.53927 0.0 0.0 ] size [0.5 0.5 0.09])
 debris(name "debris1882" pose [ -9.69022 -23.99596 0.0 0.0 ] size [0.5 0.5 0.09])
 debris(name "debris1883" pose [ -27.82952 -6.80633 0.0 0.0 ] size [0.5 0.5 0.09])
-#============================
-# add the following robots
-#============================
-maxbot
-(
-  name "29"
-  pose [ -29.70000 -7.77143 0.0 0.00000 ]
-  fiducial_return 29
-  ctrl ""
-)
-# these are the fiducial markers that the robots will drop; Stage requires them to be pre-allocated
-#marker(name "marker0" pose [ 0.0 -100.0 0.0 0.0 ])

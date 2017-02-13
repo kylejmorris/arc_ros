@@ -1,0 +1,15 @@
+<launch>
+<!-- DEBUG_ROBOT_NAME Is the robot we want to do the tests on. Must all be in namespace or else stuff breaks.-->
+<group ns="arc/$(env DEBUG_ROBOT_NAME)">
+    <!-- tests for ensuring there is input from laser/odometry -->
+    <include file="$(find arc_integration_tests)/test/sensor_publishing.test"/>
+
+    <test test-name="hztest_cmd_vel_publish" pkg="rostest" type="hztest">
+        <param name="topic" value="cmd_vel"/>
+        <param name="hz" value="10"/>
+        <param name="hzerror" value="2"/>
+        <param name="test_duration" value="5"/>
+        <param name="wait_time" value="10"/>
+    </test>
+</group>
+</launch>
