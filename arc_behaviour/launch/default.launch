@@ -1,3 +1,6 @@
 <launch>
     <node name="arc_base" pkg="arc_behaviour" type="arc_base" />
+    <node name="detect_marker_ps" pkg="arc_behaviour" type="detect_marker_ps">
+        <param name="max_range" value="5"/>
+    </node>
 </launch>

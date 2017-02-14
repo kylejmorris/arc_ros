@@ -423,12 +423,22 @@ define maxbot pioneer3dx
  	)
 
   	
-robot_sensor
+	robot_sensor
 	(
 		alwayson 1
 	)
   
 	basic_victim_sensor
+	(
+		alwayson 1
+ 	)
+
+	marker_sensor
+	(
+		alwayson 1
+ 	)
+
+	debris_sensor
 	(
 		alwayson 1
  	)

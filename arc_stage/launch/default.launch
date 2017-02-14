@@ -1,10 +1,10 @@
 <launch>
   <arg name="world" default="default.world" /> <!-- cave.world, cave_multi.world, fiducial.world, line.world, ... -->
-  <arg name="constrained" default="true" /> <!-- enforces speed contrains on each wheel, ... -->
+  <!-- <arg name="constrained" default="true" />--> <!-- enforces speed contrains on each wheel, ... -->
 
 <!-- loads the stage simulation -->
   <node name="arc_stage" pkg="arc_stage" type="arc_stage" args="-u $(find arc_stage)/world/$(arg world)">
-      <param name="constrainedDiffDrive" value="$(arg constrained)" />
+      <!-- <param name="constrainedDiffDrive" value="$(arg constrained)" /> -->
       <remap from="base_scan" to="scan"/>
   </node>
 </launch>

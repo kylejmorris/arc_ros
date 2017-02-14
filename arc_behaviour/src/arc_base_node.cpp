@@ -6,7 +6,7 @@
 int main(int argc, char **argv) {
     ros::init(argc, argv, "arc_base");
 
-    ros::NodeHandle nh;
+    ros::NodeHandle nh("arc_base");
 
     arc_behaviour::ArcBase arc_base(&nh);
 
@@ -18,8 +18,10 @@ int main(int argc, char **argv) {
     //run main loop
     ros::Rate r(PUBLISH_RATE);
     while(ros::ok) {
-        geometry_msgs::Twist action_vec = arc_base.getActionVector();
-        cmd_vel_pub.publish(action_vec);
+        //geometry_msgs::Twist action_vec = arc_base.getActionVector();
+        //cmd_vel_pub.publish(action_vec);
+        //TODO: Don't use cmd_vel directly from object. Have to obtain actionvector via callbacks.
+        r.sleep();
     }
 
     return 0;
