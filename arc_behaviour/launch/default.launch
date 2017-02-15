@@ -3,4 +3,8 @@
     <node name="detect_marker_ps" pkg="arc_behaviour" type="detect_marker_ps">
         <param name="max_range" value="5"/>
     </node>
+    <node name="detect_robot_ps" pkg="arc_behaviour" type="detect_robot_ps">
+        <param name="max_range" value="5"/>
+    </node>
+
 </launch>

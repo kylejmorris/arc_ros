@@ -4,48 +4,50 @@ include "environment.inc"
 
 
 maxbot(
-	name "test_bot2"
+	name "test_bot"
 	pose [0.0 0.0 0.0 0.0]
 	color "blue"
-	#fiducial_return 1
+	fiducial_return 1
 )
 
 maxbot(
 	name "test_bot10"
 	pose [-3 0.0 0.0 0.0]
 	color "blue"
-	#fiducial_return 1
+	fiducial_return 2
 )
 
 maxbot(
 	name "test_bot12"
 	pose [-3 0.0 0.0 0.0]
 	color "blue"
-	#fiducial_return 1
+	fiducial_return 3
 )
 maxbot(
 	name "test_bot11"
 	pose [-3 0.0 0.0 0.0]
 	color "blue"
-	#fiducial_return 1
+	fiducial_return 4
 )
 maxbot(
 	name "test_bot13"
 	pose [-3 0.0 0.0 0.0]
 	color "blue"
-	#fiducial_return 1
+	fiducial_return 5
 )
 
 midbot(
 	name "test_midbot1"
 	pose [1 0 0.0 0.0]
 	color "blue"
+	fiducial_return 6
 )
 
 debrisbot(
 	name "test_debrisbot1"
 	pose [3 0 0.0 0.0]
 	color "green"
+	fiducial_return 7
 )
 
 
@@ -54,18 +56,14 @@ smallbot(
 	name "test_smallbot1"
 	pose [2 0 0.0 0.0]
 	color "green"
+	fiducial_return 8
 )
 
 smallbot(
 	name "test_smallbot2"
 	pose [4 0 0.0 0.0]
 	color "green"
-)
-
-smallbot(
-	name "test_smallbot3"
-	pose [3 0 0.0 0.0]
-	color "green"
+	fiducial_return 9
 )
 
 

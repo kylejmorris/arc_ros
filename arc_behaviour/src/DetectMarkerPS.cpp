@@ -8,6 +8,7 @@
 #define MAX_QUEUE_SIZE 1000
 #define PUBLISH_RATE 10
 
+//TODO: Test this overall schema. Setup a specific world and test to make sure it works properly on that world.
 //TODO: Find way to set /use_sim_time param to false by default, so these nodes publish. Right now you must manually disable using rosparam.
 using namespace arc_behaviour;
 

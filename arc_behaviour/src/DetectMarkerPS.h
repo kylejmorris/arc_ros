@@ -51,8 +51,7 @@ public:
     void ProcessStageFiducial();
 
     /**
-     *
-     * @return
+     * @return True if at least 1 marker is nearby. False otherwise.
      */
     bool areMarkersNearby();
 

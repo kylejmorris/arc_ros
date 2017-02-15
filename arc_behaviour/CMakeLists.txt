@@ -9,6 +9,7 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   marker_msgs
   geometry_msgs
+        arc_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -65,11 +66,12 @@ find_package(catkin REQUIRED COMPONENTS
 #   Action2.action
 # )
 
-## Generate added messages and services with any dependencies listed here
-# generate_messages(
-#   DEPENDENCIES
-#   std_msgs  # Or other packages containing msgs
-# )
+# Generate added messages and services with any dependencies listed here
+generate_messages(
+  DEPENDENCIES
+  std_msgs  # Or other packages containing msgs
+  arc_msgs
+)
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -196,3 +198,6 @@ target_link_libraries(arc_base
 #PERCEPTUAL SCHEMAS
 add_executable(detect_marker_ps src/DetectMarkerPS.cpp src/DetectMarkerPS.h src/detect_marker_ps_node.cpp)
 target_link_libraries(detect_marker_ps ${catkin_LIBRARIES} )
+
+add_executable(detect_robot_ps src/detect_robot_ps_node.cpp src/DetectRobotPS.cpp src/DetectRobotPS.h)
+target_link_libraries(detect_robot_ps ${catkin_LIBRARIES} )
