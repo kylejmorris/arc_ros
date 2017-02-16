@@ -1,25 +1,24 @@
 #include <std_msgs/Bool.h>
-#include "DetectRobotPS.h"
-#include "arc_msgs/DetectedRobots.h"
-#include "arc_msgs/DetectedRobot.h"
+#include "DetectVictimPS.h"
+#include "arc_msgs/DetectedVictims.h"
 
 #define DEFAULT_MAX_RANGE 10
 #define MAX_QUEUE_SIZE 1000
 #define PUBLISH_RATE 10
 using namespace arc_behaviour;
 
-void arc_behaviour::DetectRobotPS::process_detect_robot_cb(const marker_msgs::MarkerDetection marker_info) {
+void DetectVictimPS::process_detect_victim_cb(const marker_msgs::MarkerDetection marker_info) {
     this->detected_markers = marker_info;
 }
 
-DetectRobotPS::DetectRobotPS() {
+DetectVictimPS::DetectVictimPS() {
     ros::NodeHandle nh;
     this->global_handle = nh;
-    ros::NodeHandle local_handle("detect_robot_ps");
+    ros::NodeHandle local_handle("detect_victim_ps");
     this->local_handle = local_handle;
-    ROS_INFO("Setting up Robot detection perceptual schema.");
-    this->found_robots_pub = local_handle.advertise<arc_msgs::DetectedRobots>("found_robots", MAX_QUEUE_SIZE);
-    this->robot_detector_sub =  this->getNodeHandle().subscribe("robot_detector", MAX_QUEUE_SIZE, &DetectRobotPS::process_detect_robot_cb, this); //TODO: Check if publisher exists
+    ROS_INFO("Setting up victim detection perceptual schema.");
+    this->found_victims_pub = local_handle.advertise<arc_msgs::DetectedVictims>("found_victims", MAX_QUEUE_SIZE);
+    this->victim_detector_sub =  this->getNodeHandle().subscribe("victim_detector", MAX_QUEUE_SIZE, &DetectVictimPS::process_detect_victim_cb, this); //TODO: Check if publisher exists
     ROS_INFO("detect_marker_ps subscribed to marker_detector.");
 
     int max_range;
@@ -28,34 +27,38 @@ DetectRobotPS::DetectRobotPS() {
     this->setMaxRange(max_range);
 }
 
-void DetectRobotPS::ProcessStageFiducial() {
+void DetectVictimPS::ProcessStageFiducial() {
     marker_msgs::MarkerDetection pruned;
-    arc_msgs::DetectedRobots robots_found;
-
+    arc_msgs::DetectedVictims victims_found;
     //iterate through each marker
     for(std::vector<marker_msgs::Marker>::iterator it = this->detected_markers.markers.begin(); it != this->detected_markers.markers.end(); ++it) {
         //calculate distance to marker
         marker_msgs::Marker curr = *it;
-        arc_msgs::DetectedRobot curr_robot;
-        double distance_away = sqrt(pow(curr.pose.position.x,2) + pow(curr.pose.position.y, 2));
+        arc_msgs::DetectedVictim curr_victim;
+        double distance_away = sqrt(pow(curr.pose.position.x, 2) + pow(curr.pose.position.y, 2));
 
         //is range within valid parameters?
-        if(distance_away <= this->max_range) {
-            curr_robot.robot_id = curr.ids.at(0);
-            curr_robot.pose = curr.pose;
+        if (distance_away <= this->max_range) {
+            curr_victim.pose = curr.pose;
+            if (curr.ids.size()>0) {
+                curr_victim.status = curr.ids.at(0); //use id of victim to determine status.
+            } else {
+                curr_victim.status = 0; //unknown //TODO: remove magic number
+            }
 
-            robots_found.robots.insert(robots_found.robots.begin(),curr_robot);
+            victims_found.victims.push_back(curr_victim);
         }
     }
 
     assert(pruned.markers.size() <= ( this->detected_markers.markers.size()));
-    this->found_robots = robots_found;
+//    assert(victims_found.victims.size() <= ( this->detected_markers.markers.size()));
+    this->found_victims = victims_found;
 
-    //now simplify marker info into robot messages
+    //now simplify marker info into victim messages
     ROS_DEBUG("Found %d markers within range.", pruned.markers.size());
 }
 
-void DetectRobotPS::setMaxRange(int new_range) {
+void DetectVictimPS::setMaxRange(int new_range) {
     if(new_range<=0) {
         ROS_WARN("Unable to set parameter: max_range. Value must be > 0. Using default.");
         this->max_range = DEFAULT_MAX_RANGE;
@@ -64,17 +67,17 @@ void DetectRobotPS::setMaxRange(int new_range) {
     }
 }
 
-ros::NodeHandle DetectRobotPS::getNodeHandle() {
+ros::NodeHandle DetectVictimPS::getNodeHandle() {
     return this->global_handle;
 }
 
-void DetectRobotPS::run() {
+void DetectVictimPS::run() {
     ros::Rate r(PUBLISH_RATE);
 
     while(ros::ok()) {
         ProcessStageFiducial(); //pruning to markers within range.
 
-        this->found_robots_pub.publish(this->found_robots);
+        this->found_victims_pub.publish(this->found_victims);
 
         ros::spinOnce();
         r.sleep();

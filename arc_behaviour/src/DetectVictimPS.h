@@ -1,21 +1,20 @@
 /**
-* CLASS: DetectRobotPS
+* CLASS: DetectVictimPS
 * DATE: 14/02/17
 * AUTHOR: Kyle Morris
-* DESCRIPTION: Determine if robots are nearby.
+* DESCRIPTION: Determine if Victims are nearby.
 */
 
-#ifndef ARC_BEHAVIOUR_DETECTROBOTPS_H
-#define ARC_BEHAVIOUR_DETECTROBOTPS_H
+#ifndef ARC_BEHAVIOUR_DETECTVICTIMSPS_H
+#define ARC_BEHAVIOUR_DETECTVICTIMSPS_H
 
+#include "arc_msgs/DetectedVictims.h"
 #include "marker_msgs/MarkerDetection.h"
 #include "ros/ros.h"
-#include "arc_msgs/DetectedRobot.h"
-#include "arc_msgs/DetectedRobots.h"
 
 namespace arc_behaviour {
 
-class DetectRobotPS {
+class DetectVictimPS {
 public:
     /*
      * Collection of the markers found in given perceptual instance.
@@ -23,19 +22,19 @@ public:
     marker_msgs::MarkerDetection detected_markers;
 
     /**
-     * List of actual robots found after done pruning markers
+     * List of actual Victims found after done pruning markers
      */
-    arc_msgs::DetectedRobots found_robots;
+    arc_msgs::DetectedVictims found_victims;
     /**
-     * Maximum range that we can detect markers from robots position.
+     * Maximum range that we can detect markers from Victims position.
      */
     int max_range;
 
     /**
      * Publish marker information, ie a simple boolean if markers are nearby.
      */
-    ros::Publisher found_robots_pub;
-    ros::Subscriber robot_detector_sub;
+    ros::Publisher found_victims_pub;
+    ros::Subscriber victim_detector_sub;
 
     //for public interface with ros
     ros::NodeHandle global_handle; //the handler for this node.
@@ -46,14 +45,14 @@ public:
     //callbacks
 
     //update us with most recent stage information
-    void process_detect_robot_cb(const marker_msgs::MarkerDetection marker_info);
+    void process_detect_victim_cb(const marker_msgs::MarkerDetection marker_info);
 
 public:
     /**
      * Setup the detector with all of the ros topic publishers.
      * uses default global/local node handles
      */
-    DetectRobotPS();
+    DetectVictimPS();
 
     /**
      * Check output from stage and prune markers to ones only within our maximum range.
@@ -65,12 +64,12 @@ public:
     ros::NodeHandle getNodeHandle();
 
     /**
-     * Main loop. Publishes robot status information.
+     * Main loop. Publishes Victim status information.
      */
     void run();
 };
-}
+};
 
 
-#endif //ARC_BEHAVIOUR_DETECTROBOTPS_H
-//TODO: Change stage to not publish marker information, ie for every single marker on a topic. Just let robot detect it in map, and publish info when it finds them. We have to mod stage to move markers using a service, not by having cmd_vel publishing nonsense. ROS can't handle 100's of markers all publishing odom info, they aren't robots.
+#endif //ARC_BEHAVIOUR_DETECTVICTIMSPS_H
+//TODO: Change stage to not publish marker information, ie for every single marker on a topic. Just let Victim detect it in map, and publish info when it finds them. We have to mod stage to move markers using a service, not by having cmd_vel publishing nonsense. ROS can't handle 100's of markers all publishing odom info, they aren't Victims.

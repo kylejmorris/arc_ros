@@ -1,5 +1,5 @@
 <launch>
-  <arg name="world" default="demo_fiducial_testing.world" /> <!-- cave.world, cave_multi.world, fiducial.world, line.world, ... -->
+  <arg name="world" default="default.world" /> <!-- cave.world, cave_multi.world, fiducial.world, line.world, ... -->
   <!-- <arg name="constrained" default="true" />--> <!-- enforces speed contrains on each wheel, ... -->
 
 <!-- loads the stage simulation -->

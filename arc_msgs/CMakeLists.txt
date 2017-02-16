@@ -5,8 +5,9 @@ project(arc_msgs)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
+	roscpp
+	rospy
 	std_msgs
-	std_srvs
 	geometry_msgs
 	message_generation
 )
@@ -48,6 +49,8 @@ add_message_files(
    FILES
    DetectedRobot.msg
    DetectedRobots.msg
+   DetectedVictim.msg
+   DetectedVictims.msg
 )
 
 ## Generate services in the 'srv' folder
@@ -69,7 +72,6 @@ generate_messages(
    DEPENDENCIES
    std_msgs  # Or other packages containing msgs
    geometry_msgs
-   arc_msgs
 )
 
 ################################################
@@ -104,7 +106,7 @@ generate_messages(
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES arc_msgs
-  CATKIN_DEPENDS message_runtime
+  CATKIN_DEPENDS message_runtime geometry_msgs
 #  DEPENDS system_lib
 )
 
@@ -114,7 +116,7 @@ catkin_package(
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
-# include_directories(include)
+ include_directories(include msg)
 
 ## Declare a C++ library
 # add_library(arc_msgs

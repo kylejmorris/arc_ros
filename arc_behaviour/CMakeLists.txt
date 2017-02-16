@@ -5,15 +5,15 @@ project(arc_behaviour)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
+  arc_msgs
   roscpp
   rospy
   marker_msgs
   geometry_msgs
-        arc_msgs
 )
 
 ## System dependencies are found with CMake's conventions
-# find_package(Boost REQUIRED COMPONENTS system)
+# ind_package(Boost REQUIRED COMPONENTS system)
 
 
 ## Uncomment this if the package has a setup.py. This macro ensures
@@ -67,11 +67,11 @@ find_package(catkin REQUIRED COMPONENTS
 # )
 
 # Generate added messages and services with any dependencies listed here
-generate_messages(
-  DEPENDENCIES
-  std_msgs  # Or other packages containing msgs
-  arc_msgs
-)
+#generate_messages(
+#  DEPENDENCIES
+#  arc_msgs
+#  std_msgs  # Or other packages containing msgs
+#)
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -105,7 +105,7 @@ generate_messages(
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES arc_behaviour
-#  CATKIN_DEPENDS roscpp
+  CATKIN_DEPENDS roscpp
 #  DEPENDS system_lib
 )
 
@@ -197,7 +197,13 @@ target_link_libraries(arc_base
 
 #PERCEPTUAL SCHEMAS
 add_executable(detect_marker_ps src/DetectMarkerPS.cpp src/DetectMarkerPS.h src/detect_marker_ps_node.cpp)
-target_link_libraries(detect_marker_ps ${catkin_LIBRARIES} )
 
 add_executable(detect_robot_ps src/detect_robot_ps_node.cpp src/DetectRobotPS.cpp src/DetectRobotPS.h)
+
+add_executable(detect_victim_ps src/detect_victim_ps_node.cpp src/DetectVictimPS.cpp src/DetectVictimPS.h)
+
+target_link_libraries(detect_victim_ps ${catkin_LIBRARIES} )
+target_link_libraries(detect_marker_ps ${catkin_LIBRARIES} )
 target_link_libraries(detect_robot_ps ${catkin_LIBRARIES} )
+add_dependencies(detect_victim_ps arc_msgs_generate_messages_cpp)
+#add_dependencies(detect_robot_ps arc_msgs_generate_messages_cpp)
