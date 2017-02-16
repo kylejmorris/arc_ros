@@ -51,6 +51,8 @@ add_message_files(
    DetectedRobots.msg
    DetectedVictim.msg
    DetectedVictims.msg
+   DetectedDebris.msg
+   Debris.msg
 )
 
 ## Generate services in the 'srv' folder
@@ -106,7 +108,7 @@ generate_messages(
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES arc_msgs
-  CATKIN_DEPENDS message_runtime geometry_msgs
+  CATKIN_DEPENDS message_runtime
 #  DEPENDS system_lib
 )
 

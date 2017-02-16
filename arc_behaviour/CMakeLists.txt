@@ -197,13 +197,15 @@ target_link_libraries(arc_base
 
 #PERCEPTUAL SCHEMAS
 add_executable(detect_marker_ps src/DetectMarkerPS.cpp src/DetectMarkerPS.h src/detect_marker_ps_node.cpp)
-
 add_executable(detect_robot_ps src/detect_robot_ps_node.cpp src/DetectRobotPS.cpp src/DetectRobotPS.h)
-
+add_executable(detect_debris_ps src/detect_debris_ps_node.cpp src/DetectDebrisPS.cpp src/DetectDebrisPS.h)
 add_executable(detect_victim_ps src/detect_victim_ps_node.cpp src/DetectVictimPS.cpp src/DetectVictimPS.h)
 
 target_link_libraries(detect_victim_ps ${catkin_LIBRARIES} )
 target_link_libraries(detect_marker_ps ${catkin_LIBRARIES} )
 target_link_libraries(detect_robot_ps ${catkin_LIBRARIES} )
+target_link_libraries(detect_debris_ps ${catkin_LIBRARIES} )
+
 add_dependencies(detect_victim_ps arc_msgs_generate_messages_cpp)
+add_dependencies(detect_debris_ps arc_msgs_generate_messages_cpp)
 #add_dependencies(detect_robot_ps arc_msgs_generate_messages_cpp)

@@ -6,17 +6,22 @@
 */
 
 #include "marker_msgs/MarkerDetection.h"
-#ifndef ARC_BEHAVIOUR_MARKERDETECTORPS_H
-#define ARC_BEHAVIOUR_MARKERDETECTORPS_H
+#include "geometry_msgs/Pose.h"
+#include "arc_msgs/Debris.h"
+#include "arc_msgs/DetectedDebris.h"
+#ifndef ARC_BEHAVIOUR_DebrisDETECTORPS_H
+#define ARC_BEHAVIOUR_DebrisDETECTORPS_H
 
 namespace arc_behaviour {
-
-class DetectMarkerPS {
+class DetectDebrisPS {
 private:
     /**
      * Collection of the markers found in given perceptual instance.
      */
     marker_msgs::MarkerDetection found_markers;
+
+    //The debris within our range.
+    arc_msgs::DetectedDebris debris_list;
 
     /**
      * Maximum range that we can detect markers from robots position.
@@ -24,10 +29,10 @@ private:
     int max_range;
 
     /**
-     * Publish marker information, ie a simple boolean if markers are nearby.
+     * Publish Debris information
      */
-    ros::Publisher marker_status_publisher;
-    ros::Subscriber marker_detector_sub;
+    ros::Publisher debris_location_publisher;
+    ros::Subscriber debris_detector_sub;
 
     //for public interface with ros
     ros::NodeHandle *global_handle; //the handler for this node.
@@ -36,35 +41,31 @@ private:
     ros::NodeHandle local_handle;
 
     //callbacks
-
     //update us with most recent stage information
-    void process_detect_marker_cb(const marker_msgs::MarkerDetection marker_info);
+    void process_detect_debris_cb(const marker_msgs::MarkerDetection marker_info);
 public:
     /**
      * Setup the detector with all of the ros topic publishers.
      * @param handle : the node handle to setup with.
      */
-    DetectMarkerPS();
+    DetectDebrisPS();
 
     /**
-     * Check output from stage and prune markers to ones only within our maximum range.
+     * Check output from stage and prune Debris to ones only within our maximum range.
      */
     void ProcessStageFiducial();
-
-    /**
-     * @return True if at least 1 marker is nearby. False otherwise.
-     */
-    bool areMarkersNearby();
 
     void setMaxRange(int new_range);
 
     ros::NodeHandle *getNodeHandle();
 
+    arc_msgs::DetectedDebris getDebris();
+
     /**
-     * Main loop. Publishes marker status information.
+     * Main loop. Publishes Debris status information.
      */
     void run();
 };
 }
 
-#endif //ARC_BEHAVIOUR_MARKERDETECTORPS_H
+#endif //ARC_BEHAVIOUR_DebrisDETECTORPS_H

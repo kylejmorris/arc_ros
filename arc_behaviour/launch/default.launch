@@ -9,5 +9,7 @@
     <node name="detect_victim_ps" pkg="arc_behaviour" type="detect_victim_ps">
         <param name="max_range" value="6"/>
     </node>
-
+    <node name="detect_debris_ps" pkg="arc_behaviour" type="detect_debris_ps">
+        <param name="max_range" value="6"/>
+    </node>
 </launch>
