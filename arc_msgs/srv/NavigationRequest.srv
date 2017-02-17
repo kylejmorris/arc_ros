@@ -1,0 +1,4 @@
+int32 priority 	#how important is this request? The higher, the better.
+geometry_msgs/Pose pose	#where to move to
+---
+bool result	#true if the request was accepted. False if rejected.

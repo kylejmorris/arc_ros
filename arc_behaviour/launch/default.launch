@@ -12,4 +12,8 @@
     <node name="detect_debris_ps" pkg="arc_behaviour" type="detect_debris_ps">
         <param name="max_range" value="6"/>
     </node>
+
+    <node name="navigation_adapter" pkg="arc_behaviour" type="navigation_adapter">
+    </node>
+
 </launch>

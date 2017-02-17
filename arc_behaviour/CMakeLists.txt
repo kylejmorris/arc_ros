@@ -10,6 +10,9 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   marker_msgs
   geometry_msgs
+  actionlib
+  move_base_msgs
+  actionlib_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -200,12 +203,15 @@ add_executable(detect_marker_ps src/DetectMarkerPS.cpp src/DetectMarkerPS.h src/
 add_executable(detect_robot_ps src/detect_robot_ps_node.cpp src/DetectRobotPS.cpp src/DetectRobotPS.h)
 add_executable(detect_debris_ps src/detect_debris_ps_node.cpp src/DetectDebrisPS.cpp src/DetectDebrisPS.h)
 add_executable(detect_victim_ps src/detect_victim_ps_node.cpp src/DetectVictimPS.cpp src/DetectVictimPS.h)
+add_executable(navigation_adapter src/NavigationAdapter.cpp src/NavigationAdapter.h src/navigation_adapter_node.cpp)
 
 target_link_libraries(detect_victim_ps ${catkin_LIBRARIES} )
 target_link_libraries(detect_marker_ps ${catkin_LIBRARIES} )
 target_link_libraries(detect_robot_ps ${catkin_LIBRARIES} )
 target_link_libraries(detect_debris_ps ${catkin_LIBRARIES} )
+target_link_libraries(navigation_adapter ${catkin_LIBRARIES} )
 
-add_dependencies(detect_victim_ps arc_msgs_generate_messages_cpp)
-add_dependencies(detect_debris_ps arc_msgs_generate_messages_cpp)
-#add_dependencies(detect_robot_ps arc_msgs_generate_messages_cpp)
+add_dependencies(detect_debris_ps marker_msgs_generate_messages_cpp arc_msgs_generate_messages_cpp)
+add_dependencies(detect_victim_ps marker_msgs_generate_messages_cpp arc_msgs_generate_messages_cpp)
+add_dependencies(detect_robot_ps marker_msgs_generate_messages_cpp arc_msgs_generate_messages_cpp)
+add_dependencies(navigation_adapter arc_msgs_generate_messages_cpp)
