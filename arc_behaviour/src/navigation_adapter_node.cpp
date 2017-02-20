@@ -1,5 +1,5 @@
 #include "ros/ros.h"
-#include "NavigationAdapter.h"
+#include "../include/NavigationAdapter.h"
 
 int main(int argc, char **argv) {
     ros::init(argc, argv, "navigation_adaptor");

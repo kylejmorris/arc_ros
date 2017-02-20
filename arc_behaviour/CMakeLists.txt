@@ -192,18 +192,18 @@ include_directories(
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
-add_executable(arc_base src/arc_base_node.cpp src/ArcBase.cpp src/ArcBase.h)
+add_executable(arc_base src/arc_base_node.cpp src/ArcBase.cpp include/ArcBase.h)
 
 target_link_libraries(arc_base
   ${catkin_LIBRARIES}
 )
 
 #PERCEPTUAL SCHEMAS
-add_executable(detect_marker_ps src/DetectMarkerPS.cpp src/DetectMarkerPS.h src/detect_marker_ps_node.cpp)
-add_executable(detect_robot_ps src/detect_robot_ps_node.cpp src/DetectRobotPS.cpp src/DetectRobotPS.h)
-add_executable(detect_debris_ps src/detect_debris_ps_node.cpp src/DetectDebrisPS.cpp src/DetectDebrisPS.h)
-add_executable(detect_victim_ps src/detect_victim_ps_node.cpp src/DetectVictimPS.cpp src/DetectVictimPS.h)
-add_executable(navigation_adapter src/NavigationAdapter.cpp src/NavigationAdapter.h src/navigation_adapter_node.cpp)
+add_executable(detect_marker_ps src/DetectMarkerPS.cpp include/DetectMarkerPS.h src/detect_marker_ps_node.cpp)
+add_executable(detect_robot_ps src/detect_robot_ps_node.cpp src/DetectRobotPS.cpp include/DetectRobotPS.h)
+add_executable(detect_debris_ps src/detect_debris_ps_node.cpp src/DetectDebrisPS.cpp include/DetectDebrisPS.h)
+add_executable(detect_victim_ps src/detect_victim_ps_node.cpp src/DetectVictimPS.cpp include/DetectVictimPS.h)
+add_executable(navigation_adapter src/NavigationAdapter.cpp include/NavigationAdapter.h src/navigation_adapter_node.cpp)
 
 target_link_libraries(detect_victim_ps ${catkin_LIBRARIES} )
 target_link_libraries(detect_marker_ps ${catkin_LIBRARIES} )

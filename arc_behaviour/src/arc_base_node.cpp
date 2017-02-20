@@ -1,5 +1,5 @@
 #include "ros/ros.h"
-#include "ArcBase.h"
+#include "../include/ArcBase.h"
 #define PUBLISH_RATE 10 //measured in hz
 #define MAX_PUBLISH_QUEUE_SIZE 1000
 

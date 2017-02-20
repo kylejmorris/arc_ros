@@ -1,5 +1,5 @@
 #include "ros/ros.h"
-#include "DetectDebrisPS.h"
+#include "../include/DetectDebrisPS.h"
 
 int main(int argc, char **argv) {
     ros::init(argc, argv, "detect_debris_ps_node");

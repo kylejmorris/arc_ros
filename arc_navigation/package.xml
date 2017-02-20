@@ -43,6 +43,10 @@
   <build_depend>move_base</build_depend>
   <build_depend>roscpp</build_depend>
   <run_depend>move_base</run_depend>
+  <run_depend>map_server</run_depend>
+  <run_depend>amcl</run_depend>
+  <run_depend>fake_localization</run_depend>
+  <run_depend>arc_stage</run_depend>
   <run_depend>roscpp</run_depend>
 
 

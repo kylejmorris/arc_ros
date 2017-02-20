@@ -1,6 +1,6 @@
 #include <rosconsole/macros_generated.h>
 #include <ros/ros.h>
-#include "DetectMarkerPS.h"
+#include "../include/DetectMarkerPS.h"
 #include "marker_msgs/MarkerDetection.h"
 #include "std_msgs/Bool.h"
 

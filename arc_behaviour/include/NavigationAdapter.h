@@ -22,6 +22,7 @@ typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseCl
 namespace arc_behaviour {
     class NavigationAdapter{
     private:
+        const int DEFAULT_NAVIGATION_PRIORITY = 0;
         ros::NodeHandle global_handle;
 
         ros::NodeHandle local_handle;
@@ -40,6 +41,17 @@ namespace arc_behaviour {
          * Whether or not the navigation stack is currently being used to reach a goal.
          */
         bool goal_active;
+        /**
+         * When goal is active, we have some priority that was specified with the navigation request.
+         * If any further requests are made to change the navigation, the priority must be higher than the value specified here.
+         */
+        int current_nav_priority;
+
+        /**
+         * Process navigation request and send it to be handled by navigation stack.
+         * @param req: The accepted navigation request.
+         */
+        void sendGoal(arc_msgs::NavigationRequest::Request &req);
 
     public:
         NavigationAdapter();

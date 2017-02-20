@@ -1,6 +1,6 @@
 #include <rosconsole/macros_generated.h>
 #include <ros/ros.h>
-#include "DetectDebrisPS.h"
+#include "../include/DetectDebrisPS.h"
 #include "arc_msgs/DetectedDebris.h"
 #include "arc_msgs/Debris.h"
 #include "marker_msgs/MarkerDetection.h"
