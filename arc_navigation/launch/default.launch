@@ -1,7 +1,7 @@
 <launch>
   <master auto="start"/>
   <param name="/use_sim_time" value="true"/>
-  <include file="$(find arc_navigation)/move_base_config/move_base.xml"/>
+  <!--<include file="$(find arc_navigation)/move_base_config/move_base.xml"/>-->
   <node name="map_server" pkg="map_server" type="map_server" args="$(find arc_stage)/maps/willow-full.pgm 0.1" respawn="false" />
   <node name="fake_localization" pkg="fake_localization" type="fake_localization" respawn="false" />
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find arc_navigation)/single_robot.rviz" />

@@ -121,6 +121,7 @@ catkin_package(
 # include_directories(include)
 include_directories(
   ${catkin_INCLUDE_DIRS}
+        include
 )
 
 ## Declare a C++ library
@@ -192,7 +193,7 @@ include_directories(
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
-add_executable(arc_base src/arc_base_node.cpp src/ArcBase.cpp include/ArcBase.h)
+add_executable(arc_base src/arc_base_node.cpp src/ArcBase.cpp include/ArcBase.h src/RandomWanderMS.cpp src/RandomWanderMS.h)
 
 target_link_libraries(arc_base
   ${catkin_LIBRARIES}
@@ -204,14 +205,17 @@ add_executable(detect_robot_ps src/detect_robot_ps_node.cpp src/DetectRobotPS.cp
 add_executable(detect_debris_ps src/detect_debris_ps_node.cpp src/DetectDebrisPS.cpp include/DetectDebrisPS.h)
 add_executable(detect_victim_ps src/detect_victim_ps_node.cpp src/DetectVictimPS.cpp include/DetectVictimPS.h)
 add_executable(navigation_adapter src/NavigationAdapter.cpp include/NavigationAdapter.h src/navigation_adapter_node.cpp)
+add_executable(random_wander_ms src/RandomWanderMS.cpp src/RandomWanderMS.h src/random_wander_ms_node.cpp)
 
 target_link_libraries(detect_victim_ps ${catkin_LIBRARIES} )
 target_link_libraries(detect_marker_ps ${catkin_LIBRARIES} )
 target_link_libraries(detect_robot_ps ${catkin_LIBRARIES} )
 target_link_libraries(detect_debris_ps ${catkin_LIBRARIES} )
+target_link_libraries(random_wander_ms ${catkin_LIBRARIES} )
 target_link_libraries(navigation_adapter ${catkin_LIBRARIES} )
 
 add_dependencies(detect_debris_ps marker_msgs_generate_messages_cpp arc_msgs_generate_messages_cpp)
 add_dependencies(detect_victim_ps marker_msgs_generate_messages_cpp arc_msgs_generate_messages_cpp)
 add_dependencies(detect_robot_ps marker_msgs_generate_messages_cpp arc_msgs_generate_messages_cpp)
+add_dependencies(random_wander_ms marker_msgs_generate_messages_cpp arc_msgs_generate_messages_cpp)
 add_dependencies(navigation_adapter arc_msgs_generate_messages_cpp)

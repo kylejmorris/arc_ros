@@ -4,19 +4,30 @@
 #include "std_srvs/Empty.h"
 
 using namespace arc_behaviour;
+bool NavigationAdapter::is_stuck_cb(std_srvs::Trigger::Request &req, std_srvs::Trigger::Response &res) {
+    return this->is_stuck;
+}
+
 
 NavigationAdapter::NavigationAdapter() {
     ros::NodeHandle nh;
-    this->global_handle = nh;
     ros::NodeHandle local_handle("navigation_adapter");
+
+    this->global_handle = nh;
     this->local_handle = local_handle;
+    this->is_stuck = false;
+
     ROS_INFO("Setting up navigation adapter..");
+
     this->move_to_goal_server = local_handle.advertiseService("move_to_goal",&NavigationAdapter::move_to_goal_request_cb, this);
+    this->is_stuck_server = local_handle.advertiseService("is_stuck",&NavigationAdapter::is_stuck_cb, this);
     this->move_client = new MoveBaseClient("move_base", true);
+
     //wait for the action server to come up
     while(!move_client->waitForServer(ros::Duration(5.0))) { //TODO: Better checking to ensure action server is actually up. If it's not, we need to let user know.
         ROS_INFO("Waiting for the move_base action server to come up");
     }
+
     ROS_INFO("Found move_base action server!");
     this->current_nav_priority = 0;
 }
@@ -24,8 +35,11 @@ NavigationAdapter::NavigationAdapter() {
 void NavigationAdapter::move_to_goal_result_cb(const actionlib::SimpleClientGoalState& state, const move_base_msgs::MoveBaseResultConstPtr& result) {
     if (state == actionlib::SimpleClientGoalState::ABORTED){
         ROS_INFO("Failed to move");
+        //we just assume that if the robot couldn't move, and the goal was aborted because of this, we are stuck.
+        this->is_stuck = true;
     }else if(state == actionlib::SimpleClientGoalState::SUCCEEDED){
         ROS_INFO("successfully moved to goal!!!");
+        this->is_stuck = false; //not stuck if you just reached a goal.
     }
 
     //either way, we are done navigating (until another request is sent)
@@ -33,7 +47,6 @@ void NavigationAdapter::move_to_goal_result_cb(const actionlib::SimpleClientGoal
     this->goal_active = false;
 }
 //TODO: Define a valid priority range, and ensure requests are within that range. If message is sent without priority specified, it wil be 412412 or something high, and will automatically go through...
-
 bool NavigationAdapter::move_to_goal_request_cb(arc_msgs::NavigationRequest::Request &req, arc_msgs::NavigationRequest::Response &res) {
     ROS_INFO("Received request to move to goal (%d, %d) with priority %d", req.pose.position.x, req.pose.position.y, req.priority);
 
@@ -42,7 +55,7 @@ bool NavigationAdapter::move_to_goal_request_cb(arc_msgs::NavigationRequest::Req
         assert(this->current_nav_priority >= this->DEFAULT_NAVIGATION_PRIORITY);
 
         //Let higher priority request take control of navigation stack.
-        if(req.priority > this->current_nav_priority) {
+        if(req.priority >= this->current_nav_priority) {
             this->sendGoal(req);
             return true;
         } else {
@@ -75,17 +88,16 @@ void NavigationAdapter::sendGoal(arc_msgs::NavigationRequest::Request &req) {
     this->move_client->sendGoal(goal, boost::bind(&NavigationAdapter::move_to_goal_result_cb, this,_1,_2));
     this->current_nav_priority = req.priority;
     this->goal_active = true;
+    this->is_stuck = false; //we aren't stuck at the moment we send a goal
 }
 
 void NavigationAdapter::run() {
     ros::Rate r(10); //TODO: Make this a parameter, just get rid of magic numbers.
 
     while(ros::ok()) {
-        /*if(this->move_client.getState() == actionlib::SimpleClientGoalState::ACTIVE) {
-            ROS_INFO("Navigation goal is active.");
-        } else {
-            ROS_INFO("navigation is not active");
-        }*/
+        if(this->is_stuck) {
+            ROS_INFO("ROBOT IS STUCK");
+        }
         ros::spinOnce();
         r.sleep();
     }

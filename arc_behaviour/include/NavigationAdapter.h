@@ -17,6 +17,7 @@
 #include "arc_msgs/NavigationRequest.h"
 #include <move_base_msgs/MoveBaseAction.h>
 #include <actionlib/client/simple_action_client.h>
+#include "std_srvs/Trigger.h"
 
 typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient;
 namespace arc_behaviour {
@@ -33,6 +34,10 @@ namespace arc_behaviour {
         ros::ServiceServer move_to_goal_server;
 
         /**
+         * Used to determine if robot is currently stuck (ie it won't make it to any navigation goals)
+         */
+        ros::ServiceServer is_stuck_server;
+        /**
          * Our communication with the navigation stack.
          */
         MoveBaseClient *move_client;
@@ -47,6 +52,8 @@ namespace arc_behaviour {
          */
         int current_nav_priority;
 
+        bool is_stuck = false; //set to true if we tried reaching goal but received fail/stuck signal back from navigation stack.
+
         /**
          * Process navigation request and send it to be handled by navigation stack.
          * @param req: The accepted navigation request.
@@ -60,6 +67,12 @@ namespace arc_behaviour {
          * Move to navigation target location.
          */
         bool move_to_goal_request_cb(arc_msgs::NavigationRequest::Request &req, arc_msgs::NavigationRequest::Response &res);
+
+        /**
+         * Check if robot is stuck currently.
+         * @return True if stuck, false otherwise.
+         */
+        bool is_stuck_cb(std_srvs::Trigger::Request &req, std_srvs::Trigger::Response &res);
 
         /**
          * When move_base is done, it will send a callback to signal the result of navigation. This may be either when the navigation is completed

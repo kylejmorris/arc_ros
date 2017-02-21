@@ -16,4 +16,9 @@
     <node name="navigation_adapter" pkg="arc_behaviour" type="navigation_adapter">
     </node>
 
+    <node name="random_wander_ms" pkg="arc_behaviour" type="random_wander_ms">
+	<param name="max_range" value="15"/>
+	<param name="update_goal_freq" value="0.05"/>
+	<param name="priority" value="1"/>
+    </node>
 </launch>
