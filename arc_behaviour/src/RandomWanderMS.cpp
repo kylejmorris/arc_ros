@@ -5,16 +5,20 @@ using namespace arc_behaviour;
 
 RandomWanderMS::RandomWanderMS() {
     ros::NodeHandle global_handle;
-    this->global_handle = global_handle;
     ros::NodeHandle local_handle("random_wander_ms");
+    this->global_handle = global_handle;
     this->local_handle = local_handle;
     ROS_INFO("Setting up random wander ms");
     local_handle.param("max_range", this->max_range, this->DEFAULT_MAX_RANGE);
     local_handle.param("update_goal_feq", this->random_choice_rate, this->DEFAULT_RANDOM_CHOICE_RATE);
     this->move_to_goal_client = this->global_handle.serviceClient<arc_msgs::NavigationRequest>("navigation_adapter/move_to_goal");
+    this->toggle_server = this->local_handle.advertiseService("toggle", &RandomWanderMS::toggle_cb, this);
     this->priority = local_handle.getParam("priority", this->DEFAULT_PRIORITY);
     ROS_INFO("Parameter max_range set: %f", this->max_range);
     ROS_INFO("Parameter update_goal_greq set: %f", this->random_choice_rate);
+
+    //starts off disabled.
+    this->toggle(false);
 }
 
 void RandomWanderMS::setMaxRange(double max_range) {
@@ -26,20 +30,38 @@ void RandomWanderMS::setMaxRange(double max_range) {
     }
 }
 
-
 void RandomWanderMS::run() {
     ros::Rate r(this->random_choice_rate);
 
     while(ros::ok()) {
-        arc_msgs::NavigationRequest req = this->generateRequest();
-        this->move_to_goal_client.call(req);
+        //only do stuff if schema is enabled.
+        if(this->enabled) {
+            arc_msgs::NavigationRequest req = this->generateRequest();
+            this->move_to_goal_client.call(req);
 
-        ROS_INFO("sent random wander goal of (%d, %d)", (int)req.request.pose.position.x, (int)req.request.pose.position.y);
+            ROS_INFO("sent random wander goal of (%d, %d)", (int) req.request.pose.position.x,
+                     (int) req.request.pose.position.y);
+
+        }
 
         ros::spinOnce();
         r.sleep();
     }
 
+}
+
+bool RandomWanderMS::toggle_cb(std_srvs::SetBoolRequest &req, std_srvs::SetBoolResponse &res) {
+    this->toggle(req.data);
+    return true;
+}
+
+void RandomWanderMS::toggle(bool state) {
+    this->enabled = state;
+    if(this->enabled) {
+        ROS_INFO("RandomWanderMS has been enabled.");
+    } else {
+        ROS_INFO("RandomWanderMS has been disabled.");
+    }
 }
 
 arc_msgs::NavigationRequest RandomWanderMS::generateRequest() {

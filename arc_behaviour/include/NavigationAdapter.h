@@ -59,7 +59,6 @@ namespace arc_behaviour {
          * @param req: The accepted navigation request.
          */
         void sendGoal(arc_msgs::NavigationRequest::Request &req);
-
     public:
         NavigationAdapter();
 
@@ -80,10 +79,21 @@ namespace arc_behaviour {
          */
         void move_to_goal_result_cb(const actionlib::SimpleClientGoalState& state, const move_base_msgs::MoveBaseResultConstPtr& result);
 
+        bool isGoal_active() const;
+
+        void setGoal_active(bool goal_active);
+
+        int getCurrent_nav_priority() const;
+
+        void setCurrent_nav_priority(int current_nav_priority);
+
+        bool isIs_stuck() const;
+
+        void setIs_stuck(bool is_stuck);
+
         //run the main loop of node.
         void run();
     };
-    //TODO: make sure getters/setters are set for all classes in behaviour module
 }
 
 #endif //PROJECT_NAVIGATIONADAPTOR_H

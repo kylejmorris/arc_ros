@@ -40,6 +40,8 @@ void NavigationAdapter::move_to_goal_result_cb(const actionlib::SimpleClientGoal
     }else if(state == actionlib::SimpleClientGoalState::SUCCEEDED){
         ROS_INFO("successfully moved to goal!!!");
         this->is_stuck = false; //not stuck if you just reached a goal.
+    } else {
+        ROS_WARN("Unexpected result from move_to_goal_result_cb");
     }
 
     //either way, we are done navigating (until another request is sent)
@@ -52,7 +54,7 @@ bool NavigationAdapter::move_to_goal_request_cb(arc_msgs::NavigationRequest::Req
 
     move_base_msgs::MoveBaseGoal goal;
     if(this->goal_active) {
-        assert(this->current_nav_priority >= this->DEFAULT_NAVIGATION_PRIORITY);
+        assert(this->current_nav_priority >= this->DEFAULT_NAVIGATION_PRIORITY); //TODO: why using assert?
 
         //Let higher priority request take control of navigation stack.
         if(req.priority >= this->current_nav_priority) {
@@ -101,4 +103,28 @@ void NavigationAdapter::run() {
         ros::spinOnce();
         r.sleep();
     }
+}
+
+bool NavigationAdapter::isGoal_active() const {
+    return goal_active;
+}
+
+void NavigationAdapter::setGoal_active(bool goal_active) {
+    NavigationAdapter::goal_active = goal_active;
+}
+
+int NavigationAdapter::getCurrent_nav_priority() const {
+    return current_nav_priority;
+}
+
+void NavigationAdapter::setCurrent_nav_priority(int current_nav_priority) {
+    NavigationAdapter::current_nav_priority = current_nav_priority;
+}
+
+bool NavigationAdapter::isIs_stuck() const {
+    return is_stuck;
+}
+
+void NavigationAdapter::setIs_stuck(bool is_stuck) {
+    NavigationAdapter::is_stuck = is_stuck;
 }

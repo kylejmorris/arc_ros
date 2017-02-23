@@ -1,3 +1,4 @@
+#simple demo showing various models in an environment.
 include "objects.inc"
 include "kyle_robots.inc"
 include "environment.inc"

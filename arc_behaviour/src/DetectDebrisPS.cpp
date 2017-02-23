@@ -11,7 +11,6 @@
 #define PUBLISH_RATE 10
 
 //TODO: Test this overall schema. Setup a specific world and test to make sure it works properly on that world.
-//TODO: Find way to set /use_sim_time param to false by default, so these nodes publish. Right now you must manually disable using rosparam.
 using namespace arc_behaviour;
 
 DetectDebrisPS::DetectDebrisPS() {
@@ -26,7 +25,6 @@ DetectDebrisPS::DetectDebrisPS() {
 
     int max_range;
     local_handle.getParam("max_range", max_range);
-    //TODO: Stage has it's own max_range. Make stage use the max_range from parameter server, so they are both in sync. This way in stage the debris_detection will use the same max range as the behaviour module does.
     this->setMaxRange(max_range);
 }
 

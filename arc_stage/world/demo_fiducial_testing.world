@@ -1,3 +1,4 @@
+#demo showing that fiducial sensors work for robots. Used to detect arc_behaviour perceptual schemas.
 include "objects.inc"
 include "kyle_robots.inc"
 include "environment.inc"

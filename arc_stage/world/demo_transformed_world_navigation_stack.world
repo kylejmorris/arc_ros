@@ -1,3 +1,4 @@
+#simple demo showing how a stage world can be transformed to meet the coordinate space required by the ros map_server/navigation stack.
 include "objects.inc"
 include "default_sensors.inc"
 define block model

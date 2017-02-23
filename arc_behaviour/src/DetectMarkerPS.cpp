@@ -9,14 +9,13 @@
 #define PUBLISH_RATE 10
 
 //TODO: Test this overall schema. Setup a specific world and test to make sure it works properly on that world.
-//TODO: Find way to set /use_sim_time param to false by default, so these nodes publish. Right now you must manually disable using rosparam.
 using namespace arc_behaviour;
 
 DetectMarkerPS::DetectMarkerPS() {
     ros::NodeHandle nh;
     this->global_handle = &nh;
     ros::NodeHandle local_handle("detect_marker_ps");
-    this->local_handle = local_handle;
+    this->local_handle = local_handle; //TODO: be consistent with pointers/nonpointer
     ROS_INFO("Setting up Marker detection perceptual schema.");
     this->marker_status_publisher = local_handle.advertise<std_msgs::Bool>("marker_status", MAX_QUEUE_SIZE);
     this->marker_detector_sub =  this->getNodeHandle()->subscribe("marker_detector", MAX_QUEUE_SIZE, &DetectMarkerPS::process_detect_marker_cb, this); //TODO: Check if publisher exists
@@ -28,7 +27,8 @@ DetectMarkerPS::DetectMarkerPS() {
     this->setMaxRange(max_range);
 }
 
-void DetectMarkerPS::process_detect_marker_cb(const marker_msgs::MarkerDetection marker_info) {
+void DetectMarkerPS::process_detect_marker_cb(const marker_msgs::MarkerDetection &marker_info)
+{
     ROS_DEBUG("process detect marker cb called.");
     this->found_markers = marker_info;
 }

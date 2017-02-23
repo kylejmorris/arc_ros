@@ -1,6 +1,6 @@
 <launch>
     <node name="arc_base" pkg="arc_behaviour" type="arc_base">
-	<rosparam param="schemas">[random_wander_ms]</rosparam>
+	<rosparam param="schemas">["random_wander_ms"]</rosparam>
     </node>
     <node name="detect_marker_ps" pkg="arc_behaviour" type="detect_marker_ps">
         <param name="max_range" value="5"/>

@@ -8,17 +8,24 @@
 #define ARC_BEHAVIOUR_RANDOMWANDERMS_H
 #include "ros/ros.h"
 #include "arc_msgs/NavigationRequest.h"
+#include "MotorSchema.h"
+#include "std_srvs/SetBool.h"
 
 namespace arc_behaviour {
-    class RandomWanderMS {
+    class RandomWanderMS : public MotorSchema {
     private:
-        double DEFAULT_RANDOM_CHOICE_RATE = 0.1; //update every 10 second TODO: Read this as parameter
+        double DEFAULT_RANDOM_CHOICE_RATE = 0.1; //update every 10 second
         int DEFAULT_PRIORITY = 1;
         double DEFAULT_MAX_RANGE = 10.0;
         /*
          * Client to randomly send requests for navigation to navigation stack.
          */
         ros::ServiceClient move_to_goal_client;
+
+        /**
+         * Service allowing enabling/disabling of this schema.
+         */
+        ros::ServiceServer toggle_server;
 
         ros::NodeHandle global_handle;
         ros::NodeHandle local_handle;
@@ -46,11 +53,13 @@ namespace arc_behaviour {
 
         void setMaxRange(double max_range);
 
-
+        void toggle(bool state);
     public:
         RandomWanderMS();
 
         void run();
+
+        bool toggle_cb(std_srvs::SetBoolRequest &req, std_srvs::SetBoolResponse &res);
     };
 }
 

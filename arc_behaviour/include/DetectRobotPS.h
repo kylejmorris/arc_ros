@@ -71,6 +71,5 @@ public:
 };
 }
 
-
 #endif //ARC_BEHAVIOUR_DETECTROBOTPS_H
 //TODO: Change stage to not publish marker information, ie for every single marker on a topic. Just let robot detect it in map, and publish info when it finds them. We have to mod stage to move markers using a service, not by having cmd_vel publishing nonsense. ROS can't handle 100's of markers all publishing odom info, they aren't robots.
