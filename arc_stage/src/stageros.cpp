@@ -56,7 +56,7 @@
 #include "tf/transform_broadcaster.h"
 
 #include <dynamic_reconfigure/server.h>
-#include <stage_ros/StageRosConfig.h>
+#include <arc_stage/StageRosConfig.h>
 
 #define USAGE "stageros <worldfile>"
 #define IMAGE "image"

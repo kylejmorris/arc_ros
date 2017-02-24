@@ -1,10 +1,32 @@
 <launch>
 <!-- All content of ARC will be contained in the /arc namespace -->
     <group ns="arc">
-	<include file="$(find arc_stage)/launch/testing.launch" /> 
         <group ns="test_bot">
-		<include file="$(find arc_behaviour)/launch/testing.launch"/>
-		<include file="$(find arc_navigation)/launch/testing.launch" /> 
+		<include file="$(find arc_behaviour)/launch/default.launch" />
+
+		<!-- NAVIGATION SECTION -->	
+  		<master auto="start"/>
+  		<param name="/use_sim_time" value="true"/>
+  		<include file="$(find arc_navigation)/move_base_config/move_base.xml"/>
+  		<node name="map_server" pkg="map_server" type="map_server" args="$(find arc_stage)/maps/config/arc_small.yaml" respawn="false" />
+  		<node name="fake_localization" pkg="fake_localization" type="fake_localization" respawn="false" />
+  		<node name="rviz" pkg="rviz" type="rviz" args="-d $(find arc_navigation)/single_robot.rviz" />
+
+		<!-- ARC_STAGE SECTION -->
+  		<param name="/use_sim_time" value="true"/>
+  		<node pkg="arc_stage" type="arc_stage" name="arc_stage" args="$(find arc_stage)/world/test_random_wander_ms.world" respawn="false" >
+    		<param name="base_watchdog_timeout" value="0.2"/>
+  		</node>
         </group>
     </group>
 </launch>
+
+<!-- open a terminal, and 
+source /opt/ros/kinetic/setup.bash
+source /home/votick/workspace/arc_ws/src 
+roslaunch arc_control testing.launch
+
+This works fine on willow map.
+This works on custom random_wander_ms.world
+Using local arc_stage parameters for navigation stack [YES]
+-->
