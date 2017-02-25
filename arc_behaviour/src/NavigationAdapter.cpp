@@ -73,7 +73,7 @@ bool NavigationAdapter::move_to_goal_request_cb(arc_msgs::NavigationRequest::Req
 void NavigationAdapter::sendGoal(arc_msgs::NavigationRequest::Request &req) {
     move_base_msgs::MoveBaseGoal goal;
 
-    goal.target_pose.header.frame_id = "base_link";
+    goal.target_pose.header.frame_id = "map";
     goal.target_pose.header.stamp = ros::Time::now();
 
     //setting goal information from request.
