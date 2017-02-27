@@ -50,6 +50,7 @@
 #include <nav_msgs/Odometry.h>
 #include <geometry_msgs/Twist.h>
 #include <rosgraph_msgs/Clock.h>
+#include <geometry_msgs/Pose2D.h>
 
 #include <std_srvs/Empty.h>
 
@@ -72,6 +73,7 @@
 #define BASE_MARKER_DETECTION "base_marker_detection"
 #define BASE_POSE_GROUND_TRUTH "base_pose_ground_truth"
 #define CMD_VEL "cmd_vel"
+#define CMD_POSE "cmd_pose"
 #define NUM_DETECTORS 5
 static char * detectors[] = {"detector", "robot_detector", "victim_detector", "marker_detector", "debris_detector"};
 
@@ -120,6 +122,7 @@ private:
         std::vector<ros::Publisher> fiducial_pubs; //multiple fiducials
 
         ros::Subscriber cmdvel_sub; //one cmd_vel subscriber
+        ros::Subscriber cmdpose_sub; //one pos subscriber
         
         VelocityCmdsDiffDrive cmdsDes;
     };
@@ -197,7 +200,10 @@ public:
 
     // Message callback for a MsgBaseVel message, which set velocities.
     void cmdvelReceived(int idx, const boost::shared_ptr<geometry_msgs::Twist const>& msg);
-    
+
+    // Message callback for a Pose2D message, which sets pose.
+    void cmdposeReceived(int idx, const boost::shared_ptr<geometry_msgs::Pose2D const>& msg);
+
     void cmdvelReceivedConstrainedDiffDrive(int idx, const boost::shared_ptr<geometry_msgs::Twist const>& msg);
 
     // Service callback for soft reset
@@ -356,6 +362,18 @@ StageNode::ghfunc(Stg::Model* mod, StageNode* node)
 
 
 
+void
+StageNode::cmdposeReceived(int idx, const boost::shared_ptr<geometry_msgs::Pose2D const>& msg)
+{
+  boost::mutex::scoped_lock lock(msg_lock);
+  Stg::Pose pose;
+  pose.x = msg->x;
+  pose.y = msg->y;
+  pose.z =0;
+  pose.a = msg->theta;
+  this->positionmodels[idx]->SetPose(pose);
+}
+
 bool
 StageNode::cb_reset_srv(std_srvs::Empty::Request& request, std_srvs::Empty::Response& response)
 {
@@ -488,6 +506,8 @@ StageNode::SubscribeModels()
 
         new_robot->odom_pub = n_.advertise<nav_msgs::Odometry>(mapName(ODOM, r, static_cast<Stg::Model*>(new_robot->positionmodel)), 10);
         new_robot->ground_truth_pub = n_.advertise<nav_msgs::Odometry>(mapName(BASE_POSE_GROUND_TRUTH, r, static_cast<Stg::Model*>(new_robot->positionmodel)), 10);
+        new_robot->cmdpose_sub = n_.subscribe<geometry_msgs::Pose2D>(mapName(CMD_POSE, r, static_cast<Stg::Model*>(new_robot->positionmodel)), 10, boost::bind(&StageNode::cmdposeReceived, this, r, _1));
+
 	if(!config_.constrainedDiffDrive) {
 	    new_robot->cmdvel_sub = n_.subscribe<geometry_msgs::Twist>(mapName(CMD_VEL, r, static_cast<Stg::Model*>(new_robot->positionmodel)), 10, boost::bind(&StageNode::cmdvelReceived, this, r, _1));
 	} else {
@@ -624,8 +644,6 @@ StageNode::WorldCallback()
 	    this->positionmodels[i]->SetSpeed(vAns, 0, wAns);
 	}
     }
-    
-    
 
     this->sim_time.fromSec(world->SimTimeNow() / 1e6);
     // We're not allowed to publish clock==0, because it used as a special
