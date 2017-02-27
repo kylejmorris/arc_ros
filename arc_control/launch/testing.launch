@@ -36,9 +36,18 @@
   <!-- END ROBOT 0 -->
 
   <!-- BEGIN ROBOT 1 -->
-  <group ns="test_bot_2">
+<group ns="test_bot_2">
+
+    <!-- BEHAVIOUR FOR ROBOT 0 -->
+    <include file="$(find arc_behaviour)/launch/default.launch" />
+
     <param name="tf_prefix" value="test_bot_2" />
 
+      <node pkg="fake_localization" type="fake_localization" name="fake_localization" respawn="false" output="screen">
+	  <param name="tf_prefix" value="test_bot_2" />
+      <param name="odom_frame_id" value="test_bot_2/odom" />
+      <param name="base_frame_id" value="test_bot_2/base_link" />
+    </node>
     <node pkg="move_base" type="move_base" respawn="false" name="move_base_node" output="screen">
       <remap from="map" to="/map" />
       <param name="controller_frequency" value="10.0" />
@@ -48,12 +57,8 @@
       <rosparam file="$(find navigation_stage)/move_base_config/global_costmap_params.yaml" command="load" />
       <rosparam file="$(find navigation_stage)/move_base_config/base_local_planner_params.yaml" command="load" />
     </node>
-
-    <node pkg="fake_localization" type="fake_localization" name="fake_localization" respawn="false">
-      <param name="odom_frame_id" value="test_bot_2/odom" />
-      <param name="base_frame_id" value="test_bot_2/base_link" />
-    </node>
   </group>
+
   <!-- END ROBOT 1 -->
 
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find navigation_stage)/multi_robot.rviz" />

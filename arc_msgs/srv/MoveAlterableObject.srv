@@ -1,0 +1,4 @@
+#forcefully change and objects location. Must be an alterable object in stage.
+string name 	#What is the name of the object to move? (given by stage model name in world file.)
+geometry_msgs/Pose2D pose	#where to move to
+---

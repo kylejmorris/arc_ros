@@ -11,6 +11,7 @@ find_package(catkin REQUIRED
     std_srvs
     tf
     dynamic_reconfigure
+    arc_msgs
 )
 
 find_package(Boost REQUIRED COMPONENTS system thread)
@@ -43,7 +44,7 @@ target_link_libraries(arc_stage
   ${${PROJECT_NAME}_extra_libs}
 )
 if(catkin_EXPORTED_TARGETS)
-  add_dependencies(arc_stage ${catkin_EXPORTED_TARGETS})
+  add_dependencies(arc_stage ${catkin_EXPORTED_TARGETS} arc_msgs_generate_messages_cpp)
 endif()
 
 ## Install

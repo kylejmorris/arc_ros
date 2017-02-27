@@ -51,8 +51,10 @@
 #include <geometry_msgs/Twist.h>
 #include <rosgraph_msgs/Clock.h>
 #include <geometry_msgs/Pose2D.h>
+#include <map>
 
 #include <std_srvs/Empty.h>
+#include <arc_msgs/MoveAlterableObject.h>
 
 #include "tf/transform_broadcaster.h"
 
@@ -75,6 +77,7 @@
 #define CMD_VEL "cmd_vel"
 #define CMD_POSE "cmd_pose"
 #define NUM_DETECTORS 5
+#define ALT_ENV_TAG "altenv" //alterable objects in environment must possess this tag, to indicate they can be moved, but don't publish anything.
 static char * detectors[] = {"detector", "robot_detector", "victim_detector", "marker_detector", "debris_detector"};
 
 
@@ -99,9 +102,30 @@ private:
 
     struct VelocityCmdsDiffDrive {
 	double v;
-	double w;  
+	double w;
     };
-    
+
+    /*
+     * Stage position models all publish a ton of information. Sometimes we want objects
+     * that can be manipulated in the environment (ie moved/detected); but are'n't publishing
+     * on topics like /odom giving their location... This greatly reduces bandwidth when there are
+     * 100's of debris/marker objects in environment, as these objects can still be manipulated by robots;
+     * but they don't publish anything not needed.
+    */
+    struct StageAlterableObject
+    {
+        //stage related models
+        Stg::ModelPosition* positionmodel; //one position
+        std::vector<Stg::ModelFiducial *> fiducialmodels; //multiple fiducials per position
+
+        std::string object_name;
+        //stage related models
+        std::vector<Stg::ModelCamera *> cameramodels; //multiple cameras per position
+        std::vector<Stg::ModelRanger *> lasermodels; //multiple rangers per position
+
+        VelocityCmdsDiffDrive cmdsDes;
+    };
+
     //a structure representing a robot inthe simulator
     struct StageRobot
     {
@@ -123,18 +147,24 @@ private:
 
         ros::Subscriber cmdvel_sub; //one cmd_vel subscriber
         ros::Subscriber cmdpose_sub; //one pos subscriber
-        
+
         VelocityCmdsDiffDrive cmdsDes;
     };
 
     std::vector<StageRobot*> robotmodels_;
+    std::map<std::string, StageAlterableObject> alterable_objects_;
 
     // Used to remember initial poses for soft reset
     std::vector<Stg::Pose> initial_poses;
     ros::ServiceServer reset_srv_;
-  
+
     ros::Publisher clock_pub_;
-    
+
+    /**
+     * Allows for an alterable part of the environment to be moved.
+     */
+    ros::ServiceServer move_alterable_object_srv;
+
     bool isDepthCanonical;
     bool use_model_names;
 
@@ -167,12 +197,12 @@ private:
 
     // Current simulation time
     ros::Time sim_time;
-    
+
     // Last time we saved global position (for velocity calculation).
     ros::Time base_last_globalpos_time;
     // Last published global pose of each robot
     std::vector<Stg::Pose> base_last_globalpos;
-    
+
     // ROS Dynamic reconfigure
     void callbackConfig ( stage_ros::StageRosConfig &_config, uint32_t _level ); ///< callback function on incoming parameter changes
     dynamic_reconfigure::Server<stage_ros::StageRosConfig>* reconfigureServer_; ///< parameter server stuff
@@ -193,7 +223,7 @@ public:
 
     // Our callback
     void WorldCallback();
-    
+
     // Do one update of the world.  May pause if the next update time
     // has not yet arrived.
     bool UpdateWorld();
@@ -201,8 +231,10 @@ public:
     // Message callback for a MsgBaseVel message, which set velocities.
     void cmdvelReceived(int idx, const boost::shared_ptr<geometry_msgs::Twist const>& msg);
 
-    // Message callback for a Pose2D message, which sets pose.
+    // Message callback for a Pose2D message, which sets pose on an alterable object with given name.
     void cmdposeReceived(int idx, const boost::shared_ptr<geometry_msgs::Pose2D const>& msg);
+
+    bool move_alterable_object_cb(arc_msgs::MoveAlterableObject::Request &req, arc_msgs::MoveAlterableObject::Response &res);
 
     void cmdvelReceivedConstrainedDiffDrive(int idx, const boost::shared_ptr<geometry_msgs::Twist const>& msg);
 
@@ -359,9 +391,6 @@ StageNode::ghfunc(Stg::Model* mod, StageNode* node)
         node->fiducialmodels.push_back(dynamic_cast<Stg::ModelFiducial *>(mod));
 }
 
-
-
-
 void
 StageNode::cmdposeReceived(int idx, const boost::shared_ptr<geometry_msgs::Pose2D const>& msg)
 {
@@ -464,107 +493,190 @@ StageNode::SubscribeModels()
 {
     n_.setParam("/use_sim_time", true);
 
-    for (size_t r = 0; r < this->positionmodels.size(); r++)
-    {
-        StageRobot* new_robot = new StageRobot;
-        new_robot->positionmodel = this->positionmodels[r];
-        new_robot->positionmodel->Subscribe();
+    for (size_t r = 0; r < this->positionmodels.size(); r++) {
 
+        Stg::ModelPosition *position_model = this->positionmodels[r];
+        std::string model_name = position_model->TokenStr();
 
-        for (size_t s = 0; s < this->lasermodels.size(); s++)
-        {
-            if (this->lasermodels[s] and this->lasermodels[s]->Parent() == new_robot->positionmodel)
-            {
-                new_robot->lasermodels.push_back(this->lasermodels[s]);
-                this->lasermodels[s]->Subscribe();
+        //Is this an alterable environmental piece?
+        if (model_name.find("altenv_") != std::string::npos) {
+            model_name.erase(model_name.find("altenv_"), 7); //get rid of tag
+            ROS_INFO("LOCATED alterable environment piece called: %s", model_name.c_str());
+            position_model->SetToken(model_name);
+            StageAlterableObject object;
+            object.positionmodel = this->positionmodels[r];
+            object.positionmodel->Subscribe();
+            object.object_name = model_name;
+
+            if(this->alterable_objects_.find(model_name)!=alterable_objects_.end()) {
+                ROS_WARN("Error: model name %s is already loaded. Alterable models must have unique names.", model_name.c_str());
+            } else {
+                this->alterable_objects_.insert(std::pair<std::string, StageAlterableObject>(model_name, object));
+                ROS_INFO("table now has %d elements ", this->alterable_objects_.size());
+                ROS_DEBUG("Added alterable object to hashtable.");
             }
-        }
 
-        for (size_t s = 0; s < this->cameramodels.size(); s++)
-        {
-            if (this->cameramodels[s] and this->cameramodels[s]->Parent() == new_robot->positionmodel)
-            {
-                new_robot->cameramodels.push_back(this->cameramodels[s]);
-                this->cameramodels[s]->Subscribe();
+            for (size_t s = 0; s < this->lasermodels.size(); s++) {
+                if (this->lasermodels[s] and this->lasermodels[s]->Parent() == object.positionmodel) {
+                    object.lasermodels.push_back(this->lasermodels[s]);
+                    this->lasermodels[s]->Subscribe();
+                }
             }
-        }
 
-        for (size_t f = 0; f < this->fiducialmodels.size(); f++)
-        {
-            if (this->fiducialmodels[f] and this->fiducialmodels[f]->Parent() == new_robot->positionmodel)
-            {
-                new_robot->fiducialmodels.push_back(this->fiducialmodels[f]);
-                this->fiducialmodels[f]->Subscribe();
-                const char* detector_name = mapFiducialKeyToName(this->fiducialmodels[f]->vis.fiducial_key).c_str();
-                std::cout << "found " << mapFiducialKeyToName(this->fiducialmodels[f]->vis.fiducial_key)<< std::endl;
-                new_robot->fiducial_pubs.push_back(n_.advertise<marker_msgs::MarkerDetection>(mapName(detectors[this->fiducialmodels[f]->vis.fiducial_key], r, static_cast<Stg::Model*>(new_robot->positionmodel)), 10));
+            for (size_t s = 0; s < this->cameramodels.size(); s++) {
+                if (this->cameramodels[s] and this->cameramodels[s]->Parent() == object.positionmodel) {
+                    object.cameramodels.push_back(this->cameramodels[s]);
+                    this->cameramodels[s]->Subscribe();
+                }
+            }
+
+            for (size_t f = 0; f < this->fiducialmodels.size(); f++) {
+                if (this->fiducialmodels[f] and this->fiducialmodels[f]->Parent() == object.positionmodel) {
+                    object.fiducialmodels.push_back(this->fiducialmodels[f]);
+                    this->fiducialmodels[f]->Subscribe();
+
+                }
+            }
+
+            ROS_INFO("Found %lu laser devices, %lu cameras and %lu fiducial detectors in alterable environment object %lu",
+                     object.lasermodels.size(), object.cameramodels.size(), object.fiducialmodels.size(),
+                     r);
+
+            //TODO: Test this feature of using altenv tag.
+        } else {
+            StageRobot *new_robot = new StageRobot;
+            new_robot->positionmodel = this->positionmodels[r];
+            new_robot->positionmodel->Subscribe();
+
+            for (size_t s = 0; s < this->lasermodels.size(); s++) {
+                if (this->lasermodels[s] and this->lasermodels[s]->Parent() == new_robot->positionmodel) {
+                    new_robot->lasermodels.push_back(this->lasermodels[s]);
+                    this->lasermodels[s]->Subscribe();
+                }
+            }
+
+            for (size_t s = 0; s < this->cameramodels.size(); s++) {
+                if (this->cameramodels[s] and this->cameramodels[s]->Parent() == new_robot->positionmodel) {
+                    new_robot->cameramodels.push_back(this->cameramodels[s]);
+                    this->cameramodels[s]->Subscribe();
+                }
+            }
+
+            for (size_t f = 0; f < this->fiducialmodels.size(); f++) {
+                if (this->fiducialmodels[f] and this->fiducialmodels[f]->Parent() == new_robot->positionmodel) {
+                    new_robot->fiducialmodels.push_back(this->fiducialmodels[f]);
+                    this->fiducialmodels[f]->Subscribe();
+                    const char *detector_name = mapFiducialKeyToName(this->fiducialmodels[f]->vis.fiducial_key).c_str();
+                    std::cout << "found " << mapFiducialKeyToName(this->fiducialmodels[f]->vis.fiducial_key)
+                              << std::endl;
+                    new_robot->fiducial_pubs.push_back(n_.advertise<marker_msgs::MarkerDetection>(
+                            mapName(detectors[this->fiducialmodels[f]->vis.fiducial_key], r,
+                                    static_cast<Stg::Model *>(new_robot->positionmodel)), 10));
+
+                }
+            }
+
+            ROS_INFO("Found %lu laser devices, %lu cameras and %lu fiducial detectors in robot %lu",
+                     new_robot->lasermodels.size(), new_robot->cameramodels.size(), new_robot->fiducialmodels.size(),
+                     r);
+
+            new_robot->odom_pub = n_.advertise<nav_msgs::Odometry>(
+                    mapName(ODOM, r, static_cast<Stg::Model *>(new_robot->positionmodel)), 10);
+            new_robot->ground_truth_pub = n_.advertise<nav_msgs::Odometry>(
+                    mapName(BASE_POSE_GROUND_TRUTH, r, static_cast<Stg::Model *>(new_robot->positionmodel)), 10);
+            new_robot->cmdpose_sub = n_.subscribe<geometry_msgs::Pose2D>(
+                    mapName(CMD_POSE, r, static_cast<Stg::Model *>(new_robot->positionmodel)), 10,
+                    boost::bind(&StageNode::cmdposeReceived, this, r, _1));
+
+            if (!config_.constrainedDiffDrive) {
+                new_robot->cmdvel_sub = n_.subscribe<geometry_msgs::Twist>(
+                        mapName(CMD_VEL, r, static_cast<Stg::Model *>(new_robot->positionmodel)), 10,
+                        boost::bind(&StageNode::cmdvelReceived, this, r, _1));
+            } else {
+                new_robot->cmdvel_sub = n_.subscribe<geometry_msgs::Twist>(
+                        mapName(CMD_VEL, r, static_cast<Stg::Model *>(new_robot->positionmodel)), 10,
+                        boost::bind(&StageNode::cmdvelReceivedConstrainedDiffDrive, this, r, _1));
+            }
+
+            for (size_t s = 0; s < new_robot->lasermodels.size(); ++s) {
+                if (new_robot->lasermodels.size() == 1)
+                    new_robot->laser_pubs.push_back(n_.advertise<sensor_msgs::LaserScan>(
+                            mapName(BASE_SCAN, r, static_cast<Stg::Model *>(new_robot->positionmodel)), 10));
+                else
+                    new_robot->laser_pubs.push_back(n_.advertise<sensor_msgs::LaserScan>(
+                            mapName(BASE_SCAN, r, s, static_cast<Stg::Model *>(new_robot->positionmodel)), 10));
 
             }
-        }
 
-        ROS_INFO("Found %lu laser devices, %lu cameras and %lu fiducial detectors in robot %lu", new_robot->lasermodels.size(), new_robot->cameramodels.size(), new_robot->fiducialmodels.size(), r);
-
-        new_robot->odom_pub = n_.advertise<nav_msgs::Odometry>(mapName(ODOM, r, static_cast<Stg::Model*>(new_robot->positionmodel)), 10);
-        new_robot->ground_truth_pub = n_.advertise<nav_msgs::Odometry>(mapName(BASE_POSE_GROUND_TRUTH, r, static_cast<Stg::Model*>(new_robot->positionmodel)), 10);
-        new_robot->cmdpose_sub = n_.subscribe<geometry_msgs::Pose2D>(mapName(CMD_POSE, r, static_cast<Stg::Model*>(new_robot->positionmodel)), 10, boost::bind(&StageNode::cmdposeReceived, this, r, _1));
-
-	if(!config_.constrainedDiffDrive) {
-	    new_robot->cmdvel_sub = n_.subscribe<geometry_msgs::Twist>(mapName(CMD_VEL, r, static_cast<Stg::Model*>(new_robot->positionmodel)), 10, boost::bind(&StageNode::cmdvelReceived, this, r, _1));
-	} else {
-	    new_robot->cmdvel_sub = n_.subscribe<geometry_msgs::Twist>(mapName(CMD_VEL, r, static_cast<Stg::Model*>(new_robot->positionmodel)), 10, boost::bind(&StageNode::cmdvelReceivedConstrainedDiffDrive, this, r, _1));
-	}
-
-        for (size_t s = 0;  s < new_robot->lasermodels.size(); ++s)
-        {
-            if (new_robot->lasermodels.size() == 1)
-                new_robot->laser_pubs.push_back(n_.advertise<sensor_msgs::LaserScan>(mapName(BASE_SCAN, r, static_cast<Stg::Model*>(new_robot->positionmodel)), 10));
-            else
-                new_robot->laser_pubs.push_back(n_.advertise<sensor_msgs::LaserScan>(mapName(BASE_SCAN, r, s, static_cast<Stg::Model*>(new_robot->positionmodel)), 10));
-
-        }
-
-        for (size_t s = 0;  s < new_robot->cameramodels.size(); ++s)
-        {
-            if (new_robot->cameramodels.size() == 1)
-            {
-                new_robot->image_pubs.push_back(n_.advertise<sensor_msgs::Image>(mapName(IMAGE, r, static_cast<Stg::Model*>(new_robot->positionmodel)), 10));
-                new_robot->depth_pubs.push_back(n_.advertise<sensor_msgs::Image>(mapName(DEPTH, r, static_cast<Stg::Model*>(new_robot->positionmodel)), 10));
-                new_robot->camera_pubs.push_back(n_.advertise<sensor_msgs::CameraInfo>(mapName(CAMERA_INFO, r, static_cast<Stg::Model*>(new_robot->positionmodel)), 10));
+            for (size_t s = 0; s < new_robot->cameramodels.size(); ++s) {
+                if (new_robot->cameramodels.size() == 1) {
+                    new_robot->image_pubs.push_back(n_.advertise<sensor_msgs::Image>(
+                            mapName(IMAGE, r, static_cast<Stg::Model *>(new_robot->positionmodel)), 10));
+                    new_robot->depth_pubs.push_back(n_.advertise<sensor_msgs::Image>(
+                            mapName(DEPTH, r, static_cast<Stg::Model *>(new_robot->positionmodel)), 10));
+                    new_robot->camera_pubs.push_back(n_.advertise<sensor_msgs::CameraInfo>(
+                            mapName(CAMERA_INFO, r, static_cast<Stg::Model *>(new_robot->positionmodel)), 10));
+                } else {
+                    new_robot->image_pubs.push_back(n_.advertise<sensor_msgs::Image>(
+                            mapName(IMAGE, r, s, static_cast<Stg::Model *>(new_robot->positionmodel)), 10));
+                    new_robot->depth_pubs.push_back(n_.advertise<sensor_msgs::Image>(
+                            mapName(DEPTH, r, s, static_cast<Stg::Model *>(new_robot->positionmodel)), 10));
+                    new_robot->camera_pubs.push_back(n_.advertise<sensor_msgs::CameraInfo>(
+                            mapName(CAMERA_INFO, r, s, static_cast<Stg::Model *>(new_robot->positionmodel)), 10));
+                }
             }
-            else
-            {
-                new_robot->image_pubs.push_back(n_.advertise<sensor_msgs::Image>(mapName(IMAGE, r, s, static_cast<Stg::Model*>(new_robot->positionmodel)), 10));
-                new_robot->depth_pubs.push_back(n_.advertise<sensor_msgs::Image>(mapName(DEPTH, r, s, static_cast<Stg::Model*>(new_robot->positionmodel)), 10));
-                new_robot->camera_pubs.push_back(n_.advertise<sensor_msgs::CameraInfo>(mapName(CAMERA_INFO, r, s, static_cast<Stg::Model*>(new_robot->positionmodel)), 10));
+
+            for (size_t s = 0; s < new_robot->fiducialmodels.size(); ++s) {
+                //std::cout << "size: " << s << "  ";
+                //const char* detector_name = mapFiducialKeyToName(this->fiducialmodels[s]->vis.fiducial_key).c_str();
+                //std::cout << "Found " << detector_name << " fiducial." << std::endl;
+
+                /*if (new_robot->fiducialmodels.size() == 1)
+                    new_robot->fiducial_pubs.push_back(n_.advertise<marker_msgs::MarkerDetection>(mapName(detectors[this->fiducialmodels[s]->vis.fiducial_key], r, static_cast<Stg::Model*>(new_robot->positionmodel)), 10));
+                else
+                    new_robot->fiducial_pubs.push_back(n_.advertise<marker_msgs::MarkerDetection>(mapName(detectors[this->fiducialmodels[s]->vis.fiducial_key], r, s, static_cast<Stg::Model*>(new_robot->positionmodel)), 10));
+                    */
             }
+
+            this->robotmodels_.push_back(new_robot);
         }
-
-        for (size_t s = 0;  s < new_robot->fiducialmodels.size(); ++s)
-        {
-            //std::cout << "size: " << s << "  ";
-            //const char* detector_name = mapFiducialKeyToName(this->fiducialmodels[s]->vis.fiducial_key).c_str();
-            //std::cout << "Found " << detector_name << " fiducial." << std::endl;
-
-            /*if (new_robot->fiducialmodels.size() == 1)
-                new_robot->fiducial_pubs.push_back(n_.advertise<marker_msgs::MarkerDetection>(mapName(detectors[this->fiducialmodels[s]->vis.fiducial_key], r, static_cast<Stg::Model*>(new_robot->positionmodel)), 10));
-            else
-                new_robot->fiducial_pubs.push_back(n_.advertise<marker_msgs::MarkerDetection>(mapName(detectors[this->fiducialmodels[s]->vis.fiducial_key], r, s, static_cast<Stg::Model*>(new_robot->positionmodel)), 10));
-                */
-        }
-
-        this->robotmodels_.push_back(new_robot);
     }
     clock_pub_ = n_.advertise<rosgraph_msgs::Clock>("/clock", 10);
 
     // advertising reset service
     reset_srv_ = n_.advertiseService("reset_positions", &StageNode::cb_reset_srv, this);
-    
+
+    move_alterable_object_srv = n_.advertiseService("move_alterable_object",&StageNode::move_alterable_object_cb, this);
+
     reconfigureServer_ = new dynamic_reconfigure::Server<stage_ros::StageRosConfig> ( ros::NodeHandle ( "~" ) );
     reconfigureFnc_ = boost::bind ( &StageNode::callbackConfig, this,  _1, _2 );
     reconfigureServer_->setCallback ( reconfigureFnc_ );
 
     return(0);
 }
+
+bool StageNode::move_alterable_object_cb(arc_msgs::MoveAlterableObject::Request &req,
+                                         arc_msgs::MoveAlterableObject::Response &res) {
+    Stg::Pose pose;
+    pose.x = req.pose.x;
+    pose.y = req.pose.y;
+    pose.z =0;
+    pose.a = req.pose.theta;
+    std::string model_name = req.name;
+
+    ROS_INFO("Model name: %s", model_name.c_str());
+
+    StageAlterableObject obj = StageNode::alterable_objects_[model_name];
+    if(alterable_objects_.count(model_name)==0) {
+        ROS_WARN("The model named %s is not an alterable object and cannot be moved.", model_name.c_str());
+    } else {
+        obj.positionmodel->SetPose(pose);
+        ROS_INFO("Updating pose of %s", model_name.c_str());
+    }
+
+    return true;
+}
+
 
 void StageNode::callbackConfig ( stage_ros::StageRosConfig& _config, uint32_t _level ) {
     config_ = _config;

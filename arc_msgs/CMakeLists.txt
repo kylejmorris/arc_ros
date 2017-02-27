@@ -60,6 +60,7 @@ add_service_files(
    FILES
    NavigationRequest.srv
    ToggleSchema.srv
+   MoveAlterableObject.srv
 )
 
 ## Generate actions in the 'action' folder
