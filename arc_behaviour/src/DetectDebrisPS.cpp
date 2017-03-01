@@ -77,7 +77,12 @@ void DetectDebrisPS::ProcessStageFiducial() {
 //is range within valid parameters?
         if(distance_away <= this->max_range) {
             curr_debris.pose = curr.pose;
-            pruned.debris.insert(pruned.debris.begin(),curr_debris);
+
+            if(it->ids.size()>0) {
+                curr_debris.debris_id = it->ids.at(0);
+                pruned.debris.insert(pruned.debris.begin(),curr_debris);
+            }
+
         }
     }
 

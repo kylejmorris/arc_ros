@@ -71,6 +71,7 @@ arc_msgs::NavigationRequest RandomWanderMS::generateRequest() {
     double y = (rand() % (int)this->max_range) - ((int)this->max_range)/2.0; //TODO: Test this random generation, make sure it's proper.
 
     ROS_INFO("Generated (%d, %d) ", (int)x, (int)y);
+
     req.request.priority = this->priority;
     req.request.pose.position.x = x;
     req.request.pose.position.y  = y;
