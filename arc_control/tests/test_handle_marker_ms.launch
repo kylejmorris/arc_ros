@@ -1,0 +1,52 @@
+<launch>
+  <master auto="start"/>
+  <param name="/use_sim_time" value="true"/>
+<!--  <node pkg="map_server" type="map_server" name="map_server" args="$(find arc_stage)/maps/config/arc_small.yaml" respawn="false" >
+    <param name="frame_id" value="/map" />
+  </node> -->
+
+
+<group ns="arc">
+  <node pkg="arc_stage" type="arc_stage" name="arc_stage" args="-u $(find arc_stage)/world/test_handle_marker_ms.world" respawn="false">
+    <param name="base_watchdog_timeout" value="0.2"/>
+  </node>
+  <!-- BEGIN ROBOT 0 -->
+  <group ns="test_bot">
+
+    <!-- BEHAVIOUR FOR ROBOT-->
+    <node name="arc_base" pkg="arc_behaviour" type="arc_base">
+	<rosparam param="schemas">["handle_marker_ms"]</rosparam>
+    </node>
+
+    <node name="detect_marker_ps" pkg="arc_behaviour" type="detect_marker_ps">
+        <param name="max_range" value="3"/>
+    </node>
+
+    <node name="navigation_adapter" pkg="arc_behaviour" type="navigation_adapter">
+    </node>
+
+   <node name="handle_marker_ms" pkg="arc_behaviour" type="handle_marker_ms">
+	<param name="max_pickup_range" value="2"/>
+	<param name="priority" value="2"/>
+    </node>
+
+    <!-- NAVIGATION CONFIG -->
+    <param name="tf_prefix" value="test_bot" />
+
+      <node pkg="fake_localization" type="fake_localization" name="fake_localization" respawn="false" output="screen">
+	  <param name="tf_prefix" value="test_bot" />
+      <param name="odom_frame_id" value="test_bot/odom" />
+      <param name="base_frame_id" value="test_bot/base_link" />
+    </node>
+    <!--<node pkg="move_base" type="move_base" respawn="false" name="move_base_node" output="screen">
+      <remap from="map" to="/map" />
+      <param name="controller_frequency" value="10.0" />
+      <rosparam file="$(find navigation_stage)/move_base_config/costmap_common_params.yaml" command="load" ns="global_costmap" />
+      <rosparam file="$(find navigation_stage)/move_base_config/costmap_common_params.yaml" command="load" ns="local_costmap" />
+      <rosparam file="$(find navigation_stage)/move_base_config/local_costmap_params.yaml" command="load" />
+      <rosparam file="$(find navigation_stage)/move_base_config/global_costmap_params.yaml" command="load" />
+      <rosparam file="$(find navigation_stage)/move_base_config/base_local_planner_params.yaml" command="load" />
+    </node>-->
+  </group>
+</group>
+</launch>

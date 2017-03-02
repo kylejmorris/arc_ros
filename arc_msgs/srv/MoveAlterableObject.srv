@@ -1,4 +1,8 @@
 #forcefully change and objects location. Must be an alterable object in stage.
+#pose is required. Other than pose, you only need to specify ONE other field, this gives you options as to how to identify the object.
+
+int32 fiducial_return	#If you don't know the name of a model, you can try it's id. Default is it's fiducial return. 
+		#this is because stage doesn't let you return string... so on detecting fiducails, we can't get their string name.
 string name 	#What is the name of the object to move? (given by stage model name in world file.)
 geometry_msgs/Pose2D pose	#where to move to
 ---

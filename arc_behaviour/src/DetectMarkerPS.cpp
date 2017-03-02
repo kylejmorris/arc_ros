@@ -2,6 +2,7 @@
 #include <ros/ros.h>
 #include "../include/DetectMarkerPS.h"
 #include "marker_msgs/MarkerDetection.h"
+#include "arc_msgs/DetectedMarkers.h"
 #include "std_msgs/Bool.h"
 
 #define DEFAULT_MAX_RANGE 10
@@ -17,7 +18,7 @@ DetectMarkerPS::DetectMarkerPS() {
     ros::NodeHandle local_handle("detect_marker_ps");
     this->local_handle = local_handle; //TODO: be consistent with pointers/nonpointer
     ROS_INFO("Setting up Marker detection perceptual schema.");
-    this->marker_status_publisher = local_handle.advertise<std_msgs::Bool>("marker_status", MAX_QUEUE_SIZE);
+    this->marker_status_publisher = local_handle.advertise<arc_msgs::DetectedMarkers>("marker_status", MAX_QUEUE_SIZE);
     this->marker_detector_sub =  this->getNodeHandle()->subscribe("marker_detector", MAX_QUEUE_SIZE, &DetectMarkerPS::process_detect_marker_cb, this); //TODO: Check if publisher exists
     ROS_INFO("detect_marker_ps subscribed to marker_detector.");
 
@@ -50,12 +51,22 @@ void DetectMarkerPS::run() {
     ros::Rate r(PUBLISH_RATE);
 
     while(ros::ok()) {
-        std_msgs::Bool status;
 
         ProcessStageFiducial(); //pruning to markers within range.
-        status.data = this->areMarkersNearby(); //determine if there are markers within range
-        this->marker_status_publisher.publish(status);
+        arc_msgs::DetectedMarkers found;
+        for(std::vector<marker_msgs::Marker>::iterator it = this->found_markers.markers.begin(); it != this->found_markers.markers.end(); ++it) {
+            arc_msgs::DetectedMarker marker_found;
 
+            //make sure marker has an id
+            if(it->ids.size()>0) {
+                marker_found.marker_id = it->ids.at(0);
+            }
+
+            marker_found.pose = it->pose;
+            found.markers.push_back(marker_found);
+        }
+
+        this->marker_status_publisher.publish(found);
         ros::spinOnce();
         r.sleep();
     }
