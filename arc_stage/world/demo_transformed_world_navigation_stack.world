@@ -74,5 +74,5 @@ floorplan
 )
 
 # throw in a robot
-pr2( pose [ 8 8 0 87.363 ] name "pr2" color "blue")
+pr2( pose [ 8 8 0 87.363 ] name "test_bot" color "blue")
 block( fiducial_key 1 fiducial_return 2 pose [ 12 19 0 180.000 ] color "red")

@@ -9,7 +9,7 @@
 define walls model
 (
   # sombre, sensible, artistic
-  color "gray40"
+  color "gray20"
 
   # most maps will need a bounding box
   boundary 1
@@ -24,7 +24,7 @@ define walls model
   ranger_return 1
 
   # Returns a hit in the "walls" digit
-  obstacle_return "0b010"
+  obstacle_return 1
 
   block
   (
@@ -38,19 +38,19 @@ define walls model
 )
 
 # Define a model for the debris found in the environment.
-define debris model
+define debris position
 (
   # sombre, sensible, artistic
-  color "gray20"
+  color "gray40"
 
   # most maps will need a bounding box
   #boundary 1
 
   gui_nose 0
   gui_grid 0
-  gui_move 0
+  gui_move 1
   gui_outline 0
-  gripper_return 0
+#  gripper_return 0
   fiducial_key 4
   fiducial_return 1
   #laser_return 1

@@ -29,16 +29,36 @@ smallbot(
 	name "test_smallbot1"
 	pose [2 0 0.0 0.0]
 	color "green"
+	fiducial_return 4
 )
 
 
 #victims
-person(name "person0" pose [ 0 1 0 0.8 ])
+person(name "person0" pose [ 0 1 0 0.8 ] fiducial_return 2)
 
 #markers
-marker(name "marker0" pose [ 0.0 2 0.0 0.0 ])
+marker(name "altenv_marker_0" pose [ 0.0 2 0.0 0.0 ] fiducial_return 3)
+marker(name "marker_1" pose [ 0.0 2 0.0 0.0 ] fiducial_return 4)
 
 
 #TESTS
 #testd single debris bot: valid sensors
 #tested 
+
+#test debris
+debris(name "altenv_debris_1" pose [ 5.58347 -5.34210 0.0 0.0 ] size [0.5 0.5 0.09] fiducial_return 1)
+debris(name "altenv_debris_2" pose [ 7.20247 20.76465 0.0 0.0 ] size [0.5 0.5 0.09] fiducial_return 2)
+debris(name "altenv_debris_3" pose [ -22.88557 -3.79110 0.0 0.0 ] size [0.5 0.5 0.09] fiducial_return 3)
+walls(name "walls1639" pose [ 14.26366 10.42325 0.0 0.0 ] size [0.5 0.5 0.8])
+walls(name "walls1640" pose [ -22.57645 -26.65066 0.0 0.0 ] size [0.5 0.5 0.8])
+walls(name "walls1641" pose [ -8.39064 14.80715 0.0 0.0 ] size [0.5 0.5 0.8])
+walls(name "walls1642" pose [ -20.73296 -9.72261 0.0 0.0 ] size [0.5 0.5 0.8])
+walls(name "walls1643" pose [ 7.22530 5.64342 0.0 0.0 ] size [0.5 0.5 0.8])
+walls(name "walls1644" pose [ 19.45917 -10.41962 0.0 0.0 ] size [0.5 0.5 0.8])
+walls(name "walls1646" pose [ -28.33054 22.37752 0.0 0.0 ] size [0.5 0.5 0.8])
+walls(name "walls1647" pose [ 28.75873 24.66581 0.0 0.0 ] size [0.5 0.5 0.8])
+walls(name "walls1650" pose [ -9.64218 15.32516 0.0 0.0 ] size [0.5 0.5 0.8])
+walls(name "walls1652" pose [ 5.81311 -10.92102 0.0 0.0 ] size [0.5 0.5 0.8])
+walls(name "walls1653" pose [ 1.65597 -0.96506 0.0 0.0 ] size [0.5 0.5 0.8])
+walls(name "walls1655" pose [ 22.28690 -19.01159 0.0 0.0 ] size [0.5 0.5 0.8])
+walls(name "walls1657" pose [ -4.47391 -19.95588 0.0 0.0 ] size [0.5 0.5 0.8])

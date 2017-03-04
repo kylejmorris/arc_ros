@@ -51,7 +51,9 @@ add_message_files(
    DetectedRobots.msg
    DetectedVictim.msg
    DetectedVictims.msg
+   DetectedMarkers.msg
    DetectedDebris.msg
+   DetectedMarker.msg
    Debris.msg
 )
 
@@ -61,6 +63,7 @@ add_service_files(
    NavigationRequest.srv
    ToggleSchema.srv
    MoveAlterableObject.srv
+   DropMarker.srv
 )
 
 ## Generate actions in the 'action' folder

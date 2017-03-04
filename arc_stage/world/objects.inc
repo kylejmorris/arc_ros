@@ -160,8 +160,7 @@ define marker position
 
 	# identifies as a droppable marker
 	fiducial_key 3
-	fiducial_return 1
-
+	fiducial_return 3
  	block
  	(
 		points 4

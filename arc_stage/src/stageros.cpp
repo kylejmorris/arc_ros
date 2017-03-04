@@ -119,6 +119,7 @@ private:
         std::vector<Stg::ModelFiducial *> fiducialmodels; //multiple fiducials per position
 
         std::string object_name;
+        int object_id;   //Sometimes client won't know the string name of object, so id is specified. default is fiducial_return.
         //stage related models
         std::vector<Stg::ModelCamera *> cameramodels; //multiple cameras per position
         std::vector<Stg::ModelRanger *> lasermodels; //multiple rangers per position
@@ -507,14 +508,8 @@ StageNode::SubscribeModels()
             object.positionmodel = this->positionmodels[r];
             object.positionmodel->Subscribe();
             object.object_name = model_name;
-
-            if(this->alterable_objects_.find(model_name)!=alterable_objects_.end()) {
-                ROS_WARN("Error: model name %s is already loaded. Alterable models must have unique names.", model_name.c_str());
-            } else {
-                this->alterable_objects_.insert(std::pair<std::string, StageAlterableObject>(model_name, object));
-                ROS_INFO("table now has %d elements ", this->alterable_objects_.size());
-                ROS_DEBUG("Added alterable object to hashtable.");
-            }
+            object.object_id = position_model->GetFiducialReturn();
+            ROS_INFO("Found model with name %s and fiducial return %d", model_name.c_str(), position_model->GetFiducialReturn());
 
             for (size_t s = 0; s < this->lasermodels.size(); s++) {
                 if (this->lasermodels[s] and this->lasermodels[s]->Parent() == object.positionmodel) {
@@ -526,21 +521,20 @@ StageNode::SubscribeModels()
             for (size_t s = 0; s < this->cameramodels.size(); s++) {
                 if (this->cameramodels[s] and this->cameramodels[s]->Parent() == object.positionmodel) {
                     object.cameramodels.push_back(this->cameramodels[s]);
-                    this->cameramodels[s]->Subscribe();
-                }
-            }
-
-            for (size_t f = 0; f < this->fiducialmodels.size(); f++) {
-                if (this->fiducialmodels[f] and this->fiducialmodels[f]->Parent() == object.positionmodel) {
-                    object.fiducialmodels.push_back(this->fiducialmodels[f]);
-                    this->fiducialmodels[f]->Subscribe();
-
-                }
+                    this->cameramodels[s]->Subscribe(); }
             }
 
             ROS_INFO("Found %lu laser devices, %lu cameras and %lu fiducial detectors in alterable environment object %lu",
                      object.lasermodels.size(), object.cameramodels.size(), object.fiducialmodels.size(),
                      r);
+
+            if(this->alterable_objects_.find(model_name)!=alterable_objects_.end()) {
+                ROS_WARN("Error: model name %s is already loaded. Alterable models must have unique names.", model_name.c_str());
+            } else {
+                this->alterable_objects_.insert(std::pair<std::string, StageAlterableObject>(model_name, object));
+                ROS_INFO("table now has %d elements ", this->alterable_objects_.size());
+                ROS_DEBUG("Added alterable object to hashtable.");
+            }
 
             //TODO: Test this feature of using altenv tag.
         } else {
@@ -663,18 +657,54 @@ bool StageNode::move_alterable_object_cb(arc_msgs::MoveAlterableObject::Request 
     pose.z =0;
     pose.a = req.pose.theta;
     std::string model_name = req.name;
+    bool found = false;
 
-    ROS_INFO("Model name: %s", model_name.c_str());
+    StageAlterableObject obj; //the object we've found based on request.
 
-    StageAlterableObject obj = StageNode::alterable_objects_[model_name];
-    if(alterable_objects_.count(model_name)==0) {
-        ROS_WARN("The model named %s is not an alterable object and cannot be moved.", model_name.c_str());
-    } else {
-        obj.positionmodel->SetPose(pose);
-        ROS_INFO("Updating pose of %s", model_name.c_str());
+    //if the object can be specified using string name, just look it up in map
+    if(!req.name.empty()) {
+        ROS_INFO("Model name: %s", model_name.c_str());
+
+        if(alterable_objects_.count(model_name)==0) {
+            ROS_WARN("No such alterable object with name %s exists. Request ignored",model_name.c_str() );
+            return false;
+        }
+
+        obj = StageNode::alterable_objects_[model_name]; //TODO: Tes tif model_name is in map
+
+        if(alterable_objects_.count(model_name)==0) {
+            ROS_WARN("The model named %s is not an alterable object and cannot be moved.", model_name.c_str());
+        } else {
+            found = true;
+            return true;
+        }
     }
 
-    return true;
+    if(req.fiducial_return>0) {
+        //requesting object using fiducial return.
+        //we have to do a linear search... can't use key unless given string model name.
+        std::map<std::string, StageAlterableObject>::iterator it = alterable_objects_.begin();
+
+        while(it!=alterable_objects_.end()) {
+            std::string key = it->first;
+            StageAlterableObject temp = it->second;
+
+            if (temp.positionmodel->GetFiducialReturn() == req.fiducial_return) {
+                ROS_DEBUG("found %s in alterable_objects map", key.c_str());
+                obj = temp;
+                found = true;
+            }
+            it++;
+        }
+    }
+
+    if(found) {
+        obj.positionmodel->SetPose(pose);
+        return true;
+    } else {
+        ROS_WARN("Could not find alterable object to move. Ignored request.");
+        return false; //couldn't make it work sorry.
+    }
 }
 
 

@@ -26,6 +26,17 @@ define stairway_sensor fiducial
 #################################################################
 # Robot sensor
 #################################################################
+define topurg ranger
+(
+  sensor(
+    range_max 30.0
+    fov 270.25
+    samples 1081
+  )
+  # generic model properties
+  color "black"
+  size [ 0.05 0.05 0.1 ]
+)
 
 # Robots identify one another in the environment using coded fiducials.
 # We define our common "robot sensor" functionality here.

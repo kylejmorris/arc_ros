@@ -29,7 +29,6 @@ HandleMarkerMS::HandleMarkerMS() {
     this->priority = local_handle.getParam("priority", this->DEFAULT_PRIORITY);
     this->requested_pickup = false;
 
-
     ROS_INFO("HandleMarkerMS Parameter max_pickup_range for cleaning set: %d", this->max_pickup_range);
     ROS_INFO("HandleMarkerMS priority set: %d", this->priority);
 
@@ -59,9 +58,9 @@ bool HandleMarkerMS::markerWithinRange(int x, int y) {
 bool HandleMarkerMS::drop_marker_cb(arc_msgs::DropMarker::Request &req, arc_msgs::DropMarker::Response &res) {
     if(this->marker_inventory.size()>0) {
         int marker_id = this->marker_inventory.at(0);
-        int position_x = this->recent_position.pose.pose.position.x+2;
-        int position_y = this->recent_position.pose.pose.position.y+2;
-        this->dropMarker(marker_id, 2, 2);
+        int position_x = this->recent_position.pose.pose.position.x;
+        int position_y = this->recent_position.pose.pose.position.y;
+        this->dropMarker(marker_id, position_x, position_y);
     } else {
         ROS_WARN("cannot drop a marker. No markers in inventory.");
     }

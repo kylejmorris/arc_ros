@@ -1,0 +1,142 @@
+#created just to test if I can create an arc world that works with the navigation stack, but is composed of obstacles, and not map data from some png image. This is taken directly from the willow-full.pgm world provided by navigation_stage package.
+
+include "objects.inc"
+include "kyle_robots.inc"
+include "environment.inc"
+include "include/objects/table_circular.inc"
+include "include/objects/trash_bin.inc"
+include "include/objects/sofa1.inc"
+
+
+define topurg ranger
+(
+  sensor(
+    range_max 30.0
+    fov 270.25
+    samples 1081
+  )
+  # generic model properties
+  color "black"
+  size [ 0.05 0.05 0.0 ]
+)
+
+define pr2 position
+(
+  size [0.65 0.65 0.25]
+  origin [-0.05 0 0 0]
+  gui_nose 1
+
+  robot_sensor(
+	alwayson 1
+  )
+  drive "omni"
+  topurg(pose [ 0.275 0.000 0.0 0.000 ])
+)
+
+maxbot(
+	name "test_bot"
+	pose [4.0 5.0 0.0 0.0]
+	color "blue"
+  	topurg(pose [ 0.275 0.000 -0.1 -0.2 ])
+)
+
+#this is used to create a bounding box. The image we feed in is actually empty, but by definiing it as a model, we have some boundry the robot can't possibly escape through.
+#everything else in the environment is debris, or wall, or in some other way manipulatable.
+define floorplan model
+(
+  # sombre, sensible, artistic
+  color "gray30"
+
+  # most maps will need a bounding box
+  boundary 1
+
+  gui_nose 0
+  gui_grid 0
+
+  gui_outline 0
+  gripper_return 0
+  fiducial_return 0
+  laser_return 1
+  ranger_return 1
+)
+
+#floorplan
+floorplan
+( 
+  name "arc_small"
+  bitmap "../maps/small_room.pgm"
+  size [20.000 20.000 2 2]
+  pose [10.000 10.000 0.000 0.000]
+)
+
+
+#specific obstacles from https://www.youtube.com/watch?v=TrsDCX_Ryho&t=18s thesis work.
+
+sofa1
+(
+   name "aSofa1"
+   pose [ -4.2 2.5 0 90 ]
+  #laser_fake( name "laser" pose [0 0 -0.5 0] ) 
+)
+
+table_circular
+(
+   name "aTableC"
+   pose [ 2.5 2.5 0 0 ]
+  #laser_fake( name "laser" pose [0 0 -0.5 0] ) 
+)
+
+
+#ROBOTS
+#BOARDER WALLS
+debris(name "altenv_debris_1" pose [ 14.354 3.823 0.000 0.000 ] size [0.300 0.300 0.300] fiducial_return 1)
+debris(name "altenv_debris_2" pose [ 14.703 5.018 0.000 0.000 ] size [0.500 0.500 0.100] fiducial_return 2)
+debris(name "altenv_debris_3" pose [ 13.672 3.822 0.000 0.000 ] size [0.500 0.500 0.100] fiducial_return 3)
+debris(name "altenv_debris_4" pose [ 15.000 16.000 0.000 0.000 ] size [0.500 0.500 0.100] fiducial_return 4)
+debris(name "altenv_debris_5" pose [ 1.750 2.000 0.000 0.000 ] size [0.500 0.500 0.100] fiducial_return 5) 
+debris(name "altenv_debris_6" pose [ 1.000 18.000 0.000 0.000 ] size [0.500 0.500 0.100] fiducial_return 6)
+debris(name "altenv_debris_7" pose [ 9.511 8.313 0.000 0.000 ] size [0.500 0.500 0.100] fiducial_return 7)
+debris(name "altenv_debris_8" pose [ 9.511 7.707 0.000 0.000 ] size [0.500 0.500 0.100] fiducial_return 8)
+debris(name "altenv_debris_9" pose [ 9.527 8.840 0.000 0.000 ] size [0.500 0.500 0.100] fiducial_return 9)
+debris(name "altenv_debris_10" pose [ 7.740 15.016 0.000 0.000 ] size [0.500 0.500 0.100] fiducial_return 10)
+debris(name "altenv_debris_11" pose [ 6.974 13.740 0.000 0.000 ] size [0.500 0.500 0.100] fiducial_return 11)
+debris(name "altenv_debris_12" pose [ 8.267 14.984 0.000 0.000 ] size [0.500 0.500 0.100] fiducial_return 12)
+debris(name "altenv_debris_13" pose [ 6.958 14.250 0.000 0.000 ] size [0.500 0.500 0.100] fiducial_return 13)
+debris(name "altenv_debris_14" pose [ 11.459 13.612 0.000 0.000 ] size [0.500 0.500 0.100] fiducial_return 14)
+debris(name "altenv_debris_15" pose [ 10.980 13.995 0.000 0.000 ] size [0.500 0.500 0.100] fiducial_return 15)
+debris(name "altenv_debris_16" pose [ 10.437 14.394 0.000 0.000 ] size [0.500 0.500 0.100] fiducial_return 16)
+debris(name "altenv_debris_17" pose [ 9.863 14.761 0.000 0.000 ] size [0.500 0.500 0.100] fiducial_return 17)
+debris(name "altenv_debris_18" pose [ 5.282 12.080 0.000 0.000 ] size [0.500 0.500 0.100] fiducial_return 18)
+debris(name "altenv_debris_19" pose [ 5.282 11.617 0.000 0.000 ] size [0.500 0.500 0.100] fiducial_return 19)
+debris(name "altenv_debris_20" pose [ 2.042 0.812 0.000 0.000 ] size [0.500 0.500 0.100] fiducial_return 20)
+
+
+#MARKERS
+#testing lots of markers together, can robot pick them up? 
+marker(name "altenv_marker_1" pose [ 1.279 6.216 0.000 42.972 ] fiducial_return 1)
+marker(name "altenv_marker_2" pose [ 1.326 6.656 0.000 -148.969 ] fiducial_return 2)
+marker(name "altenv_marker_3" pose [ 1.570 6.520 0.000 -16.251 ] fiducial_return 3)
+
+
+
+#random sporadic markers
+marker(name "altenv_marker_4" pose [ 1.272 2.439 0.000 0.000 ] fiducial_return 4)
+marker(name "altenv_marker_5" pose [ 1.090 6.659 0.000 88.808 ] fiducial_return 5)
+
+
+
+#VICTIMS
+person(name "altenv_person_0" pose [ 1.016 1.402 0.000 0.000 ] fiducial_return 1)
+person(name "altenv_person_1" pose [ 2.157 16.711 0.000 0.000 ] fiducial_return 2)
+person(name "altenv_person_2" pose [ 13.832 4.299 0.000 0.000 ] fiducial_return 3)
+person(name "altenv_person_3" pose [ 14.516 4.299 0.000 0.000 ] fiducial_return 4)
+unperson(name "altenv_unperson_1l" pose [8.161 12.075 0.000 0.000 ] fiducial_return 1)
+unperson(name "altenv_unperson_2" pose [17.440 12.523 0.000 0.000 ] fiducial_return 2)
+
+
+#tunnel near bottom of map, only explorers can make it all the way.
+debris(name "altenv_debris_21" pose [ 5.040 0.770 0.000 0.000 ] size [0.500 0.500 0.200] fiducial_return 21) 
+debris(name "altenv_debris_22" pose [ 3.840 2.490 0.000 0.000 ] size [0.500 0.500 0.200] fiducial_return 22)
+debris(name "altenv_debris_23" pose [ 3.180 1.140 0.000 0.000 ] size [0.500 0.500 0.200] fiducial_return 23)
+debris(name "altenv_debris_24" pose [ 2.840 2.010 0.000 0.000 ] size [0.500 0.500 0.200] fiducial_return 24)
+debris(name "altenv_debris_25" pose [ 2.000 2.090 0.000 0.000 ] size [0.500 0.500 0.200] fiducial_return 25)

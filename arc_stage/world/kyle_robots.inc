@@ -8,6 +8,7 @@ include "sick.inc"
 # Changes made to support Stage 4 made by Geoff Nagy, as well as
 # the addition of the stairbot and debrisbot
 
+
 # stairbot
 define stairbot_body position
 (
@@ -263,7 +264,35 @@ define smallbot_body position
     point[5] [  0.100 -0.050 ]
 		z [0 0.10] 
 	)
- 
+
+ 	hokuyolaser
+	(   
+		alwayson 1
+		pose [ 0.0 0.0 0.0 0.0 ]
+ 	)
+
+  	
+	robot_sensor
+	(
+		alwayson 1
+	)
+  
+	basic_victim_sensor
+	(
+		alwayson 1
+ 	)
+
+	marker_sensor
+	(
+		alwayson 1
+ 	)
+
+	debris_sensor
+	(
+		alwayson 1
+ 	)
+
+
   gui_nose 1
 	mass 5.0
 	drive "diff" 
@@ -283,18 +312,17 @@ define smallbot smallbot_body
 	
 	# Define the 5 sonar devices on these little robots
 	#smallbot_sonar
-	smallbot_sonars
-	(
-		alwayson 1
-		pose [0 0 -0.02 0]
-	)
+	#smallbot_sonars
+	#(
+	#	alwayson 1
+	#	pose [0 0 -0.02 0]
+	#)
 
   basic_victim_sensor (
     alwayson 1
   )
 
   fiducial_key 1
-	fiducial_return 1
  
 	#collides with everything
 	obstacle_mask "0b111"
@@ -390,7 +418,6 @@ define midbot midbot_body
 	marker_sensor
 	(
 		alwayson 1
-		pose [0 0 -1.0 0]
 	)
 
 	# must be able to detect stairways
@@ -420,7 +447,7 @@ define maxbot pioneer3dx
 	(   
 		alwayson 1
 		pose [ 0.0 0.0 0.0 0.0 ]
- 	)
+	)
 
   	
 	robot_sensor

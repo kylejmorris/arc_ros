@@ -5,11 +5,6 @@ include "kyle_robots.inc"
 include "environment.inc"
 
 
-maxbot(
-	name "test_bot"
-	pose [4.0 4.0 0.0 0.0]
-	color "blue"
-)
 
 
 define topurg ranger
@@ -65,15 +60,23 @@ floorplan
   pose [10 10 0 0.0]
 )
 
+maxbot(
+	name "test_bot"
+	pose [4.0 4.0 0.0 0.0]
+	color "blue"
+  	topurg(pose [ 0.275 0.000 0 0.000 ])
+)
 #MARKERS
 #testing lots of markers together, can robot pick them up? 
 marker(name "altenv_marker_1" pose [ 9 6 0.0 0.0 ] fiducial_return 1)
 marker(name "altenv_marker_2" pose [ 9 6.5 0.0 0.0 ] fiducial_return 2)
 marker(name "altenv_marker_3" pose [ 9 6.6 0.0 0.0 ] fiducial_return 3)
 
+#random sporadic markers
+marker(name "altenv_marker_4" pose [ 14 2 0.0 0.0 ] fiducial_return 4)
+marker(name "altenv_marker_5" pose [ 18 15 0.0 0.0 ] fiducial_return 5)
+
 #testing debris
-debris(name "altenv_debris_1" pose [ 9.0 6.0 0.0 0.0 ] size [0.5 0.5 0.8] fiducial_return 1)
-debris(name "altenv_debris_2" pose [ 13.0 4.0 0.0 0.0 ] size [0.5 0.5 0.8] fiducial_return 2)
 #BOARDER WALLS
 walls(name "walls0" pose [ 0.25 0.25 0.0 0.0 ] size [0.5 0.5 0.8])
 walls(name "walls1" pose [ 0.75 0.25 0.0 0.0 ] size [0.5 0.5 0.8])

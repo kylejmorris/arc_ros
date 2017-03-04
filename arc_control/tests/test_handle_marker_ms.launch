@@ -1,3 +1,9 @@
+<!--TESTING INSTRUCTIONS-->
+<!--activate robot: "rosservice call /arc/test_bot/handle_marker_ms/toggle "data: true" -->
+<!--drag robot near markers. -->
+<!--pickup a marker:  "rosservice call /arc/test_bot/handle_marker_ms/pickup_marker" -->
+<!-- drop a marker: rosservice call /arc/test_bot/handle_marker_ms/drop_marker" -->
+
 <launch>
   <master auto="start"/>
   <param name="/use_sim_time" value="true"/>

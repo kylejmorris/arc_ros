@@ -72,7 +72,8 @@ smallbot(
 person(name "person0" pose [ 0 1 0 0.8 ])
 
 #markers
-marker(name "marker0" fiducial_return 6 pose [ 0.0 2 0.0 0.0 ])
+marker(name "marker_0" fiducial_return 1 pose [ 0.0 2 0.0 0.0 ])
+marker(name "altenv_marker_1" fiducial_return 2 pose [ 0.0 2 0.0 0.0 ])
 
 
 #TESTS

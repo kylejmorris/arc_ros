@@ -1,4 +1,4 @@
-image: ../small_room.pgm
+image: ../../test/test_navigation.pgm
 #image: ../willow-full.pgm
 resolution: 0.02
 origin: [0.0, 0.0, 0.0]

@@ -1,0 +1,52 @@
+<!--TESTING INSTRUCTIONS-->
+<!--activate robot: "rosservice call /arc/test_bot/random_wander_ms/toggle "data: true" 
+Watch the robot navigate. Try moving it to locations to break it's path.
+See how long it can run.
+-->
+
+<launch>
+  <master auto="start"/>
+  <param name="/use_sim_time" value="true"/>
+  <node pkg="map_server" type="map_server" name="map_server" args="$(find arc_stage)/maps/config/test/test_navigation.yaml" respawn="false" >
+    <param name="frame_id" value="/map" />
+  </node> 
+
+
+<group ns="arc">
+  <node pkg="arc_stage" type="arc_stage" name="arc_stage" args="-u $(find arc_stage)/world/test_random_wander_ms.world" respawn="false">
+    <param name="base_watchdog_timeout" value="0.2"/>
+  </node>
+  <!-- BEGIN ROBOT 0 -->
+  <group ns="test_bot">
+
+    <!-- BEHAVIOUR FOR ROBOT-->
+    <node name="arc_base" pkg="arc_behaviour" type="arc_base">
+	<rosparam param="schemas">["random_wander_ms"]</rosparam>
+    </node>
+
+    <node name="random_wander_ms" pkg="arc_behaviour" type="random_wander_ms">
+	<rosparam param="frame_id">"map"</rosparam>
+    </node>
+
+    <node name="navigation_adapter" pkg="arc_behaviour" type="navigation_adapter">
+    </node>
+
+    <!-- NAVIGATION CONFIG -->
+    <param name="tf_prefix" value="test_bot" />
+      <node pkg="fake_localization" type="fake_localization" name="fake_localization" respawn="false" output="screen">
+	  <param name="tf_prefix" value="test_bot" />
+      <param name="odom_frame_id" value="test_bot/odom" />
+      <param name="base_frame_id" value="test_bot/base_link" />
+    </node>
+    <node pkg="move_base" type="move_base" respawn="false" name="move_base_node" output="screen">
+      <remap from="map" to="/map" />
+      <param name="controller_frequency" value="10.0" />
+      <rosparam file="$(find arc_navigation)/move_base_config/pioneer3_costmap_common_params.yaml" command="load" ns="local_costmap" />
+      <rosparam file="$(find arc_navigation)/move_base_config/pioneer3_local_costmap_params.yaml" command="load" />
+      <rosparam file="$(find arc_navigation)/move_base_config/pioneer3_global_costmap_params.yaml" command="load" />
+      <rosparam file="$(find arc_navigation)/move_base_config/pioneer3_base_local_planner_params.yaml" command="load" />
+    </node>
+  </group>
+<node name="rviz" pkg="rviz" type="rviz" args="-d $(find arc_navigation)/single_robot.rviz" />
+</group>
+</launch>
