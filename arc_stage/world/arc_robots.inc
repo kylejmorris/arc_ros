@@ -1,12 +1,12 @@
-include "default_sensors.inc"
-include "arc_pioneer3.inc"
+include "arc_sensors.inc"
+include "pioneer3.inc"
 include "sick.inc"
 
-# Tyler J. Gunn
-# This include file defines the different robots used in my work.
-
-# Changes made to support Stage 4 made by Geoff Nagy, as well as
-# the addition of the stairbot and debrisbot
+# ARC ROS robots by Kyle Morris:
+#    -based on work by Tyler J. Gunn
+#    -changes made to support Stage 4 made by Geoff Nagy, as well as
+# 	the addition of the stairbot and debrisbot
+# This include file defines robots used in arc ros
 
 
 # stairbot
@@ -443,7 +443,7 @@ define midbot midbot_body
 # it encounters.
 define maxbot pioneer3dx
 (		  
-	hokuyolaser
+	omniscient
 	(   
 		alwayson 1
 		pose [ 0.0 0.0 0.0 0.0 ]
@@ -498,9 +498,3 @@ define maxbot pioneer3dx
   # walls and everything else.
   #obstacle_mask "0b011"
 #)
-
-
-
-#################################################################
-# WIFI Model that all robots use
-#################################################################

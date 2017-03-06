@@ -23,10 +23,15 @@ define stairway_sensor fiducial
 	fov 180
 )
 
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 #################################################################
-# Robot sensor
+# General Rangers: For scanning environment.
 #################################################################
-define topurg ranger
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+#The omniscient ranger sees all. It is not good for real world; but it's useful to do for a mock
+#demo with the best sensing possible.
+define omniscient ranger
 (
   sensor(
     range_max 30.0
@@ -37,6 +42,15 @@ define topurg ranger
   color "black"
   size [ 0.05 0.05 0.1 ]
 )
+
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+#################################################################
+# Fiducial sensors
+#################################################################
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+#-------------------------------------------
+# Fiducial sensors
+#-------------------------------------------
 
 # Robots identify one another in the environment using coded fiducials.
 # We define our common "robot sensor" functionality here.

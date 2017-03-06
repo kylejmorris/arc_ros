@@ -1,7 +1,7 @@
 define pioneer_base position 
 (
   color "red"     # Default color.
-  drive "diff"      # Differential steering model.
+  drive "omni" #drive "diff"      # Differential steering model.
   gui_nose 1                    # Draw a nose on the robot so we can see which way it points
   obstacle_return 1             # Can hit things.
   #laser_return 1                 # reflects laser beams

@@ -4,6 +4,7 @@ call the services on test_bot, however you like. Try to break it. Use all the fu
 
 <launch>
   <master auto="start"/>
+  <arg name="robot_type" default="pioneer3"/>
   <param name="/use_sim_time" value="true"/>
   <node pkg="map_server" type="map_server" name="map_server" args="$(find arc_stage)/maps/config/arc_small.yaml" respawn="false" >
     <param name="frame_id" value="/map" />
@@ -11,7 +12,7 @@ call the services on test_bot, however you like. Try to break it. Use all the fu
 
 
 <group ns="arc">
-  <node pkg="arc_stage" type="arc_stage" name="arc_stage" args="-u $(find arc_stage)/world/test_single_robot_full_nowalls.world" respawn="false">
+  <node pkg="arc_stage" type="arc_stage" name="arc_stage" args="-u $(find arc_stage)/world/test_single_robot_full.world" respawn="false">
     <param name="base_watchdog_timeout" value="0.2"/>
   </node>
   <!-- BEGIN ROBOT 0 -->
@@ -63,13 +64,13 @@ call the services on test_bot, however you like. Try to break it. Use all the fu
 
 
     <node pkg="move_base" type="move_base" respawn="false" name="move_base_node" output="screen">
+      <remap from="map" to="/map" />
       <param name="controller_frequency" value="10.0" />
-      <remap from="map" to="/map"/>
-      <rosparam file="$(find navigation_stage)/move_base_config/costmap_common_params.yaml" command="load" ns="local_costmap" />
-      <rosparam file="$(find navigation_stage)/move_base_config/local_costmap_params.yaml" command="load" />
-      <rosparam file="$(find navigation_stage)/move_base_config/global_costmap_params.yaml" command="load" />
-
-      <rosparam file="$(find arc_navigation)/move_base_config/base_local_planner_params.yaml" command="load" /> 
+      <rosparam file="$(find arc_navigation)/move_base_config/$(arg robot_type)_costmap_common_params.yaml" command="load" ns="local_costmap" />
+      <rosparam file="$(find arc_navigation)/move_base_config/$(arg robot_type)_local_costmap_params.yaml" command="load" />
+      <rosparam file="$(find arc_navigation)/move_base_config/$(arg robot_type)_global_costmap_params.yaml" command="load" />
+      <rosparam file="$(find arc_navigation)/move_base_config/$(arg robot_type)_base_local_planner_params.yaml" command="load" />
+      <rosparam file="$(find arc_navigation)/move_base_config/$(arg robot_type)_dwa_local_playyer_params.yaml" command="load" />
     </node>
   </group>
 <node name="rviz" pkg="rviz" type="rviz" args="-d $(find arc_navigation)/single_robot.rviz" />

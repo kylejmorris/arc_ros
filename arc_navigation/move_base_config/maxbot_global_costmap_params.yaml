@@ -11,8 +11,12 @@ global_costmap:
 
   width: 20
   height: 20
+
   #We'll use a map served by the map_server to initialize this costmap
   static_map: true
   rolling_window: false
+
+#robots radius: based on sqrt((width/2)^2 + (height/2)^2) of stage model
+  robot_radius: 0.324 
 
   footprint_padding: 0.02
