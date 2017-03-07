@@ -1,0 +1,42 @@
+#created just to test if I can create an arc world that works with the navigation stack, but is composed of obstacles, and not map data from some png image. This is taken directly from the willow-full.pgm world provided by navigation_stage package.
+
+include "objects.inc"
+include "arc_robots.inc"
+include "environment.inc"
+
+midbot(
+	name "test_bot"
+	pose [1.512 2.216 0.000 -14.324]
+	color "blue"
+)
+
+
+
+#this is used to create a bounding box. The image we feed in is actually empty, but by definiing it as a model, we have some boundry the robot can't possibly escape through.
+#everything else in the environment is debris, or wall, or in some other way manipulatable.
+define floorplan model
+(
+  # sombre, sensible, artistic
+  color "gray30"
+
+  # most maps will need a bounding box
+  boundary 1
+
+  gui_nose 0
+  gui_grid 0
+
+  gui_outline 0
+  gui_move 0
+  gripper_return 0
+  fiducial_return 0
+  ranger_return 1.000
+)
+#floorplan
+floorplan
+( 
+  name "arc_small"
+  bitmap "../maps/test/test_navigation.pgm"
+  size [20.000 20.000 2.000 2]
+  pose [10.000 10.000 0.000 0.000]
+)
+

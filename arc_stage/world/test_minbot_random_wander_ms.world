@@ -4,7 +4,7 @@ include "objects.inc"
 include "arc_robots.inc"
 include "environment.inc"
 
-maxbot(
+minbot(
 	name "test_bot"
 	pose [1.512 2.216 0.000 -14.324]
 	color "blue"

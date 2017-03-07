@@ -54,7 +54,7 @@ See how long it can run.
       <rosparam file="$(find arc_navigation)/move_base_config/$(arg robot_type)_local_costmap_params.yaml" command="load" />
       <rosparam file="$(find arc_navigation)/move_base_config/$(arg robot_type)_global_costmap_params.yaml" command="load" />
       <rosparam file="$(find arc_navigation)/move_base_config/$(arg robot_type)_base_local_planner_params.yaml" command="load" />
-      <rosparam file="$(find arc_navigation)/move_base_config/$(arg robot_type)_dwa_local_playyer_params.yaml" command="load" />
+      <rosparam file="$(find arc_navigation)/move_base_config/$(arg robot_type)_dwa_local_planner_params.yaml" command="load" />
     </node>
   </group>
 <node name="rviz" pkg="rviz" type="rviz" args="-d $(find arc_navigation)/single_robot.rviz" />

@@ -80,6 +80,12 @@ define stairbot stairbot_body
 # define the body of a debris-removing robot
 define debrisbot_body position
 (
+	omniscient
+	(   
+		alwayson 1
+		pose [ 0.0 0.0 0.0 0.0 ]
+	)
+
 	# main body
 	block
 	(
@@ -195,7 +201,6 @@ define debrisbot_body position
 
 	gui_nose 1
 	mass 40.00
-	drive "diff"
 	localization "gps"
 	odom_error [ 0.0 0.0 0.0 0.0 ]
 )
@@ -204,12 +209,10 @@ define debrisbot_body position
 define debrisbot debrisbot_body
 (
 	size [0.4 0.5 0.4]				# large-ish robot (large enough to clear debris)
-	
-	# define the sonar devices on the debris bot
-	debrisbot_sonars
-	(
+	omniscient
+	(   
 		alwayson 1
-		pose [0 0 -0.4 0]
+		pose [ 0.0 0.0 0.0 0.0 ]
 	)
 
 	debris_sensor
@@ -242,17 +245,18 @@ define debrisbot debrisbot_body
 	fiducial_return 1
 	obstacle_mask "0b111"			# collides with everything
 	obstacle_return "0b001"			# is an obstacle in the "everything else" category
+	drive "omni"	
 
 	# the debrisbot uses a tracked drive, meaning that it should be able to overcome short obstacles
 	obstacle_mask "0b011"
 )
 
 #################################################################
-### SMALLBOT
+### SMALLBOT (minbot)
 #################################################################
 
 #Define the body of a small robot.
-define smallbot_body position
+define minbot_body position
 (
 	block (
 		points 6
@@ -265,12 +269,11 @@ define smallbot_body position
 		z [0 0.10] 
 	)
 
- 	hokuyolaser
+	omniscient
 	(   
 		alwayson 1
 		pose [ 0.0 0.0 0.0 0.0 ]
- 	)
-
+	)
   	
 	robot_sensor
 	(
@@ -293,9 +296,9 @@ define smallbot_body position
  	)
 
 
-  gui_nose 1
+	gui_nose 1
 	mass 5.0
-	drive "diff" 
+	drive "omni"
 #localization_origin [0 0 0 0]   # Start odometry at (0, 0, 0).
 #  localization "odom"
 localization "gps"
@@ -305,22 +308,14 @@ localization "gps"
 )
 
 #Define a small robot with sonar capabilities
-define smallbot smallbot_body
+define minbot minbot_body
 (
 	size [0.100 0.100 0.080]
 	color "purple"
-	
-	# Define the 5 sonar devices on these little robots
-	#smallbot_sonar
-	#smallbot_sonars
-	#(
-	#	alwayson 1
-	#	pose [0 0 -0.02 0]
-	#)
 
-  basic_victim_sensor (
-    alwayson 1
-  )
+	basic_victim_sensor (
+    		alwayson 1
+  	)
 
   fiducial_key 1
  
@@ -328,6 +323,7 @@ define smallbot smallbot_body
 	obstacle_mask "0b111"
 	#is an obstacle in the "everything else" category
 	obstacle_return "0b001"
+	drive "omni"
 
 )
 
@@ -387,7 +383,7 @@ define midbot_body position
 
   gui_nose 1
   mass 10.00
-  drive "diff"
+  drive "omni" #relaxed assumption for now. Should be diff.
 #localization_origin [0 0 0 0]   # Start odometry at (0, 0, 0).
 # localization "odom"
   localization "gps"
@@ -399,11 +395,11 @@ define midbot midbot_body
 (
  	size [ 0.200 0.200 0.150 ]
   
-	#ranger(
-    	#	range_max 30.0
-    	#	fov 270.25
-    	#	samples 360
-  	#)
+	omniscient
+	(   
+		alwayson 1
+		pose [ 0.0 0.0 0.0 0.0 ]
+	)
 
  	robot_sensor
 	(
@@ -419,12 +415,6 @@ define midbot midbot_body
 	(
 		alwayson 1
 	)
-
-	# must be able to detect stairways
-	#stairway_sensor
-	#(
-	#	alwayson 1
-	#)
 
 	# Fiducial key = 1 so that this robot can be detected by the robot detector
 	fiducial_key 1
