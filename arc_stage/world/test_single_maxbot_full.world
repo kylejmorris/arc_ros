@@ -38,8 +38,8 @@ floorplan
 ( 
   name "arc_small"
   bitmap "../maps/small_room.pgm"
-  size [20.000 20.000 2.000 2]
-  pose [9.979 9.999 0.000 0.000]
+  size [20.000 20.000 2 2]
+  pose [9.979 9.999 0 0.000]
 )
 
 

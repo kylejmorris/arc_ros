@@ -209,36 +209,31 @@ define debrisbot_body position
 define debrisbot debrisbot_body
 (
 	size [0.4 0.5 0.4]				# large-ish robot (large enough to clear debris)
-	omniscient
-	(   
-		alwayson 1
-		pose [ 0.0 0.0 0.0 0.0 ]
-	)
-
 	debris_sensor
 	(
 		alwayson 1
-		pose [0 0 0.5 0]
+		pose [0 0 2 0]
 	)
 
 	# can detect potential victims only
 	basic_victim_sensor
 	(
 		alwayson 1
-		pose [0 0 0.45 0]			# mounted on top of robot
+		pose [0 0 2 0]			# mounted on top of robot
 	)
 
 	# can detect other robots
  	robot_sensor
 	(
 		alwayson 1
-		pose [0 0 0.5 0]
+		pose [0 0 3 0]
 	)
 
 	# can detect droppable fiducial markers
 	marker_sensor
 	(
 		alwayson 1
+		pose [0 0 3 0]
 	)
 
 	fiducial_key 1	#identifies as robot
@@ -313,11 +308,7 @@ define minbot minbot_body
 	size [0.100 0.100 0.080]
 	color "purple"
 
-	basic_victim_sensor (
-    		alwayson 1
-  	)
-
-  fiducial_key 1
+  	fiducial_key 1
  
 	#collides with everything
 	obstacle_mask "0b111"
@@ -398,25 +389,32 @@ define midbot midbot_body
 	omniscient
 	(   
 		alwayson 1
-		pose [ 0.0 0.0 0.0 0.0 ]
+		pose [0 0 -0.1 0]
 	)
 
- 	robot_sensor
+	robot_sensor
 	(
 		alwayson 1
 	)
   
- 	victim_sensor
+	basic_victim_sensor
 	(
 		alwayson 1
-	)
+ 	)
 
 	marker_sensor
 	(
+		pose [0 0 2 0]
 		alwayson 1
-	)
+ 	)
 
-	# Fiducial key = 1 so that this robot can be detected by the robot detector
+	debris_sensor
+	(
+		pose [0 0 2 0]
+		alwayson 1
+ 	)
+
+ 	# Fiducial key = 1 so that this robot can be detected by the robot detector
 	fiducial_key 1
 
 	obstacle_mask "0b111"
@@ -436,28 +434,32 @@ define maxbot pioneer3dx
 	omniscient
 	(   
 		alwayson 1
-		pose [ 0.0 0.0 0.0 0.0 ]
+		pose [0.0 0.0 -0.2 0]
 	)
 
   	
 	robot_sensor
 	(
 		alwayson 1
+		pose [0 0 2 0]
 	)
   
-	basic_victim_sensor
+	victim_sensor
 	(
 		alwayson 1
+		pose [0 0 2 0]
  	)
 
 	marker_sensor
 	(
 		alwayson 1
+		pose [0 0 2 0]
  	)
 
 	debris_sensor
 	(
 		alwayson 1
+		pose [0 0 2 0]
  	)
 
 	# Return hit in the "everything else" category

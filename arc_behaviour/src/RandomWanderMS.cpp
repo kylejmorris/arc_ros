@@ -11,14 +11,14 @@ RandomWanderMS::RandomWanderMS() {
     this->local_handle = local_handle;
     ROS_INFO("Setting up random wander ms");
     local_handle.param("max_range", this->max_range, this->DEFAULT_MAX_RANGE);
-    local_handle.param("update_goal_feq", this->random_choice_rate, this->DEFAULT_RANDOM_CHOICE_RATE);
+    local_handle.param("update_goal_freq", this->random_choice_rate, this->DEFAULT_RANDOM_CHOICE_RATE);
     local_handle.param("frame_id", this->frame_id, this->DEFAULT_FRAME_ID);
     this->move_to_goal_client = this->global_handle.serviceClient<arc_msgs::NavigationRequest>("navigation_adapter/move_to_goal");
     this->toggle_server = this->local_handle.advertiseService("toggle", &RandomWanderMS::toggle_cb, this);
     this->base_pose_sub = this->global_handle.subscribe("base_pose_ground_truth", MAX_QUEUE_SIZE, &RandomWanderMS::process_base_pose_cb, this);
     this->priority = local_handle.getParam("priority", this->DEFAULT_PRIORITY);
     ROS_INFO("Parameter max_range set: %f", this->max_range);
-    ROS_INFO("Parameter update_goal_greq set: %f", this->random_choice_rate);
+    ROS_INFO("Parameter update_goal_freq set: %f", this->random_choice_rate);
     ROS_INFO("Parameter frame_id set: %s", this->frame_id.c_str());
 
     if(this->frame_id=="map") {
@@ -90,8 +90,8 @@ arc_msgs::NavigationRequest RandomWanderMS::generateRequest() {
     arc_msgs::NavigationRequest req;
     const double BUFFER = 0.5; //we don't want to go any closer than this to the edge of map
     assert(this->max_range>0);
-    double x;
-    double y;
+    double x = 0.0;
+    double y = 0.0;
 
 
     req.request.priority = this->priority;
@@ -133,4 +133,6 @@ arc_msgs::NavigationRequest RandomWanderMS::generateRequest() {
     req.request.pose.position.y  = y;
     req.request.pose.position.z = 0;
     req.request.pose.orientation.w  = 1.0; //default req.request.pose.orientation.x  = 0; //default req.request.pose.orientation.y  = 0; //default req.request.pose.orientation.z  = 0; //default return req;
+
+    return req;
 }

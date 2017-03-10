@@ -1,0 +1,30 @@
+<!--TESTING INSTRUCTIONS-->
+<!--activate robot: "rosservice call /arc/test_bot/random_wander_ms/toggle "data: true" -->
+
+<!-- arguments: robot_type: specify type of robot. default is maxbot
+Other options: midbot, smallbot, explorer
+Watch the robot navigate. Try moving it to locations to break iat's path.
+See how long it can run.
+-->
+
+
+<launch>
+  <master auto="start"/>
+
+  <arg name="robot_type" default="maxbot"/>
+  <param name="/use_sim_time" value="true"/>
+  <node pkg="map_server" type="map_server" name="map_server" args="$(find arc_stage)/maps/config/test/test_navigation.yaml" respawn="false" >
+    <param name="frame_id" value="/map" />
+  </node> 
+
+
+<group ns="arc">
+  <node pkg="arc_stage" type="arc_stage" name="arc_stage" args="-u $(find arc_stage)/world/test_$(arg robot_type)_random_wander_ms.world" respawn="false">
+    <param name="base_watchdog_timeout" value="0.2"/>
+  </node>
+  <include file="$(find arc_control)/launch/robots/$(arg robot_type).launch">
+	<arg name="robot_name" value="test_bot"/>
+  </include>
+<node name="rviz" pkg="rviz" type="rviz" args="-d $(find arc_navigation)/single_robot.rviz" />
+</group>
+</launch>

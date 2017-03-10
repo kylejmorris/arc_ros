@@ -57,7 +57,7 @@ define debris position
   ranger_return 1
 
   # Returns a hit in the "debris" digit
-  obstacle_return "0b100"
+  obstacle_return "0b001"
 
   # debris can be destroyed by a debris bot
   #invulnerable 0

@@ -40,7 +40,7 @@ define omniscient ranger
   )
   # generic model properties
   color "black"
-  size [ 0.05 0.05 0.1 ]
+  size [ 0.05 0.05 0.001 ]
 )
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -58,8 +58,8 @@ define robot_sensor fiducial
 (
   name "robot_sensor"
 	range_min 0.0
-	range_max 6.0
-	range_max_id 6.0
+	range_max 10.0
+	range_max_id 1000.0
 	fiducial_key 1
 	ignore_zloc 1
 	size [ 0.100 0.100 0.001 ]
@@ -94,7 +94,7 @@ define debris_sensor fiducial
   range_max 7.0
   range_max_id 1000.0
   fiducial_key 4
-  ignore_zloc 0
+  ignore_zloc 1
   size [ 0.100 0.100 0.001 ]
   fov 180
 )

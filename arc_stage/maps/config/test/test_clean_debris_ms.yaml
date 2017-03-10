@@ -1,5 +1,4 @@
-image: ../small_room.pgm
-#image: ../willow-full.pgm
+image: ../../test/test_clean_debris_ms.pgm
 resolution: 0.02
 origin: [0.0, 0.0, 0.0]
 occupied_thresh: 0.65

@@ -1,0 +1,160 @@
+#created just to test if I can create an arc world that works with the navigation stack, but is composed of obstacles, and not map data from some png image. This is taken directly from the willow-full.pgm world provided by navigation_stage package.
+
+include "objects.inc"
+include "arc_robots.inc"
+include "environment.inc"
+include "include/objects/table_circular.inc"
+include "include/objects/trash_bin.inc"
+include "include/objects/sofa1.inc"
+include "include/objects/sofa2.inc"
+include "include/objects/plant_pot.inc"
+include "include/objects/chair.inc"
+
+debrisbot(
+	name "test_bot"
+	pose [9.243 13.444 0.000 -22.932]
+	color "blue"
+)
+
+#this is used to create a bounding box. The image we feed in is actually empty, but by definiing it as a model, we have some boundry the robot can't possibly escape through.
+#everything else in the environment is debris, or wall, or in some other way manipulatable.
+define floorplan model
+(
+  # sombre, sensible, artistic
+  color "gray30"
+
+  # most maps will need a bounding box
+  boundary 1
+
+  gui_nose 0
+  gui_grid 0
+  gui_move 0
+
+  gui_outline 0
+  gripper_return 0
+  fiducial_return 0
+  laser_return 1
+  ranger_return 1.000
+)
+
+#floorplan
+floorplan
+( 
+  name "arc_small"
+  bitmap "../maps/small_room.pgm"
+  size [20.000 20.000 2.000 2]
+  pose [9.979 9.999 0.000 0.000]
+)
+
+
+#specific obstacles from https://www.youtube.com/watch?v=TrsDCX_Ryho&t=18s thesis work.
+
+sofa1
+(
+   name "aSofa1"
+   pose [ 9.222 11.533 0.000 158.755 ]
+  #laser_fake( name "laser" pose [0 0 -0.5 0] ) 
+)
+
+table_circular
+(
+   name "aTableC"
+   pose [ 5.675 2.865 0.000 0.000 ]
+  #laser_fake( name "laser" pose [0 0 -0.5 0] ) 
+)
+
+sofa2
+(
+   name "sofa_2"
+   pose [ 7.292 13.266 0.000 95.729 ]
+  #laser_fake( name "laser" pose [0 0 -0.5 0] ) 
+)
+
+chair
+(
+   name "chair_1"
+   pose [ 4.880 3.484 0.000 47.028 ]
+  #laser_fake( name "laser" pose [0 0 -0.5 0] ) 
+)
+
+chair
+(
+   name "chair_2"
+   pose [ 6.316 2.176 0.000 104.324 ]
+  #laser_fake( name "laser" pose [0 0 -0.5 0] ) 
+)
+
+chair
+(
+   name "chair_3"
+   pose [ 4.697 2.166 0.000 -130.589 ]
+  #laser_fake( name "laser" pose [0 0 -0.5 0] ) 
+)
+
+plantpot
+(
+   name "plantpot_1"
+   pose [ 7.424 11.416 0.000 47.028 ]
+  #laser_fake( name "laser" pose [0 0 -0.5 0] ) 
+)
+
+trash_bin
+(
+   name "trash_bin_1"
+   pose [ 12.601 11.284 0.000 47.028 ]
+  #laser_fake( name "laser" pose [0 0 -0.5 0] ) 
+)
+
+#ROBOTS
+#BOARDER WALLS
+debris(name "altenv_debris_1" pose [ 10.483 13.441 0.000 0.000 ] size [0.300 0.300 0.300] fiducial_return 1)
+debris(name "altenv_debris_2" pose [ 14.689 5.018 0.000 0.000 ] size [0.500 0.500 0.100] fiducial_return 2)
+debris(name "altenv_debris_3" pose [ 4.075 6.817 0.000 0.000 ] size [0.500 0.500 0.100] fiducial_return 3)
+debris(name "altenv_debris_4" pose [ 15.000 16.000 0.000 23.856 ] size [0.500 0.500 0.100] fiducial_return 4)
+debris(name "altenv_debris_5" pose [ 1.730 1.782 0.000 0.000 ] size [0.500 0.500 0.100] fiducial_return 5) 
+debris(name "altenv_debris_6" pose [ 1.001 17.964 0.000 31.513 ] size [0.500 0.500 0.100] fiducial_return 6)
+debris(name "altenv_debris_7" pose [ 11.937 14.633 0.000 0.000 ] size [0.500 0.500 0.100] fiducial_return 7)
+debris(name "altenv_debris_8" pose [ 11.544 15.131 0.000 0.000 ] size [0.500 0.500 0.100] fiducial_return 8)
+debris(name "altenv_debris_9" pose [ 9.916 14.433 0.000 0.000 ] size [0.500 0.500 0.100] fiducial_return 9)
+debris(name "altenv_debris_10" pose [ 8.105 15.019 0.000 -80.214 ] size [0.500 0.500 0.100] fiducial_return 10)
+debris(name "altenv_debris_11" pose [ 8.832 15.253 0.000 -54.431 ] size [0.500 0.500 0.100] fiducial_return 11)
+debris(name "altenv_debris_12" pose [ 10.047 14.351 0.000 57.296 ] size [0.500 0.500 0.100] fiducial_return 12)
+debris(name "altenv_debris_13" pose [ 9.602 13.767 0.000 -14.324 ] size [0.500 0.500 0.100] fiducial_return 13)
+debris(name "altenv_debris_14" pose [ 12.531 16.587 0.000 -151.834 ] size [0.500 0.500 0.100] fiducial_return 14)
+debris(name "altenv_debris_15" pose [ 11.579 18.876 0.000 111.727 ] size [0.500 0.500 0.100] fiducial_return 15)
+debris(name "altenv_debris_16" pose [ 10.735 17.478 0.000 -22.918 ] size [0.500 0.500 0.100] fiducial_return 16)
+debris(name "altenv_debris_17" pose [ 9.736 13.253 0.000 -28.648 ] size [0.500 0.500 0.100] fiducial_return 17)
+debris(name "altenv_debris_18" pose [ 5.282 12.080 0.000 0.000 ] size [0.500 0.500 0.100] fiducial_return 18)
+debris(name "altenv_debris_19" pose [ 5.282 11.617 0.000 0.000 ] size [0.500 0.500 0.100] fiducial_return 19)
+debris(name "altenv_debris_20" pose [ 1.990 1.068 0.000 -25.783 ] size [0.500 0.500 0.100] fiducial_return 20)
+
+
+#MARKERS
+#testing lots of markers together, can robot pick them up? 
+marker(name "altenv_marker_1" pose [ 1.279 6.216 0.000 42.972 ] fiducial_return 21)
+marker(name "altenv_marker_2" pose [ 1.772 6.412 0.000 -148.969 ] fiducial_return 22)
+marker(name "altenv_marker_3" pose [ 1.550 6.454 0.000 -1.927 ] fiducial_return 23)
+
+
+
+#random sporadic markers
+marker(name "altenv_marker_4" pose [ 1.272 2.439 0.000 0.000 ] fiducial_return 24)
+marker(name "altenv_marker_5" pose [ 1.349 6.466 0.000 88.808 ] fiducial_return 25)
+
+
+
+#VICTIMS
+person(name "altenv_person_0" pose [ 2.625 1.653 0.000 14.324 ] fiducial_return 26)
+person(name "altenv_person_1" pose [ 8.194 13.307 0.000 0.000 ] fiducial_return 27)
+person(name "altenv_person_2" pose [ 9.901 12.767 0.000 -34.377 ] fiducial_return 28)
+person(name "altenv_person_3" pose [ 14.516 4.299 0.000 -164.231 ] fiducial_return 29)
+unperson(name "altenv_unperson_1l" pose [13.097 9.017 0.000 -77.349 ] fiducial_return 30)
+unperson(name "altenv_unperson_2" pose [18.074 18.542 0.000 77.349 ] fiducial_return 31)
+
+
+#tunnel near bottom of map, only explorers can make it all the way.
+debris(name "altenv_debris_21" pose [ 5.347 1.186 0.000 -20.054 ] size [0.500 0.500 0.200] fiducial_return 32) 
+debris(name "altenv_debris_22" pose [ 3.562 1.687 0.000 63.025 ] size [0.500 0.500 0.200] fiducial_return 33)
+debris(name "altenv_debris_23" pose [ 3.180 1.140 0.000 0.000 ] size [0.500 0.500 0.200] fiducial_return 34)
+debris(name "altenv_debris_24" pose [ 2.757 2.555 0.000 -157.563 ] size [0.500 0.500 0.200] fiducial_return 35)
+debris(name "altenv_debris_25" pose [ 3.013 1.997 0.000 0.000 ] size [0.500 0.500 0.200] fiducial_return 36)

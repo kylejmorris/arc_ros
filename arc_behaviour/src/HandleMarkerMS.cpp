@@ -68,6 +68,7 @@ bool HandleMarkerMS::drop_marker_cb(arc_msgs::DropMarker::Request &req, arc_msgs
 
 bool HandleMarkerMS::pickup_marker_cb(std_srvs::Empty::Request &req, std_srvs::Empty::Response &res) {
     this->requested_pickup = true;
+    return true;
 }
 
 void HandleMarkerMS::setMaxPickupRange(double max_range) {
@@ -90,7 +91,6 @@ void HandleMarkerMS::run() {
 }
 
 void HandleMarkerMS::process_marker_cb(arc_msgs::DetectedMarkers markers) {
-    ROS_INFO("Process marker cb");
     if(this->enabled) {
         this->recently_seen.erase(this->recently_seen.begin(), this->recently_seen.end());
         for(std::vector<arc_msgs::DetectedMarker>::iterator it = markers.markers.begin(); it != markers.markers.end(); ++it) {
