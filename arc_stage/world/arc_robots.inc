@@ -490,3 +490,25 @@ define maxbot pioneer3dx
   # walls and everything else.
   #obstacle_mask "0b011"
 #)
+
+#################################################################
+# WIFI Model that all robots use
+#################################################################
+
+# Sets the common properties of the wifi that all robots will
+# make use of.  
+# This includes things like the network essid, netmask, and the 
+# wifi model parameters.
+define wireless wifi
+(
+  netmask "255.255.255.0"
+  essid "morris"
+  model "raytrace"
+  wall_factor 0.25
+  power 4  #85
+  sensitivity -70 #-75
+  range_db -5
+  # link_success_rate 90
+  # random_seed 10
+)
+
