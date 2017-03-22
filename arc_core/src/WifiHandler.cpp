@@ -43,7 +43,6 @@ void WifiHandler::process_outgoing_announcements_cb(arc_msgs::WirelessAnnounceme
     this->announcements_pub.publish(announcement);
 }
 
-
 void WifiHandler::process_outgoing_requests_cb(arc_msgs::WirelessRequest request) {
     ROS_DEBUG("Received request from inside world");
     this->requests_pub.publish(request);

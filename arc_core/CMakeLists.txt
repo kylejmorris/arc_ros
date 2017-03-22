@@ -134,12 +134,18 @@ include_directories(
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
 add_executable(wifi_handler_node src/wifi_handler_node.cpp src/WifiHandler.cpp src/WifiHandler.h)
+add_executable(communication_manager src/communication_manager_node.cpp src/CommunicationManager.cpp src/CommunicationManager.h)
 
 target_link_libraries(wifi_handler_node
    ${catkin_LIBRARIES}
 )
 
+target_link_libraries(communication_manager
+   ${catkin_LIBRARIES}
+)
+
 add_dependencies(wifi_handler_node arc_msgs_generate_message_cpp)
+add_dependencies(communication_manager arc_msgs_generate_message_cpp)
 #############
 ## Install ##
 #############

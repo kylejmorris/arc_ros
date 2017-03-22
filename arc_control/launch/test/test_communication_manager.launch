@@ -1,0 +1,29 @@
+<!-- Testing the communication manager on a robot. It should be able to filter out garbage signals both from outside world and from the robot. 
+
+Testing signal propagation: 
+Publish an incoming valid task on /arc/test_bot/wifi_handler/incoming_requests => It should go through communication manager and be published on /arc/test_bot/communication_manager/task_requests
+	
+Other tests:
+	task with id <=0: It should fail, as only positive id's are allowed.
+	task with task_name not found in task_handler/valid_tasks: Should be ignored
+	task with created time <=0: Fail: created time must be positive integer
+	
+-->
+
+
+
+<launch>
+  <master auto="start"/>
+  <param name="/use_sim_time" value="true"/>
+
+
+<group ns="arc/test_bot">
+  <node pkg="arc_stage" type="arc_stage" name="arc_stage" args="-u $(find arc_stage)/world/test_small_empty_world.world" respawn="false">
+    <param name="base_watchdog_timeout" value="0.2"/>
+  </node>
+	
+  <rosparam param="task_handler/valid_tasks">["Explore"]</rosparam>
+  <node pkg="arc_core" type="communication_manager" name="communication_manager">
+  </node>
+</group>
+</launch>
