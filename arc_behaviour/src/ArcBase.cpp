@@ -21,7 +21,7 @@ bool ArcBase::setupSchemas() {
 
     try {
 
-        ros::param::get("/arc_base/schemas", schema_list);
+        ros::param::get("arc_base/schemas", schema_list);
 
         for(unsigned i=0; i< schema_list.size(); i++) {
             ROS_DEBUG("Schema list contains: %s", schema_list[i]);
@@ -29,7 +29,7 @@ bool ArcBase::setupSchemas() {
                 std::string content = schema_list[i];
                 std::string topic_name = content + "/toggle";
                 ROS_INFO("Found schema: %s. subscribing to topic %s", content.c_str(), topic_name.c_str());
-                ros::ServiceClient client = this->global_handle.serviceClient<std_srvs::SetBool>(topic_name);
+                ros::ServiceClient client = this->global_handle.serviceClient<std_srvs::SetBool>(topic_name.c_str());
 
                 this->motor_clients.insert({content, client});
             } else {
@@ -57,6 +57,7 @@ bool ArcBase::toggleSchema(std::string type, bool state) {
     std_srvs::SetBool req;
     req.request.data = state;
     this->motor_clients[type].call(req);
+    return true;
 }
 
 bool ArcBase::toggle_schema_cb(arc_msgs::ToggleSchema::Request &req, arc_msgs::ToggleSchema::Response &res) {
