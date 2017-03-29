@@ -1,0 +1,9 @@
+#This is how a task is defined in the ARC Framework. All tasks will be requested using this action. 
+#no goal specification yet
+---
+bool completed		#Whether or not the task was completed.
+string final_state 	#Since tasks are based on a state machine, this can contain the final state that was reached upon completion/termination.
+---
+#no feedback message
+
+

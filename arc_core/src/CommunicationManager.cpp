@@ -96,4 +96,3 @@ void CommunicationManager::process_incoming_requests_cb(arc_msgs::WirelessReques
 void CommunicationManager::process_incoming_responses_cb(arc_msgs::WirelessResponse response) {
     ROS_DEBUG("Processing incoming wireless response");
 }
-

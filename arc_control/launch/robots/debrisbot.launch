@@ -44,7 +44,7 @@ The launch file for a single debrisbot.
 	<param name="priority" value="2"/>
    </node>
 
-    <node name="navigation_adapter" pkg="arc_behaviour" type="navigation_adapter">
+    <node name="navigation_adapter" pkg="arc_behaviour" type="navigation_adapter" output="screen">
     </node>
 
     <!-- NAVIGATION CONFIG -->

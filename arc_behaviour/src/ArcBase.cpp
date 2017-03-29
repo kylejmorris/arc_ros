@@ -61,11 +61,17 @@ bool ArcBase::toggleSchema(std::string type, bool state) {
 }
 
 bool ArcBase::toggle_schema_cb(arc_msgs::ToggleSchema::Request &req, arc_msgs::ToggleSchema::Response &res) {
-    if(this->motor_clients[req.schema]!=NULL) {
-        this->toggleSchema(req.schema, req.state);
-    } else {
-        ROS_WARN("ArcBase::toggleSchema: %s was not found as a schema.", req.schema.c_str());
+    //toggle each schema requeste
+    for(int pos=0; pos<req.schema.size(); pos++) {
+        dynamic_reconfigure::BoolParameter param = req.schema.at(pos);
+
+        if(this->motor_clients[param.name]!=NULL) {
+            this->toggleSchema(param.name, param.value);
+        } else {
+            ROS_WARN("ArcBase::toggleSchema: %s was not found as a schema.", param.name.c_str());
+        }
     }
+
     return true;
 }
 
