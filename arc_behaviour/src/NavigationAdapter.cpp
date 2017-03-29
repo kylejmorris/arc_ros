@@ -21,15 +21,20 @@ NavigationAdapter::NavigationAdapter() {
 
     this->move_to_goal_server = local_handle.advertiseService("move_to_goal",&NavigationAdapter::move_to_goal_request_cb, this);
     this->is_stuck_server = local_handle.advertiseService("is_stuck",&NavigationAdapter::is_stuck_cb, this);
+    this->abort_goals_server = local_handle.advertiseService("abort_goals",&NavigationAdapter::abort_goals_cb, this);
     this->move_client = new MoveBaseClient("move_base", true);
 
     //wait for the action server to come up
-    while(!move_client->waitForServer(ros::Duration(5.0))) { //TODO: Better checking to ensure action server is actually up. If it's not, we need to let user know.
+    while(!move_client->waitForServer(ros::Duration(1))) { //TODO: Better checking to ensure action server is actually up. If it's not, we need to let user know.
         ROS_INFO("Waiting for the move_base action server to come up");
     }
 
     ROS_INFO("Found move_base action server!");
     this->current_nav_priority = 0;
+}
+
+bool NavigationAdapter::abort_goals_cb(std_srvs::Trigger::Request &req, std_srvs::Trigger::Response &res) {
+    this->move_client->cancelAllGoals();
 }
 
 void NavigationAdapter::move_to_goal_result_cb(const actionlib::SimpleClientGoalState& state, const move_base_msgs::MoveBaseResultConstPtr& result) {
@@ -50,7 +55,7 @@ void NavigationAdapter::move_to_goal_result_cb(const actionlib::SimpleClientGoal
 }
 //TODO: Define a valid priority range, and ensure requests are within that range. If message is sent without priority specified, it wil be 412412 or something high, and will automatically go through...
 bool NavigationAdapter::move_to_goal_request_cb(arc_msgs::NavigationRequest::Request &req, arc_msgs::NavigationRequest::Response &res) {
-    ROS_INFO("Received request to move to goal (%d, %d) with priority %d", req.pose.position.x, req.pose.position.y, req.priority);
+    ROS_INFO("Received request to move to goal (%f, %f) with priority %d", req.pose.position.x, req.pose.position.y, (int)req.priority);
 
     move_base_msgs::MoveBaseGoal goal;
     if(this->goal_active) {

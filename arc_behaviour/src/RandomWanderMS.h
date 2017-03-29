@@ -16,7 +16,7 @@
 namespace arc_behaviour {
     class RandomWanderMS : public MotorSchema {
     private:
-        double DEFAULT_RANDOM_CHOICE_RATE = 0.1; //update every 10 second
+        int DEFAULT_RANDOM_CHOICE_RATE = 10; //update every 10 second
         int DEFAULT_PRIORITY = 1;
         double DEFAULT_MAX_RANGE = 10.0;
         std::string DEFAULT_FRAME_ID = "map";
@@ -24,6 +24,11 @@ namespace arc_behaviour {
          * Client to randomly send requests for navigation to navigation stack.
          */
         ros::ServiceClient move_to_goal_client;
+
+        /**
+         * Send requests to cancel robots navigation
+         */
+        ros::ServiceClient abort_goals_client;
 
         /**
          * Service allowing enabling/disabling of this schema.
@@ -36,13 +41,18 @@ namespace arc_behaviour {
         ros::Subscriber base_pose_sub;
 
         /**
+         * timer for how long we wait until sending another goal
+         */
+        ros::Timer goal_request_timer;
+
+        /**
          * Keeping track of most recent position, so we can drop markers relative to our position;
          */
         nav_msgs::Odometry recent_position;
         /**
-         * How often (in hz) we will update the random goal.
+         * How often (in seconds) we will update the random goal.
          */
-        double random_choice_rate;
+        int random_choice_rate;
 
         /**
          * how much priority this behaviour has. Will determine if it is accepted by navigation adapter.
@@ -81,6 +91,7 @@ namespace arc_behaviour {
 
         bool toggle_cb(std_srvs::SetBoolRequest &req, std_srvs::SetBoolResponse &res);
         void process_base_pose_cb(nav_msgs::Odometry odom);
+        void timer_cb(const ros::TimerEvent &event);
     };
 }
 
