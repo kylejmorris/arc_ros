@@ -11,7 +11,7 @@ The launch file for a single debrisbot.
 
     <!-- BEHAVIOUR FOR ROBOT-->
     <node name="arc_base" pkg="arc_behaviour" type="arc_base">
-	<rosparam param="schemas">["random_wander_ms", "clean_debris_ms", "handle_marker_ms"]</rosparam>
+	<rosparam param="schemas">["random_wander_ms", "clean_debris_ms", "handle_marker_ms", "move_to_goal_ms"]</rosparam>
     </node>
 
     <node name="random_wander_ms" pkg="arc_behaviour" type="random_wander_ms">
@@ -30,7 +30,7 @@ The launch file for a single debrisbot.
     </node>
 
     <node name="detect_debris_ps" pkg="arc_behaviour" type="detect_debris_ps">
-        <param name="max_range" value="10"/>
+        <param name="max_range" value="3"/>
     </node>
 
    <!-- motor schemas -->

@@ -38,19 +38,23 @@ bool NavigationAdapter::abort_goals_cb(std_srvs::Trigger::Request &req, std_srvs
 }
 
 void NavigationAdapter::move_to_goal_result_cb(const actionlib::SimpleClientGoalState& state, const move_base_msgs::MoveBaseResultConstPtr& result) {
-    if (state == actionlib::SimpleClientGoalState::ABORTED){
+    if (state == actionlib::SimpleClientGoalState::ABORTED) {
         ROS_INFO("Failed to move");
         //we just assume that if the robot couldn't move, and the goal was aborted because of this, we are stuck.
         this->is_stuck = true;
-    }else if(state == actionlib::SimpleClientGoalState::SUCCEEDED){
+        this->current_nav_priority = this->DEFAULT_NAVIGATION_PRIORITY;
+    } else if (state == actionlib::SimpleClientGoalState::SUCCEEDED) {
         ROS_INFO("successfully moved to goal!!!");
         this->is_stuck = false; //not stuck if you just reached a goal.
+        this->current_nav_priority = this->DEFAULT_NAVIGATION_PRIORITY;
+    } else if (state == actionlib::SimpleClientGoalState::PREEMPTED) {
+        ROS_INFO("Navigation goal was preempted");
     } else {
         ROS_WARN("Unexpected result from move_to_goal_result_cb");
+        this->current_nav_priority = this->DEFAULT_NAVIGATION_PRIORITY;
     }
 
     //either way, we are done navigating (until another request is sent)
-    this->current_nav_priority = this->DEFAULT_NAVIGATION_PRIORITY;
     this->goal_active = false;
 }
 //TODO: Define a valid priority range, and ensure requests are within that range. If message is sent without priority specified, it wil be 412412 or something high, and will automatically go through...
@@ -63,6 +67,7 @@ bool NavigationAdapter::move_to_goal_request_cb(arc_msgs::NavigationRequest::Req
 
         //Let higher priority request take control of navigation stack.
         if(req.priority >= this->current_nav_priority) {
+            ROS_INFO("Overwriting a goal with priority %d. New priority is %d.", this->current_nav_priority, req.priority);
             this->sendGoal(req);
             return true;
         } else {

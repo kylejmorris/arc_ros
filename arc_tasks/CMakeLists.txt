@@ -12,6 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   actionlib
+  tf
 )
 
 ## System dependencies are found with CMake's conventions
@@ -135,7 +136,9 @@ include_directories(
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
 add_executable(task_explore_server src/task_explore_server_node.cpp src/TaskExploreServer.cpp src/TaskExploreServer.h)
-add_executable(task_explore_client src/task_explore_client_node.cpp src/TaskExploreClient.cpp src/TaskExploreClient.h)
+add_executable(task_explore_client src/task_explore_client_node.cpp src/TaskExploreClient.cpp src/TaskExploreClient.h src/TaskUnguidedCleanDebrisClient.cpp src/TaskUnguidedCleanDebrisClient.h)
+add_executable(task_unguided_clean_debris_server src/task_unguided_clean_debris_server_node.cpp src/TaskUnguidedCleanDebrisServer.cpp src/TaskUnguidedCleanDebrisServer.h)
+add_executable(task_unguided_clean_debris_client src/task_unguided_clean_debris_client_node.cpp src/TaskUnguidedCleanDebrisClient.cpp src/TaskUnguidedCleanDebrisClient.h)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -147,6 +150,8 @@ add_executable(task_explore_client src/task_explore_client_node.cpp src/TaskExpl
 ## same as for the library above
 add_dependencies(task_explore_server arc_msgs_generate_messages_cpp)
 add_dependencies(task_explore_client arc_msgs_generate_messages_cpp)
+add_dependencies(task_unguided_clean_debris_server arc_msgs_generate_messages_cpp)
+add_dependencies(task_unguided_clean_debris_client arc_msgs_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(task_explore_server
@@ -155,7 +160,12 @@ target_link_libraries(task_explore_server
 target_link_libraries(task_explore_client
    ${catkin_LIBRARIES}
 )
-
+target_link_libraries(task_unguided_clean_debris_server
+   ${catkin_LIBRARIES}
+)
+target_link_libraries(task_unguided_clean_debris_client
+   ${catkin_LIBRARIES}
+)
 #############
 ## Install ##
 #############

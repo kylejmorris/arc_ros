@@ -904,6 +904,7 @@ StageNode::WorldCallback()
                     msg.markers[i].ids_confidence[0] = 1;
                 }
 
+            //    ROS_INFO("FOUND DEBRIS AT POSITION (%f, %f) RELATIVE TO US", fiducials[i].pose.x, fiducials[i].pose.y);
                 msg.markers[i].pose.position.x = fiducials[i].range * cos(fiducials[i].bearing);
                 msg.markers[i].pose.position.y = fiducials[i].range * sin(fiducials[i].bearing);
                 msg.markers[i].pose.position.z = 0;
