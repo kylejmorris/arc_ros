@@ -34,7 +34,9 @@ NavigationAdapter::NavigationAdapter() {
 }
 
 bool NavigationAdapter::abort_goals_cb(std_srvs::Trigger::Request &req, std_srvs::Trigger::Response &res) {
+    ROS_INFO("Cancelled all pending navigation goals.");
     this->move_client->cancelAllGoals();
+    return true;
 }
 
 void NavigationAdapter::move_to_goal_result_cb(const actionlib::SimpleClientGoalState& state, const move_base_msgs::MoveBaseResultConstPtr& result) {

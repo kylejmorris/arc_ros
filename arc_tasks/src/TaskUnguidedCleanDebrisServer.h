@@ -12,6 +12,7 @@
 #include "arc_msgs/ArcTaskAction.h"
 #include "arc_msgs/DetectedDebris.h"
 #include "arc_msgs/NavigationRequest.h"
+#include "std_srvs/Trigger.h"
 #include <actionlib/server/simple_action_server.h>
 #include "nav_msgs/Odometry.h"
 
@@ -32,6 +33,17 @@ private:
      * explore_timer_cb
      */
     ros::Timer explore_timer;
+
+    /**
+     * Counts down how long since we failed to clean debris. Allows for some time to
+     * move away from where the failed debris was, so we can find somewhere else to clean.
+     */
+    ros::Timer abandon_failed_debris_timer;
+
+    /**
+     * Counting down from the moment we start cleaning debris, until it is assumed to be gone.
+     */
+    ros::Timer clean_debris_timer;
 
     /**
      * Subscribes to list of debris that robot has found in it's view.
@@ -76,6 +88,11 @@ private:
      */
     ros::ServiceClient move_to_debris_client;
 
+    /**
+     * Used to tell navigation adapter to stop, so we remain close to debris to clean.
+     */
+    ros::ServiceClient abort_all_goals_client;
+
     //control the state of the debris exploration/removal
     typedef enum {
         STATE_StartExploring, //Enable schemas and begin exploring behaviour
@@ -94,17 +111,49 @@ private:
      */
     arc_msgs::ArcTaskResult result;
 
+    //TODO: Too many parameters all willy nilly in the class as attributes. Make a struct to keep them coupled only with the state they are corresponding to
+    //These variables are only here to ensure we don't repeatedly call ROS services, we only have to do it once.
     /**
      * Whether or not the task is currently active.
      */
     bool active = false;
+
+//Referring to specific states, to ensure we only do costly work once.
+//TODO: Really should have these in an object or struct, so they can be auto reset at end of task. It's a pain remembering when to reset these, and if you don't you'll introduce weird bugs.
+    /**
+     * Track if we are currently moving towards a debris object
+     */
+    bool currently_seeking_debris = false;
+
+    /**
+     * Keep track of if we are currently cleaning debris nearby. Used to prevent
+     * spamming requests to debris_cleaner_ms toggle every cycle of process()
+     */
+    bool currently_cleaning = false;
+
+    /**
+     * Whether or not we are currently abandoning debris in the AbandonFailedDebris State.
+     */
+    bool currently_abandoning = false;
+
+    /**
+     * Keeping track of amount of debris cleaned
+     */
+    int debris_success_count = 0;
+
+//PARAMETERS and their default vlaues.
+    double stopping_distance_from_debris = 0.5;
+    double cleaning_debris_time = 8.0; //How long (in seconds) to spend cleaning the debris
+    int explore_time = 120; //How long (in seconds) to explore before task is considered complete.
+
 public:
     TaskUnguidedCleanDebrisServer();
 
     /**
      * perform any routine startup procedures when this task instance is started.
+     * Load request parameters, check for existence of nodes needed for this task.
      */
-    void startup();
+    void startup(const arc_msgs::ArcTaskGoalConstPtr &goal);
 
     /**
      * the main state machine loop for the task
@@ -151,11 +200,14 @@ public:
      * We tried removing debris but it's still there after some amount of time... welp.
      */
     void StateFailedDebrisRemoval();
+
     /**
      * Couldn't clean the debris, so let's escape it's location, as something is goofy and we have to retry from
      * a different angle.
      */
     void StateAbandonFailedDebris();
+
+    std::string stateToString(State state);
 
 //CALLBACKS
     /**
@@ -168,6 +220,8 @@ public:
      * @param event some data about how long we explored.
      */
     void explore_timer_cb(const ros::TimerEvent &event);
+    void abandon_failed_debris_timer_cb(const ros::TimerEvent &event);
+    void clean_debris_timer_cb(const ros::TimerEvent &event);
     void debris_locations_cb(const arc_msgs::DetectedDebris &debris);
     void base_pose_cb(const nav_msgs::Odometry &odom);
 };

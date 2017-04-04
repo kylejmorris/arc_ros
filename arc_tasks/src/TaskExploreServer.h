@@ -44,17 +44,20 @@ private:
      * The results of running this task. Nothing required for the explore task.
      */
     arc_msgs::ArcTaskResult result;
+
     /**
      * Whether or not the task is currently active.
      */
     bool active = false;
+
 public:
     TaskExploreServer();
 
     /**
      * perform any routine startup procedures when this task instance is started.
+     * Load request parameters, check for existence of nodes needed for this task.
      */
-    void startup();
+    void startup(const arc_msgs::ArcTaskGoalConstPtr &goal);
 
     /**
      * Ensure after this task instance is no longer of use, we've shut down everything that was required for it.
@@ -80,12 +83,12 @@ public:
      * Perform the main task. Explore for some amount of time
      */
     void goal_cb(const arc_msgs::ArcTaskGoalConstPtr &goal);
+
      /**
      * Callback after the explore timer gets set off
      * @param event some data about how long we explored.
      */
     void explore_timer_cb(const ros::TimerEvent &event);
-
 };
 
 #endif //ARC_TASKS_TASKEXPLORE_H
