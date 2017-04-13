@@ -1,9 +1,11 @@
-#This is how a task is defined in the ARC Framework. All tasks will be requested using this action. 
-#no goal specification yet
+#Any task being done by the Task Handler will have the form of this action. This is essentially the TaskRequest.msg except trimmed down to only include parameters. the TaskHandler doesn't care about a tasks id and status, just the task to be done and the info regarding it.
+
+#Goal parameters. Specified at runtime. If you are trying to pass complex data to a task (list of points/etc), you will have to encode it as a string, or however you'd like.
+dynamic_reconfigure/Config parameters
 ---
 bool completed		#Whether or not the task was completed.
 string final_state 	#Since tasks are based on a state machine, this can contain the final state that was reached upon completion/termination.
 ---
-#no feedback message
+#no feedback message yet
 
 

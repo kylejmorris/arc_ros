@@ -3,9 +3,9 @@
 
 #define MAX_QUEUE_SIZE 1000
 
-TaskUnguidedCleanDebrisServer::TaskUnguidedCleanDebrisServer() : server(global_handle, "task_explore", boost::bind(&TaskUnguidedCleanDebrisServer::goal_cb, this, _1), false)
+TaskUnguidedCleanDebrisServer::TaskUnguidedCleanDebrisServer() : server(global_handle, "task_unguided_clean_debris", boost::bind(&TaskUnguidedCleanDebrisServer::goal_cb, this, _1), false)
 {
-    ros::NodeHandle local_handle("task_explore_server");
+    ros::NodeHandle local_handle("task_unguided_clean_debris");
     ros::Timer timer = global_handle.createTimer(ros::Duration(60), &TaskUnguidedCleanDebrisServer::explore_timer_cb, this, false);
     this->debris_sub = global_handle.subscribe("detect_debris_ps/debris_locations", MAX_QUEUE_SIZE, &TaskUnguidedCleanDebrisServer::debris_locations_cb, this);
     this->base_pos_sub = global_handle.subscribe("base_pose_ground_truth", MAX_QUEUE_SIZE, &TaskUnguidedCleanDebrisServer::base_pose_cb, this);
@@ -18,8 +18,9 @@ TaskUnguidedCleanDebrisServer::TaskUnguidedCleanDebrisServer() : server(global_h
     this->explore_timer.stop();
     this->abandon_failed_debris_timer = global_handle.createTimer(ros::Duration(60), &TaskUnguidedCleanDebrisServer::abandon_failed_debris_timer_cb, this, false);
     this->clean_debris_timer = global_handle.createTimer(ros::Duration(60), &TaskUnguidedCleanDebrisServer::clean_debris_timer_cb, this, false);
-    //TODO: Handle pre-empt callback as well
+    this->clean_debris_timer.stop();
 
+    //TODO: Handle pre-empt callback as well
     this->arc_base_client = global_handle.serviceClient<arc_msgs::ToggleSchema>("arc_base/toggle_schema");
     this->move_to_debris_client = global_handle.serviceClient<arc_msgs::NavigationRequest>("move_to_goal_ms/move_to_goal");
     this->abort_all_goals_client = global_handle.serviceClient<std_srvs::Trigger>("navigation_adapter/abort_goals");
@@ -92,12 +93,18 @@ void TaskUnguidedCleanDebrisServer::shutdown() {
     this->result.completed = true;
     this->result.final_state = stateToString(this->state).c_str();
 
+    //TODO: This succeeded part should be set elsewhere. Whichever state the task is succeessful at
     this->server.setSucceeded(this->result);
 
     //turn off flags
     this->currently_cleaning = false;
     this->currently_seeking_debris = false;
     this->currently_abandoning = false;
+
+    //ensure all timers are disabled so we don't get callbacks again.
+    this->explore_timer.stop();
+    this->abandon_failed_debris_timer.stop();
+    this->clean_debris_timer.stop();
 }
 
 void TaskUnguidedCleanDebrisServer::abandon_failed_debris_timer_cb(const ros::TimerEvent &event) {
@@ -137,14 +144,14 @@ void TaskUnguidedCleanDebrisServer::StateStartExploring() {
     request.request.schema.push_back(random_wander_ms); //allow robot to wander around randomly
     this->arc_base_client.call(request);
 
-    this->explore_timer.setPeriod(ros::Duration(this->explore_time));
-    this->explore_timer.start();
-
     this->state = STATE_Exploring;
 }
 
 void TaskUnguidedCleanDebrisServer::startup(const arc_msgs::ArcTaskGoalConstPtr &goal) {
     this->state = STATE_StartExploring;
+     ROS_INFO("setting explore time to %d", this->explore_time);
+    this->explore_timer.setPeriod(ros::Duration(this->explore_time));
+    this->explore_timer.start();
     ROS_INFO("Starting up task_unguidedcleandebris.");
 }
 
@@ -185,6 +192,7 @@ void TaskUnguidedCleanDebrisServer::process() {
             ROS_INFO_ONCE("IN STATE: AbandonFailedDebris.");
             StateAbandonFailedDebris();
         }
+
         r.sleep();
     }
 }
@@ -353,6 +361,5 @@ void TaskUnguidedCleanDebrisServer::StateAbandonFailedDebris() {
     }
 }
 
-void TaskUnguidedCleanDebrisServer::debris_locations_cb(const arc_msgs::DetectedDebris &debris) {
-    this->debris_list = debris;
+void TaskUnguidedCleanDebrisServer::debris_locations_cb(const arc_msgs::DetectedDebris &debris) { this->debris_list = debris;
 }

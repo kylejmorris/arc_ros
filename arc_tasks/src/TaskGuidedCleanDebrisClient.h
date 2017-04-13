@@ -1,18 +1,17 @@
 /**
-* CLASS: TaskExploreClient
-* DATE: 28/03/17
+* CLASS: TaskGuidedCleanDebrisClient
+* DATE: 4/04/17
 * AUTHOR: Kyle Morris
-* DESCRIPTION: Client for toggling explore task
+* DESCRIPTION: Client for GuidedCleanDebris task
 */
+#ifndef ARC_TASKS_TASKGUIDEDCLEANDEBRISCLIENT_H
+#define ARC_TASKS_TASKGUIDEDCLEANDEBRISCLIENT_H
 #include "ros/ros.h"
 #include <ros/ros.h>
 #include "arc_msgs/ArcTaskAction.h"
 #include <actionlib/client/simple_action_client.h>
 
-#ifndef ARC_TASKS_TASKEXPLORECLIENT_H
-#define ARC_TASKS_TASKEXPLORECLIENT_H
-
-class TaskExploreClient {
+class TaskGuidedCleanDebrisClient {
     typedef actionlib::SimpleActionClient<arc_msgs::ArcTaskAction> ActionClient;
 private:
     ros::NodeHandle global_handle;
@@ -23,7 +22,7 @@ private:
     ros::ServiceClient arc_base_client;
 
 public:
-    TaskExploreClient();
+    TaskGuidedCleanDebrisClient();
 
     /**
      * Calling this when task is complete
@@ -32,4 +31,5 @@ public:
 
     void doTask(const ros::TimerEvent &event);
 };
-#endif //ARC_TASKS_TASKEXPLORECLIENT_H
+
+#endif //ARC_TASKS_TASKUNGUIDEDCLEANDEBRISCLIENT_H

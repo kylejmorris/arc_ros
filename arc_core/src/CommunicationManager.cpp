@@ -1,6 +1,6 @@
 #include <XmlRpcException.h>
 #include "arc_msgs/TaskRequest.h"
-#include "CommunicationManager.h"
+#include "../include/CommunicationManager.h"
 
 #define MAX_QUEUE_SIZE 1000
 #define DEFAULT_ROS_RATE 10
@@ -31,7 +31,6 @@ CommunicationManager::CommunicationManager() {
      * Populating valid task list
      */
      try {
-
          XmlRpcValue task_list;
          this->global_handle.getParam("task_handler/valid_tasks", task_list);
 

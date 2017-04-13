@@ -22,7 +22,7 @@ Other tests:
     <param name="base_watchdog_timeout" value="0.2"/>
   </node>
 	
-  <rosparam param="task_handler/valid_tasks">["Explore"]</rosparam>
+  <rosparam param="task_handler/valid_tasks">["explore", "unguided_clean_debris", "guided_clean_debris"]</rosparam>
   <node pkg="arc_core" type="communication_manager" name="communication_manager">
   </node>
 </group>

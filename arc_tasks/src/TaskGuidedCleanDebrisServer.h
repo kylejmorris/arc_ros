@@ -15,12 +15,13 @@
 #include "std_srvs/Trigger.h"
 #include <actionlib/server/simple_action_server.h>
 #include "nav_msgs/Odometry.h"
+#include "TaskServer.h"
 
-#ifndef ARC_TASKS_TASKUNGUIDEDCLEANDEBRISSERVER_H
-#define ARC_TASKS_TASKUNGUIDEDCLEANDEBRISSERVER_H
+#ifndef ARC_TASKS_TASKGUIDEDCLEANDEBRISSERVER_H
+#define ARC_TASKS_TASKGUIDEDCLEANDEBRISSERVER_H
 typedef actionlib::SimpleActionServer<arc_msgs::ArcTaskAction> ActionServer;
 
-class TaskUnguidedCleanDebrisServer {
+class TaskGuidedCleanDebrisServer : public TaskServer{
 private:
     ros::NodeHandle global_handle;
     ros::NodeHandle local_handle;
@@ -63,6 +64,13 @@ private:
     arc_msgs::DetectedDebris debris_list;
 
     /**
+     * The debris_listis the list of debris we have been told t oclean. Where as this variable
+     * Contains the list of debris near by. It allows for us to determine if we succesfully cleaned
+     * debris or not.
+     */
+    arc_msgs::DetectedDebris debris_found_nearby;
+
+    /**
      * Keep tracking of most recent position of the robot so we can identify our relative goal towards debris.
      */
     nav_msgs::Odometry recent_pose;
@@ -76,7 +84,6 @@ private:
      * After getting the target debris location relative to us, we set it's position as navigation goal
      */
     geometry_msgs::Pose target_pose;
-
 
     /**
      * used to call the arc_base node and toggle the schema of our choice
@@ -95,9 +102,7 @@ private:
 
     //control the state of the debris exploration/removal
     typedef enum {
-        STATE_StartExploring, //Enable schemas and begin exploring behaviour
-        STATE_Exploring, //We are currently exploring
-        STATE_FoundDebris, //Found the debris
+        STATE_SelectDebrisTarget, //Check debris we have been told to clean. Pick one.
         STATE_SeekingDebrisLocation, //Heading to where the debris is
         STATE_RemovingDebris, //cleaning debris up
         STATE_DoneDebrisRemoval, //Debris is gone
@@ -107,81 +112,101 @@ private:
     State state;
 
     /**
+     * All state variables that only last for the length of the individual task instance.
+     * We want an easy way to reset things after.
+     */
+    struct task_instance_state {
+        /**
+        * Track if we are currently moving towards a debris object
+        */
+        bool currently_seeking_debris = false;
+
+        /**
+        * Keep track of if we are currently cleaning debris nearby. Used to prevent
+        * spamming requests to debris_cleaner_ms toggle every cycle of process()
+        */
+        bool currently_cleaning = false;
+
+        /**
+        * Whether or not we are currently abandoning debris in the AbandonFailedDebris State.
+        */
+        bool currently_abandoning = false;
+
+        /**
+         * When we are seeking debris, keep track when we see it. If we don't, then we assume it's not there
+         * and we can just move on to next debris in list.
+         */
+        bool found_debris_target = false;
+    };
+    typedef task_instance_state InstanceState;
+    InstanceState instance_state;
+
+    /**
      * The results of running this task. Nothing required for the explore task.
      */
     arc_msgs::ArcTaskResult result;
 
-    //TODO: Too many parameters all willy nilly in the class as attributes. Make a struct to keep them coupled only with the state they are corresponding to
     //These variables are only here to ensure we don't repeatedly call ROS services, we only have to do it once.
     /**
      * Whether or not the task is currently active.
      */
     bool active = false;
 
-//Referring to specific states, to ensure we only do costly work once.
-//TODO: Really should have these in an object or struct, so they can be auto reset at end of task. It's a pain remembering when to reset these, and if you don't you'll introduce weird bugs.
-    /**
-     * Track if we are currently moving towards a debris object
-     */
-    bool currently_seeking_debris = false;
-
-    /**
-     * Keep track of if we are currently cleaning debris nearby. Used to prevent
-     * spamming requests to debris_cleaner_ms toggle every cycle of process()
-     */
-    bool currently_cleaning = false;
-
-    /**
-     * Whether or not we are currently abandoning debris in the AbandonFailedDebris State.
-     */
-    bool currently_abandoning = false;
-
     /**
      * Keeping track of amount of debris cleaned
      */
     int debris_success_count = 0;
 
+    /**
+     * How many debris objects were requested to be cleaned this task instance.
+     */
+    int debris_count = 0;
+
 //PARAMETERS and their default vlaues.
     double stopping_distance_from_debris = 0.5;
     double cleaning_debris_time = 8.0; //How long (in seconds) to spend cleaning the debris
-    int explore_time = 120; //How long (in seconds) to explore before task is considered complete.
-
-public:
-    TaskUnguidedCleanDebrisServer();
 
     /**
-     * perform any routine startup procedures when this task instance is started.
+     * Simplifies process of storing parameters in this object.
+     * Check a given string parameter and store it in the designated variable, if no such name is valid,
+     * then we don't register this parameter.
+     * @param name The name of the string parameter to decode
+     * @param value Value of the parameter
+     * @return bool: True if this paramter was decoded and stored in our object. False if failed (invalid name, invalid value...)
+     */
+    bool decodeStringParameter(std::string name, std::string value);
+
+    /**
+     * Given string consisting info on where debris is, return the list of debris objects.
+     * @param input: The string containing info on where debris is. Something like "(id,x1,y1)|(id2,x2,y2)"..
+     * @return list of debris found in input string
+     */
+    arc_msgs::DetectedDebris parseDebrisList(std::string input);
+
+public:
+    TaskGuidedCleanDebrisServer();
+
+    /**
+     * Perform any routine startup procedures when this task instance is started.
      * Load request parameters, check for existence of nodes needed for this task.
      */
-    void startup(const arc_msgs::ArcTaskGoalConstPtr &goal);
+    virtual void startup(const arc_msgs::ArcTaskGoalConstPtr &goal);
 
     /**
      * the main state machine loop for the task
      */
-    void process();
+    virtual void process();
 
     /**
      * Ensure after this task instance is no longer of use, we've shut down everything that was required for it.
-     * Shouldn't be working with task server here, just shutting stuff down. Individual states
-     * handle setting server to aborted/succeeded.
      */
-    void shutdown();
+    virtual void shutdown();
 
 //STATES
     /**
      * Perform the shutdown for a task, disabling anything that was originally set to the complete it.
      */
-    void StateStartExploring();
-
-    /**
-     * Startup the task, enabling anything that takes place in it's task instance.
-     */
-    void StateExploring();
-
-    /**
-     * While exploring we found debris
-     */
-    void StateFoundDebris();
+    void StateSelectDebrisTarget();
 
     /**
      * Disable the random wander and head to debris location
@@ -212,11 +237,6 @@ public:
     std::string stateToString(State state);
 
 //CALLBACKS
-    /**
-     * Perform the main task. Explore for some amount of time
-     */
-    void goal_cb(const arc_msgs::ArcTaskGoalConstPtr &goal);
-
      /**
      * Callback after the explore timer gets set off
      * @param event some data about how long we explored.
