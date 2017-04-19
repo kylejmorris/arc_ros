@@ -15,7 +15,7 @@ call the services on test_bot, however you like. Try to break it. Use all the fu
   <node pkg="arc_stage" type="arc_stage" name="arc_stage" args="-u $(find arc_stage)/world/test_single_$(arg robot_type)_full.world" respawn="false">
     <param name="base_watchdog_timeout" value="0.2"/>
   </node>
-  <include file="$(find arc_control)/launch/robots/$(arg robot_type).launch">
+  <include file="$(find arc_control)/launch/robots/$(arg robot_type)/$(arg robot_type)_behaviour.launch" ns="test_bot">
 	<arg name="robot_name" value="test_bot"/>
 </include>
 <node name="rviz" pkg="rviz" type="rviz" args="-d $(find arc_navigation)/single_robot.rviz" />

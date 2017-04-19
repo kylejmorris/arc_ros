@@ -1,0 +1,26 @@
+<!--
+The launch file for a single debrisbot.
+-->
+
+<launch>
+master auto="start"/>
+<arg name="robot_name" default="test_bot"/>
+<group ns="$(arg robot_name)">
+
+<!-- 
+####################################
+ARC CORE	
+#################################### 
+-->
+<include file="$(find arc_control)/launch/robots/debrisbot/debrisbot_core.launch">
+</include> 
+
+<!-- 
+####################################
+ARC BEHAVIOUR
+#################################### 
+-->
+<include file="$(find arc_control)/launch/robots/debrisbot/debrisbot_behaviour.launch">
+</include> 
+</group>
+</launch>

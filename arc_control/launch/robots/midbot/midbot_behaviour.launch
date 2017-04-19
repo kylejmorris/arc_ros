@@ -7,8 +7,6 @@ The launch file for a single debrisbot.
   <arg name="robot_name" default="test_bot"/>
   
 
-<group ns="$(arg robot_name)">
-
     <!-- BEHAVIOUR FOR ROBOT-->
     <node name="arc_base" pkg="arc_behaviour" type="arc_base">
 	<rosparam param="schemas">["random_wander_ms", "handle_marker_ms"]</rosparam>
@@ -53,11 +51,10 @@ The launch file for a single debrisbot.
     <node pkg="move_base" type="move_base" respawn="false" name="move_base_node" output="screen">
       <remap from="map" to="/map" />
       <param name="controller_frequency" value="10.0" />
-      <rosparam file="$(find arc_navigation)/move_base_config/minbot_costmap_common_params.yaml" command="load" ns="local_costmap" />
-      <rosparam file="$(find arc_navigation)/move_base_config/minbot_local_costmap_params.yaml" command="load" />
-      <rosparam file="$(find arc_navigation)/move_base_config/minbot_global_costmap_params.yaml" command="load" />
-      <rosparam file="$(find arc_navigation)/move_base_config/minbot_base_local_planner_params.yaml" command="load" />
-      <rosparam file="$(find arc_navigation)/move_base_config/minbot_dwa_local_planner_params.yaml" command="load" />
+      <rosparam file="$(find arc_navigation)/move_base_config/midbot_costmap_common_params.yaml" command="load" ns="local_costmap" />
+      <rosparam file="$(find arc_navigation)/move_base_config/midbot_local_costmap_params.yaml" command="load" />
+      <rosparam file="$(find arc_navigation)/move_base_config/midbot_global_costmap_params.yaml" command="load" />
+      <rosparam file="$(find arc_navigation)/move_base_config/midbot_base_local_planner_params.yaml" command="load" />
+      <rosparam file="$(find arc_navigation)/move_base_config/midbot_dwa_local_planner_params.yaml" command="load" />
     </node>
-  </group>
 </launch>

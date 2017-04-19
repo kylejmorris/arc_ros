@@ -1,6 +1,6 @@
-<!-- This is a test with 1 robot consisting of ALL of the behavioural features.
-call the services on test_bot, however you like. Try to break it. Use all the functionality.
--->
+<!--
+
+ -->
 
 <launch>
   <master auto="start"/>
@@ -15,15 +15,14 @@ call the services on test_bot, however you like. Try to break it. Use all the fu
 <group ns="test_bot">
 	<node pkg="arc_tasks" type="task_unguided_clean_debris_server" name="task_unguided_clean_debris_server" output="screen"/>
 	<node pkg="arc_tasks" type="task_unguided_clean_debris_client" name="task_unguided_clean_debris_client" output="screen"/>
-	<node pkg="arc_behaviour" type="move_to_goal_ms" name="move_to_goal_ms" output="screen"/>
 
-
-</group>
-  <node pkg="arc_stage" type="arc_stage" name="arc_stage" args="-u $(find arc_stage)/world/test_clean_debris_ms.world" respawn="false">
-    <param name="base_watchdog_timeout" value="0.2"/>
-  </node>
-  <include file="$(find arc_control)/launch/robots/$(arg robot_type).launch">
+  <include file="$(find arc_control)/launch/robots/$(arg robot_type)/$(arg robot_type)_behaviour.launch">
 	<arg name="robot_name" value="test_bot"/>
 </include>
+
+</group>
+  <node pkg="arc_stage" type="arc_stage" name="arc_stage" args="-u $(find arc_stage)/world/test_$(arg robot_type)_clean_debris_ms.world" respawn="false">
+    <param name="base_watchdog_timeout" value="0.2"/>
+  </node>
 </group>
 </launch>

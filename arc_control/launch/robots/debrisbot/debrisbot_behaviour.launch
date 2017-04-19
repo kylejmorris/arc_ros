@@ -5,13 +5,10 @@ The launch file for a single debrisbot.
 <launch>
   <master auto="start"/>
   <arg name="robot_name" default="test_bot"/>
-  
-
-<group ns="$(arg robot_name)">
 
     <!-- BEHAVIOUR FOR ROBOT-->
     <node name="arc_base" pkg="arc_behaviour" type="arc_base">
-	<rosparam param="schemas">["random_wander_ms", "handle_marker_ms"]</rosparam>
+	<rosparam param="schemas">["random_wander_ms", "clean_debris_ms", "handle_marker_ms", "move_to_goal_ms"]</rosparam>
     </node>
 
     <node name="random_wander_ms" pkg="arc_behaviour" type="random_wander_ms">
@@ -30,7 +27,7 @@ The launch file for a single debrisbot.
     </node>
 
     <node name="detect_debris_ps" pkg="arc_behaviour" type="detect_debris_ps">
-        <param name="max_range" value="10"/>
+        <param name="max_range" value="3"/>
     </node>
 
    <!-- motor schemas -->
@@ -39,7 +36,14 @@ The launch file for a single debrisbot.
 	<param name="priority" value="2"/>
    </node>
 
-    <node name="navigation_adapter" pkg="arc_behaviour" type="navigation_adapter">
+   <node pkg="arc_behaviour" type="move_to_goal_ms" name="move_to_goal_ms" output="screen"/>
+
+   <node name="clean_debris_ms" pkg="arc_behaviour" type="clean_debris_ms">
+	<param name="max_cleaning_range" value="2"/>
+	<param name="priority" value="2"/>
+   </node>
+
+    <node name="navigation_adapter" pkg="arc_behaviour" type="navigation_adapter" output="screen">
     </node>
 
     <!-- NAVIGATION CONFIG -->
@@ -52,12 +56,11 @@ The launch file for a single debrisbot.
 
     <node pkg="move_base" type="move_base" respawn="false" name="move_base_node" output="screen">
       <remap from="map" to="/map" />
-      <param name="controller_frequency" value="10.0" />
-      <rosparam file="$(find arc_navigation)/move_base_config/midbot_costmap_common_params.yaml" command="load" ns="local_costmap" />
-      <rosparam file="$(find arc_navigation)/move_base_config/midbot_local_costmap_params.yaml" command="load" />
-      <rosparam file="$(find arc_navigation)/move_base_config/midbot_global_costmap_params.yaml" command="load" />
-      <rosparam file="$(find arc_navigation)/move_base_config/midbot_base_local_planner_params.yaml" command="load" />
-      <rosparam file="$(find arc_navigation)/move_base_config/midbot_dwa_local_planner_params.yaml" command="load" />
+      <param name="controller_frequency" value="10.0"/>
+      <rosparam file="$(find arc_navigation)/move_base_config/debrisbot_costmap_common_params.yaml" command="load" ns="local_costmap" />
+      <rosparam file="$(find arc_navigation)/move_base_config/debrisbot_local_costmap_params.yaml" command="load" />
+      <rosparam file="$(find arc_navigation)/move_base_config/debrisbot_global_costmap_params.yaml" command="load" />
+      <rosparam file="$(find arc_navigation)/move_base_config/debrisbot_base_local_planner_params.yaml" command="load" />
+      <rosparam file="$(find arc_navigation)/move_base_config/debrisbot_dwa_local_planner_params.yaml" command="load" />
     </node>
-  </group>
 </launch>

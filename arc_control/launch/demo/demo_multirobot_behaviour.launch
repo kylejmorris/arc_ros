@@ -42,17 +42,17 @@ NOTE: Also incorporate the accurate navigation in here, and show it all in rviz 
  <!-- <node name="rviz" pkg="rviz" type="rviz" args="-d $(find arc_navigation)/multi_robot.rviz" /> -->
 
 <!-- LAUNCH ROBOTS -->
-<include file="$(find arc_control)/launch/robots/maxbot.launch">
+<include file="$(find arc_control)/launch/robots/maxbot/maxbot_behaviour.launch" ns="demo_maxbot_1">
 	<arg name="robot_name" value="demo_maxbot_1"/>
 </include>
-<include file="$(find arc_control)/launch/robots/midbot.launch">
+<include file="$(find arc_control)/launch/robots/midbot/midbot_behaviour.launch" ns="demo_midbot_1">
 	<arg name="robot_name" value="demo_midbot_1"/>
 </include>
 
-<include file="$(find arc_control)/launch/robots/debrisbot.launch">
+<include file="$(find arc_control)/launch/robots/debrisbot/debrisbot_behaviour.launch" ns="demo_debrisbot_1">
 	<arg name="robot_name" value="demo_debrisbot_1"/>
 </include>
-<include file="$(find arc_control)/launch/robots/minbot.launch">
+<include file="$(find arc_control)/launch/robots/minbot/minbot_behaviour.launch" ns="demo_minbot_1">
 	<arg name="robot_name" value="demo_minbot_1"/>
 </include>
 
