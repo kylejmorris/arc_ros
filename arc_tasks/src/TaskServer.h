@@ -10,6 +10,11 @@
 #include "arc_msgs/ArcTaskAction.h"
 
 class TaskServer {
+protected:
+     /**
+     * Keep track of most recent goal sent to this server.
+     */
+    arc_msgs::ArcTaskGoal recent_goal;
 private:
     /**
      * Perform any routine startup procedures when this task instance is started.

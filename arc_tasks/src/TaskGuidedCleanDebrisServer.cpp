@@ -84,9 +84,12 @@ void TaskGuidedCleanDebrisServer::shutdown() {
     this->arc_base_client.call(request);
 
     //turn off flags
+    this->result.task_id = this->recent_goal.task_id;
     this->instance_state.currently_cleaning = false;
     this->instance_state.currently_seeking_debris = false;
     this->instance_state.currently_abandoning = false;
+
+    this->server.setSucceeded(this->result);
 }
 
 void TaskGuidedCleanDebrisServer::debris_locations_cb(const arc_msgs::DetectedDebris &debris) {

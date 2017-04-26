@@ -10,8 +10,8 @@ find_package(catkin REQUIRED COMPONENTS
 	geometry_msgs
 	std_msgs
 	actionlib_msgs
-	message_generation
     dynamic_reconfigure
+	message_generation
 )
 
 

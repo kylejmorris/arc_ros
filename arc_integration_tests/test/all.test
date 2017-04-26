@@ -4,12 +4,13 @@
     <!-- tests for ensuring there is input from laser/odometry -->
     <include file="$(find arc_integration_tests)/test/sensor_publishing.test"/>
 
-    <test test-name="hztest_cmd_vel_publish" pkg="rostest" type="hztest">
+    <!--<test test-name="hztest_cmd_vel_publish" pkg="rostest" type="hztest">
         <param name="topic" value="cmd_vel"/>
         <param name="hz" value="10"/>
         <param name="hzerror" value="2"/>
         <param name="test_duration" value="5"/>
         <param name="wait_time" value="10"/>
     </test>
+    -->
 </group>
 </launch>

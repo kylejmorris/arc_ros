@@ -11,6 +11,8 @@ find_package(catkin REQUIRED COMPONENTS
   arc_msgs
   roscpp
   rospy
+  actionlib
+  actionlib_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -103,11 +105,13 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
-#  LIBRARIES arc_core
-#  CATKIN_DEPENDS arc_msgs roscpp rospy
+  INCLUDE_DIRS include
+  LIBRARIES arc_core
+  CATKIN_DEPENDS arc_msgs roscpp rospy
 #  DEPENDS system_lib
 )
+
+include_directories(include ${catkin_INCLUDE_DIRS})
 
 ###########
 ## Build ##
@@ -121,9 +125,7 @@ include_directories(
 )
 
 ## Declare a C++ library
-# add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/arc_core.cpp
-# )
+add_library(task_handler_lib src/TaskHandler.cpp include/TaskHandler.h ${Boost_LIBRARIES})
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
@@ -133,8 +135,9 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-add_executable(wifi_handler_node src/wifi_handler_node.cpp src/WifiHandler.cpp src/WifiHandler.h)
-add_executable(communication_manager src/communication_manager_node.cpp src/CommunicationManager.cpp src/CommunicationManager.h)
+add_executable(wifi_handler_node src/wifi_handler_node.cpp src/WifiHandler.cpp include/WifiHandler.h)
+add_executable(communication_manager src/communication_manager_node.cpp src/CommunicationManager.cpp include/CommunicationManager.h)
+add_executable(task_handler src/task_handler_node.cpp)
 
 target_link_libraries(wifi_handler_node
    ${catkin_LIBRARIES}
@@ -143,9 +146,16 @@ target_link_libraries(wifi_handler_node
 target_link_libraries(communication_manager
    ${catkin_LIBRARIES}
 )
-
+target_link_libraries(task_handler
+   task_handler_lib
+   ${catkin_LIBRARIES}
+   ${Boost_LIBRARIES}
+)
 add_dependencies(wifi_handler_node arc_msgs_generate_message_cpp)
 add_dependencies(communication_manager arc_msgs_generate_message_cpp)
+add_dependencies(task_handler arc_msgs_generate_messages_cpp)
+
+#Libraries so we can test these
 #############
 ## Install ##
 #############
@@ -185,8 +195,19 @@ add_dependencies(communication_manager arc_msgs_generate_message_cpp)
 ## Testing ##
 #############
 
+find_package(rostest REQUIRED)
+catkin_package(DEPENDS roscpp)
+include_directories(${GTEST_INCLUDE_DIRS})
+
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_arc_core.cpp)
+catkin_add_gtest(test_task_handler test/test_task_handler.cpp)
+add_dependencies(test_task_handler task_handler)
+target_link_libraries(test_task_handler
+        task_handler_lib
+        ${GTEST_LIBRARIES} pthread
+        ${Boost_LIBRARIES}
+        ${catkin_LIBRARIES}
+        )
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()

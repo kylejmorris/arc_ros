@@ -8,12 +8,13 @@
 #include <ros/ros.h>
 #include "arc_msgs/ArcTaskAction.h"
 #include <actionlib/server/simple_action_server.h>
+#include "TaskServer.h"
 
 #ifndef ARC_TASKS_TASKEXPLORE_H
 #define ARC_TASKS_TASKEXPLORE_H
 typedef actionlib::SimpleActionServer<arc_msgs::ArcTaskAction> ActionServer;
 
-class TaskExploreServer {
+class TaskExploreServer : public TaskServer {
 private:
     ros::NodeHandle global_handle;
     ros::NodeHandle local_handle;

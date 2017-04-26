@@ -15,12 +15,13 @@
 #include "std_srvs/Trigger.h"
 #include <actionlib/server/simple_action_server.h>
 #include "nav_msgs/Odometry.h"
+#include "TaskServer.h"
 
 #ifndef ARC_TASKS_TASKUNGUIDEDCLEANDEBRISSERVER_H
 #define ARC_TASKS_TASKUNGUIDEDCLEANDEBRISSERVER_H
 typedef actionlib::SimpleActionServer<arc_msgs::ArcTaskAction> ActionServer;
 
-class TaskUnguidedCleanDebrisServer {
+class TaskUnguidedCleanDebrisServer : public TaskServer {
 private:
     ros::NodeHandle global_handle;
     ros::NodeHandle local_handle;

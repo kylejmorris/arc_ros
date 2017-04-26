@@ -90,6 +90,7 @@ void TaskUnguidedCleanDebrisServer::shutdown() {
     request.request.schema.push_back(schema_clean); //allow robot to wander around randomly
 
     this->arc_base_client.call(request);
+    this->result.task_id = this->recent_goal.task_id;
     this->result.completed = true;
     this->result.final_state = stateToString(this->state).c_str();
 

@@ -2,22 +2,22 @@
 <!-- STAGE_LAUNCH_NAME is the launch file we will call for stage. IE if you want to use a certain stage setup. -->
     <!--set up stage -->
     <include file="$(find arc_stage)/launch/$(env STAGE_LAUNCH_NAME)"/>
-    <!-- test for odom pub topic -->
-    <test test-name="hztest_odom_publishing" pkg="rostest" type="hztest">
+    <!--test for odom pub topic -->
+    <!--<test test-name="hztest_odom_publishing" pkg="rostest" type="hztest">
         <param name="topic" value="odom" />
         <param name="hz" value="10.0" />
         <param name="hzerror" value="2.0" />
         <param name="test_duration" value="5.0" />
         <param name="check_intervals" value="false" />
         <param name="wait_time" value="10"/>
-    </test>
+    </test> -->
 
     <!-- is the laser publishing? -->
-    <test test-name="hztest_laser_publishing" pkg="rostest" type="hztest">
+<!--    <test test-name="hztest_laser_publishing" pkg="rostest" type="hztest">
         <param name="topic" value="scan"/>
         <param name="hz" value="10"/>
         <param name="hzerror" value="2"/>
         <param name="test_duration" value="5"/>
         <param name="wait_time" value="10"/>
-    </test>
+    </test> -->
 </launch>

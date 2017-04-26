@@ -1,6 +1,7 @@
 #include <std_srvs/Trigger.h>
 #include "MoveToGoalMS.h"
 #include "arc_msgs/NavigationRequest.h"
+
 #define MAX_QUEUE_SIZE 1000
 #define DEFAULT_RATE 10
 

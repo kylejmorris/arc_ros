@@ -37,6 +37,7 @@ void TaskExploreServer::shutdown() {
     request.request.schema.push_back(random_wander_ms); //allow robot to wander around randomly
 
     this->arc_base_client.call(request);
+    this->result.task_id = this->recent_goal.task_id;
 
     this->result.completed = true; //always marked as completed, since this is just a timed task.
     this->result.final_state = "DoneCleanDebris";

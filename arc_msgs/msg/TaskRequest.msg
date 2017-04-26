@@ -9,6 +9,9 @@ time created #The time that this task instance was created.
 #The name of the task to perform
 string task_name
 
+#Configuration parameters for this task. 
+dynamic_reconfigure/Config parameters
+
 #The intend of the request. some task requests are requesting to complete a task.
 #Another request may be asking to cancel the execution of a task.
 uint8 request_type
@@ -16,5 +19,3 @@ uint8 request_type
 #Request types
 uint8 TYPE_COMPLETION=0   #Requesting robot to complete the task.
 uint8 TYPE_CANCELLATION=1 #Requesting robot to cancel the task.
-
-
