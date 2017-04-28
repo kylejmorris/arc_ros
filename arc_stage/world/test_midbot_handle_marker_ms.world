@@ -1,7 +1,7 @@
 #created just to test if I can create an arc world that works with the navigation stack, but is composed of obstacles, and not map data from some png image. This is taken directly from the willow-full.pgm world provided by navigation_stage package.
 
 include "objects.inc"
-include "kyle_robots.inc"
+include "arc_robots.inc"
 include "environment.inc"
 
 
@@ -19,17 +19,11 @@ define topurg ranger
   size [ 0.05 0.05 0.1 ]
 )
 
-define pr2 position
+midbot
 (
-  size [0.65 0.65 0.25]
-  origin [-0.05 0 0 0]
-  gui_nose 1
+  pose [2 2 0 0]
+  name "test_bot"
 
-  robot_sensor(
-	alwayson 1
-  )
-  drive "omni"
-  topurg(pose [ 0.275 0.000 0 0.000 ])
 )
 
 
@@ -55,17 +49,11 @@ define floorplan model
 floorplan
 ( 
   name "arc_small"
-  bitmap "../maps/arc_small.pgm"
+  bitmap "../maps/test/test_handle_marker_ms.pgm"
   size [20 20 0.2 2]
   pose [10 10 0 0.0]
 )
 
-maxbot(
-	name "test_bot"
-	pose [4.0 4.0 0.0 0.0]
-	color "blue"
-  	topurg(pose [ 0.275 0.000 0 0.000 ])
-)
 #MARKERS
 #testing lots of markers together, can robot pick them up? 
 marker(name "altenv_marker_1" pose [ 9 6 0.0 0.0 ] fiducial_return 1)

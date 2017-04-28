@@ -6,7 +6,6 @@ The announcement should get published on /arc/wifi/announcements.
 Since the same robot is subscribed to /arc/wifi/announcements, it will receive that announcement on /arc/wifi/announcements, and it will be published on 
 /arc/test_bot/wifi_handler/incoming_announcements
 
-------
 rostopic pub /arc/test_bot/wifi_handler/outgoing_announcements arc_msgs/WirelessAnnouncement "header:
   seq: 0
   stamp:
@@ -23,7 +22,6 @@ sender_location:
     y: 0.0
     z: 0.0
     w: 0.0" 
--------
 
 If you move the robot far away from point (0,0), it should stop receiving an incoming signal, since it will be published from (0,0) and the robot may be too far away.
 Try putting the robot at position (6,0). It will not receive the signal if you send the same command above, as it's > 5 meters away from where signal came from.

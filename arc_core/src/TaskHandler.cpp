@@ -152,7 +152,7 @@ void TaskHandler::rejectRequest(const TaskHandler::TaskGoal goal) {
 void TaskHandler::process() {//update tasks
     ros::Rate rate(DEFAULT_RATE);
     //timer periodically checks if we can perform a new task yet
-    ros::Timer timer = global_handle.createTimer(ros::Duration(DEFAULT_RATE), &TaskHandler::attempt_to_begin_new_tasks_timer_cb, this, false);
+    ros::Timer timer = global_handle.createTimer(ros::Duration(1), &TaskHandler::attempt_to_begin_new_tasks_timer_cb, this, false);
     timer.start();
 
     //asynchronous spinner to handle task request callbacks
@@ -166,7 +166,7 @@ void TaskHandler::process() {//update tasks
 }
 
 void TaskHandler::task_handler_goal_cb(const TaskHandler::TaskGoal &goal) {
-    ROS_DEBUG_NAMED("TaskHandler","Received task request!");
+    ROS_INFO_NAMED("TaskHandler","Received task request!");
     this->processRequest(goal);
 }
 

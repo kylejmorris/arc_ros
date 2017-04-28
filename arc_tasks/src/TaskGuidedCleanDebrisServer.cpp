@@ -137,6 +137,7 @@ void TaskGuidedCleanDebrisServer::StateSelectDebrisTarget() {
     } else {
         //Find the debris closest to us
         this->target_debris =this->debris_list.debris.at(0);
+        this->target_debris.debris_id = this->debris_list.debris.at(0).debris_id;
         int nearest_debris_pos = 0; //position of the nearest debris
 
         for(int pos = 1; pos < this->debris_list.debris.size(); pos++) {
@@ -148,18 +149,18 @@ void TaskGuidedCleanDebrisServer::StateSelectDebrisTarget() {
             //compare the distance of current debris, and the current minimum to see if we have a new min
             if(curr_distance_away < min_distance_away) {
                 this->target_debris = curr;
+                this->target_debris.debris_id = curr.debris_id;
                 nearest_debris_pos = pos;
             }
         }
         this->target_pose.position = this->target_debris.pose.position;
         this->target_pose.orientation.w = 1.0;
 
-        ROS_INFO("Minimum element is at position %d", nearest_debris_pos);
         //remove the nearest debris from the list now so we don't look for it later.
-        this->debris_list.debris.erase(debris_list.debris.begin()+0);
+        this->debris_list.debris.erase(debris_list.debris.begin()+nearest_debris_pos);
 
         //Now we head to where this debris is. This is giving us info about debris in position relative (in front of us)
-        ROS_INFO("Planning on going to location (%f, %f)", target_pose.position.x, target_pose.position.y);
+        ROS_INFO("Planning on going to location (%f, %f) to find debris with id %d", target_pose.position.x, target_pose.position.y, this->target_debris.debris_id);
         this->state = STATE_SeekingDebrisLocation;
     }
 }
@@ -224,13 +225,14 @@ arc_msgs::DetectedDebris TaskGuidedCleanDebrisServer::parseDebrisList(std::strin
     }
 
     ROS_INFO("Left with this for string %s", input.c_str());
+
     //assume just a single parameter here
     if(input.size()>0) {
         int first_comma_pos = input.find(",");
         int second_comma_pos = input.find(",", first_comma_pos + 1);
 
         //extracting the actual coordinates. finally... geez c++, verbose much?
-        int id = atoi(input.substr(0,first_comma_pos).c_str());
+        int id = atoi(input.substr(1,first_comma_pos).c_str());
         double x = atof(input.substr(first_comma_pos + 1, second_comma_pos).c_str());
         double y = atof(input.substr(second_comma_pos + 1, input.size()).c_str());
 

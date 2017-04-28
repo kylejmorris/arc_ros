@@ -48,7 +48,7 @@ The launch file for a single maxbot.
       <param name="base_frame_id" value="$(arg robot_name)/base_link" />
     </node> 
 
-    <node pkg="move_base" type="move_base" respawn="false" name="move_base_node" output="screen">
+    <node pkg="move_base" type="move_base" respawn="false" name="move_base_node">
       <remap from="map" to="/map" />
       <param name="controller_frequency" value="10.0" />
       <rosparam file="$(find arc_navigation)/move_base_config/maxbot_costmap_common_params.yaml" command="load" ns="local_costmap" />

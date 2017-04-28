@@ -4,7 +4,7 @@
 TaskExploreServer::TaskExploreServer() : server(global_handle, "task_explore", boost::bind(&TaskExploreServer::goal_cb, this, _1), false)
 {
     ros::NodeHandle local_handle("task_explore_server");
-    ros::Timer timer = global_handle.createTimer(ros::Duration(20), &TaskExploreServer::explore_timer_cb, this, false);
+    ros::Timer timer = global_handle.createTimer(ros::Duration(180), &TaskExploreServer::explore_timer_cb, this, false);
     timer.stop(); //make sure this thing isn't running
 
     this->local_handle = local_handle;

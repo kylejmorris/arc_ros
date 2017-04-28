@@ -1,5 +1,5 @@
 <!--
-The launch file for a single debrisbot.
+The launch file for a single midbot.
 -->
 
 <launch>
@@ -11,7 +11,7 @@ The launch file for a single debrisbot.
 ARC CORE	
 #################################### 
 -->
-<include file="$(find arc_control)/launch/robots/debrisbot/debrisbot_core.launch">
+<include file="$(find arc_control)/launch/robots/midbot/midbot_core.launch">
 </include> 
 
 <!-- 
@@ -19,7 +19,7 @@ ARC CORE
 ARC BEHAVIOUR
 #################################### 
 -->
-<include file="$(find arc_control)/launch/robots/debrisbot/debrisbot_behaviour.launch">
+<include file="$(find arc_control)/launch/robots/midbot/midbot_behaviour.launch">
 <arg name="robot_name" value="$(arg robot_name)"/>
 </include> 
 </group>

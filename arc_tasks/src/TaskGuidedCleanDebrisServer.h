@@ -61,14 +61,14 @@ private:
     /**
      * List of the debris we most recently detected. It is always being updated
      */
-    arc_msgs::DetectedDebris debris_list;
+    arc_msgs::DetectedDebris debris_found_nearby;
 
     /**
      * The debris_listis the list of debris we have been told t oclean. Where as this variable
      * Contains the list of debris near by. It allows for us to determine if we succesfully cleaned
      * debris or not.
      */
-    arc_msgs::DetectedDebris debris_found_nearby;
+    arc_msgs::DetectedDebris debris_list;
 
     /**
      * Keep tracking of most recent position of the robot so we can identify our relative goal towards debris.

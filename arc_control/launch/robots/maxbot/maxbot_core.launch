@@ -18,7 +18,7 @@ The launch file for a single maxbot
     <node pkg="arc_tasks" type="task_explore_server" name="task_explore_server" output="screen"/>
 
     <!-- the task handler that will manage task requests. -->
-    <node pkg="arc_core" type="task_handler" name="task_handler" output="screen">
+    <node pkg="arc_core" type="task_handler" name="task_handler">
     <rosparam param="valid_tasks">["explore", "unguided_clean_debris", "guided_clean_debris"]</rosparam>
     </node>
 

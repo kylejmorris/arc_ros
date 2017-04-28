@@ -2,9 +2,9 @@
 You can toggle tasks by publishing to task_handler.
 example: startup the guided clear debris task
 ____
-rostopic pub /artest_bot/task_handler/task_requests arc_msgs/TaskRequest "task_id: 0
+rostopic pub /arc/demo_debrisbot_1/task_handler/task_requests arc_msgs/TaskRequest "task_id: 0
 created: {secs: 0, nsecs: 0}
-task_name: 'guided_clean_debris'                   
+task_name: 'explore'                   
 parameters:
   bools:
   - {name: '', value: false}

@@ -10,7 +10,7 @@ The launch file for a single debrisbot.
     </node>
 
     <!-- The communication manager -->
-    <node pkg="arc_core" type="communication_manager" name="communication_manager" output="screen"></node>
+    <node pkg="arc_core" type="communication_manager" name="communication_manager"></node>
 
     <!-- tasks this robot can perform -->
     <node pkg="arc_tasks" type="task_unguided_clean_debris_server" name="task_unguided_clean_debris_server" output="screen"/>
@@ -18,11 +18,11 @@ The launch file for a single debrisbot.
     <node pkg="arc_tasks" type="task_explore_server" name="task_explore_server" output="screen"/>
 
     <!-- the task handler that will manage task requests. -->
-    <node pkg="arc_core" type="task_handler" name="task_handler" output="screen">
+    <node pkg="arc_core" type="task_handler" name="task_handler">
     <rosparam param="valid_tasks">["explore", "unguided_clean_debris", "guided_clean_debris"]</rosparam>
     </node>
 
     <!-- THE CORE RECRUITMENT MANAGER OF ROBOT -->
-    <node pkg="arc_recruitment_demos" type="minimal_recruitment_manager" name="recruitment_manager" output="screen">
+    <node pkg="arc_recruitment_demos" type="minimal_recruitment_manager" name="recruitment_manager">
     </node>
 </launch>

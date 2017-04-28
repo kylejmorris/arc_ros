@@ -1,0 +1,113 @@
+<!--
+DEMO OF ARC:ANDERSON, the first iteration of ARC that provides basic task functionality.
+Multiple robots can each perform tasks in the environment. 
+
+INSTRUCTIONS FOR PRESENTING DEMO
+><>  ><>  ><>   ><>   ><>   ><>
+Make the minbot and maxbot explore.
+
+rostopic pub /arc/demo_minbot_1/task_handler/task_requests arc_msgs/TaskRequest "task_id: 1
+created: {secs: 0, nsecs: 0}
+task_name: 'explore'                   
+parameters:
+  bools:
+  - {name: '', value: false}
+  ints:
+  - {name: '', value: 0}
+  strs:
+  - {name: '', value: ''}
+  doubles:
+  - {name: '', value: 0.0}
+  groups:
+  - {name: '', state: false, id: 0, parent: 0}
+request_type: 0" 
+
+
+rostopic pub /arc/demo_maxbot_1/task_handler/task_requests arc_msgs/TaskRequest "task_id: 2
+created: {secs: 0, nsecs: 0}
+task_name: 'explore'                   
+parameters:
+  bools:
+  - {name: '', value: false}
+  ints:
+  - {name: '', value: 0}
+  strs:
+  - {name: '', value: ''}
+  doubles:
+  - {name: '', value: 0.0}
+  groups:
+  - {name: '', state: false, id: 0, parent: 0}
+request_type: 0" 
+
+STEP 2:
+Now we try to get the midbot to explore; but it's stuck in a room with lots of debris so we need to clean that....
+
+rostopic pub /arc/demo_midbot_1/task_handler/task_requests arc_msgs/TaskRequest "task_id: 0
+created: {secs: 0, nsecs: 0}
+task_name: 'explore'                   
+parameters:
+  bools:
+  - {name: '', value: false}
+  ints:
+  - {name: '', value: 0}
+  strs:
+  - {name: '', value: ''}
+  doubles:
+  - {name: '', value: 0.0}
+  groups:
+  - {name: '', state: false, id: 0, parent: 0}
+request_type: 0" 
+
+STEP 3: At this point, the midbot should broadcast it is stuck. It broadcasts the rough locations of the debris it is stuck on.
+rostopic pub /arc/demo_debrisbot_1/task_handler/task_requests arc_msgs/TaskRequest "task_id: 0
+created: {secs: 0, nsecs: 0}
+task_name: 'guided_clean_debris'                   
+parameters:
+  bools:
+  - {name: '', value: false}
+  ints:
+  - {name: '', value: 0}
+  strs:
+  - {name: 'debris_list', value: '(14,12.65,14.89)|(9,10.88,14.83)|(13,9.60,13.77)'}
+  doubles:
+  - {name: '', value: 0.0}
+  groups:
+  - {name: '', state: false, id: 0, parent: 0}
+request_type: 0" 
+
+Now the midbot is free to explore
+-->
+<launch>
+  <master auto="start"/>
+  <param name="/use_sim_time" value="true"/>
+  <node pkg="map_server" type="map_server" name="map_server" args="$(find arc_stage)/maps/config/small_room.yaml" respawn="false" >
+    <param name="frame_id" value="/map" />
+  </node> 
+
+<!-- ALL ARC RELATED COMPONENTS -->
+<group ns="arc">
+<!-- VISUALIZATION COMPONENTS -->
+  <node pkg="arc_stage" type="arc_stage" name="arc_stage" args="-u $(find arc_stage)/world/demo_multirobot_independent_task_completion.world" respawn="false">
+    <param name="base_watchdog_timeout" value="0.2"/>
+  </node>
+ <!-- <node name="rviz" pkg="rviz" type="rviz" args="-d $(find arc_navigation)/multi_robot.rviz" /> -->
+
+<!-- LAUNCH ROBOTS -->
+<include file="$(find arc_control)/launch/robots/maxbot/maxbot.launch">
+	<arg name="robot_name" value="demo_maxbot_1"/>
+</include>
+
+<include file="$(find arc_control)/launch/robots/midbot/midbot.launch">
+	<arg name="robot_name" value="demo_midbot_1"/>
+</include>
+
+<include file="$(find arc_control)/launch/robots/debrisbot/debrisbot.launch">
+	<arg name="robot_name" value="demo_debrisbot_1"/>
+</include>
+
+<include file="$(find arc_control)/launch/robots/minbot/minbot.launch">
+	<arg name="robot_name" value="demo_minbot_1"/>
+</include>
+
+</group>
+</launch>
