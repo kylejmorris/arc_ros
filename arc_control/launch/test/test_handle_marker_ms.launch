@@ -6,6 +6,7 @@
 
 <launch>
   <master auto="start"/>
+  <arg name="robot_type" default="midbot"/>
   <param name="/use_sim_time" value="true"/>
 <!--  <node pkg="map_server" type="map_server" name="map_server" args="$(find arc_stage)/maps/config/arc_small.yaml" respawn="false" >
     <param name="frame_id" value="/map" />
@@ -13,7 +14,7 @@
 
 
 <group ns="arc">
-  <node pkg="arc_stage" type="arc_stage" name="arc_stage" args="-u $(find arc_stage)/world/test_handle_marker_ms.world" respawn="false">
+  <node pkg="arc_stage" type="arc_stage" name="arc_stage" args="-u $(find arc_stage)/world/test_$(arg robot_type)_handle_marker_ms.world" respawn="false">
     <param name="base_watchdog_timeout" value="0.2"/>
   </node>
   <!-- BEGIN ROBOT 0 -->

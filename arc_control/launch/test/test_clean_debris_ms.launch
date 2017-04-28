@@ -4,11 +4,11 @@
 
 
 <group ns="arc">
-  <node pkg="arc_stage" type="arc_stage" name="arc_stage" args="-u $(find arc_stage)/world/test_clean_debris_ms.world" respawn="false">
+  <node pkg="arc_stage" type="arc_stage" name="arc_stage" args="-u $(find arc_stage)/world/test_debrisbot_clean_debris_ms.world" respawn="false">
     <param name="base_watchdog_timeout" value="0.2"/>
   </node>
 	
-<include file="$(find arc_control)/launch/robots/debrisbot.launch">
+<include file="$(find arc_control)/launch/robots/debrisbot/debrisbot.launch">
 	<arg name="robot_name" value="test_bot"/>
 </include>
 </group>

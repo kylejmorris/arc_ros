@@ -1,5 +1,4 @@
 #Used to specify a motor schema to enable/disable.
-string schema	#name of the schema to toggle
-bool state #true for enabled, false for disabled
+dynamic_reconfigure/BoolParameter[] schema #list of the schemas to toggle on and off
 ---
 bool result	#true if the request was accepted. False if rejected.

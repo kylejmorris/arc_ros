@@ -1,0 +1,27 @@
+<!--
+The launch file for a single midbot.
+-->
+
+<launch>
+  <master auto="start"/>
+  <arg name="robot_name" default="test_bot"/>
+<group ns="$(arg robot_name)">
+<!-- 
+####################################
+ARC CORE	
+#################################### 
+-->
+<include file="$(find arc_control)/launch/robots/midbot/midbot_core.launch">
+</include> 
+
+<!-- 
+####################################
+ARC BEHAVIOUR
+#################################### 
+-->
+<include file="$(find arc_control)/launch/robots/midbot/midbot_behaviour.launch">
+<arg name="robot_name" value="$(arg robot_name)"/>
+</include> 
+</group>
+
+</launch>

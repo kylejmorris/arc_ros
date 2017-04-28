@@ -1,12 +1,15 @@
+#include <std_srvs/Trigger.h>
 #include "RandomWanderMS.h"
 #include "arc_msgs/NavigationRequest.h"
 #define MAX_QUEUE_SIZE 1000
+#define DEFAULT_RATE 10
 
 using namespace arc_behaviour;
 
 RandomWanderMS::RandomWanderMS() {
     ros::NodeHandle global_handle;
     ros::NodeHandle local_handle("random_wander_ms");
+
     this->global_handle = global_handle;
     this->local_handle = local_handle;
     ROS_INFO("Setting up random wander ms");
@@ -14,12 +17,16 @@ RandomWanderMS::RandomWanderMS() {
     local_handle.param("update_goal_freq", this->random_choice_rate, this->DEFAULT_RANDOM_CHOICE_RATE);
     local_handle.param("frame_id", this->frame_id, this->DEFAULT_FRAME_ID);
     this->move_to_goal_client = this->global_handle.serviceClient<arc_msgs::NavigationRequest>("navigation_adapter/move_to_goal");
+    this->abort_goals_client = this->global_handle.serviceClient<std_srvs::Trigger>("navigation_adapter/abort_goals");
     this->toggle_server = this->local_handle.advertiseService("toggle", &RandomWanderMS::toggle_cb, this);
     this->base_pose_sub = this->global_handle.subscribe("base_pose_ground_truth", MAX_QUEUE_SIZE, &RandomWanderMS::process_base_pose_cb, this);
     this->priority = local_handle.getParam("priority", this->DEFAULT_PRIORITY);
     ROS_INFO("Parameter max_range set: %f", this->max_range);
-    ROS_INFO("Parameter update_goal_freq set: %f", this->random_choice_rate);
+    ROS_INFO("Parameter update_goal_freq set: %d", this->random_choice_rate);
     ROS_INFO("Parameter frame_id set: %s", this->frame_id.c_str());
+
+    ros::Timer timer = global_handle.createTimer(ros::Duration(this->random_choice_rate), &RandomWanderMS::timer_cb, this, false);
+    this->goal_request_timer = timer;
 
     if(this->frame_id=="map") {
         //we need to get map width and height
@@ -48,20 +55,19 @@ void RandomWanderMS::setMaxRange(double max_range) {
     }
 }
 
+void RandomWanderMS::timer_cb(const ros::TimerEvent &event) {
+    if(this->enabled) {
+        arc_msgs::NavigationRequest req = this->generateRequest();
+        this->move_to_goal_client.call(req);
+        ROS_INFO("sent random wander goal of (%f, %f)",req.request.pose.position.x, req.request.pose.position.y);
+    }
+}
+
 void RandomWanderMS::run() {
-    ros::Rate r(this->random_choice_rate);
+    ros::Rate r(DEFAULT_RATE);
+    //set a timer to call random generation of goals every once in a while
 
     while(ros::ok()) {
-        //only do stuff if schema is enabled.
-        if(this->enabled) {
-            arc_msgs::NavigationRequest req = this->generateRequest();
-            this->move_to_goal_client.call(req);
-
-            ROS_INFO("sent random wander goal of (%d, %d)", (int) req.request.pose.position.x,
-                     (int) req.request.pose.position.y);
-
-        }
-
         ros::spinOnce();
         r.sleep();
     }
@@ -77,8 +83,15 @@ void RandomWanderMS::toggle(bool state) {
     this->enabled = state;
     if(this->enabled) {
         ROS_INFO("RandomWanderMS has been enabled.");
+        //send an immediate goal right when we start.
+        arc_msgs::NavigationRequest req = this->generateRequest();
+        this->move_to_goal_client.call(req);
+        this->goal_request_timer.start(); //set timer for when to send goal next
     } else {
         ROS_INFO("RandomWanderMS has been disabled.");
+        this->goal_request_timer.stop();
+        std_srvs::Trigger req;
+        this->abort_goals_client.call(req);
     }
 }
 
@@ -88,6 +101,7 @@ void RandomWanderMS::process_base_pose_cb(nav_msgs::Odometry odom) {
 
 arc_msgs::NavigationRequest RandomWanderMS::generateRequest() {
     arc_msgs::NavigationRequest req;
+    srand(time(NULL)); //to ensure we have unique random values each time this is called
     const double BUFFER = 0.5; //we don't want to go any closer than this to the edge of map
     assert(this->max_range>0);
     double x = 0.0;
@@ -128,7 +142,7 @@ arc_msgs::NavigationRequest RandomWanderMS::generateRequest() {
         y = (rand() % (this->map_height));
     }
 
-    ROS_INFO("Generated random navigation request(%d, %d) ", (int)x, (int)y);
+    ROS_INFO("Generated random navigation request(%f, %f) ", x, y);
     req.request.pose.position.x  = x;
     req.request.pose.position.y  = y;
     req.request.pose.position.z = 0;

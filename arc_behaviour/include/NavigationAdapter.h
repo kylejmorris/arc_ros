@@ -34,6 +34,10 @@ namespace arc_behaviour {
         ros::ServiceServer move_to_goal_server;
 
         /**
+         * Server thta allows a robot to forcefully stop any navigation it is currently doing.
+         */
+        ros::ServiceServer abort_goals_server;
+        /**
          * Used to determine if robot is currently stuck (ie it won't make it to any navigation goals)
          */
         ros::ServiceServer is_stuck_server;
@@ -72,6 +76,14 @@ namespace arc_behaviour {
          * @return True if stuck, false otherwise.
          */
         bool is_stuck_cb(std_srvs::Trigger::Request &req, std_srvs::Trigger::Response &res);
+
+
+        /**
+         * Force active navigation to be aborted. This is useful in the event that a schema stops
+         * using navigation and wants to actually halt the robot from moving RIGHT now.
+         * @return True if success, false if fail
+         */
+        bool abort_goals_cb(std_srvs::Trigger::Request &req, std_srvs::Trigger::Response &res);
 
         /**
          * When move_base is done, it will send a callback to signal the result of navigation. This may be either when the navigation is completed

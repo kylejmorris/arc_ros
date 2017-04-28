@@ -1,6 +1,6 @@
 #simple demo showing various models in an environment.
 include "objects.inc"
-include "kyle_robots.inc"
+include "arc_robots.inc"
 include "environment.inc"
 
 
@@ -25,7 +25,7 @@ debrisbot(
 
 
 
-smallbot(
+minbot(
 	name "test_smallbot1"
 	pose [2 0 0.0 0.0]
 	color "green"
