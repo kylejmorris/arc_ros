@@ -1,7 +1,7 @@
 /**
 * CLASS: CommunicationManager
 * DATE: 21/03/17
-* AUTHOR: ${AUTHOR}
+* AUTHOR: Kyle Morris
 * DESCRIPTION: Manages incoming and outgoing communication.
 * After the wifi_handler processes incoming signals,
 * they will be received by this node and further decomposed for the robot.

@@ -15,7 +15,6 @@
 
 #ifndef ARC_TASKS_TASKHANDLER_H
 #define ARC_TASKS_TASKHANDLER_H
-#include "arc_msgs/ArcTaskHandlerAction.h"
 #include "arc_msgs/ArcTaskAction.h"
 #include "arc_msgs/TaskRequest.h"
 #include <actionlib/server/simple_action_server.h>
