@@ -203,7 +203,7 @@ target_link_libraries(arc_base
 add_executable(detect_marker_ps src/DetectMarkerPS.cpp include/DetectMarkerPS.h src/detect_marker_ps_node.cpp)
 add_executable(detect_robot_ps src/detect_robot_ps_node.cpp src/DetectRobotPS.cpp include/DetectRobotPS.h)
 add_executable(detect_debris_ps src/detect_debris_ps_node.cpp src/DetectDebrisPS.cpp include/DetectDebrisPS.h)
-add_executable(detect_victim_ps src/detect_victim_ps_node.cpp src/DetectVictimPS.cpp include/DetectVictimPS.h)
+add_executable(detect_victim_ps src/detect_victim_ps_node.cpp src/AdvancedDetectVictimPS.cpp include/AdvancedDetectVictimPS.h)
 add_executable(navigation_adapter src/NavigationAdapter.cpp include/NavigationAdapter.h src/navigation_adapter_node.cpp)
 add_executable(random_wander_ms src/RandomWanderMS.cpp src/RandomWanderMS.h src/random_wander_ms_node.cpp src/MotorSchema.h)
 add_executable(move_to_goal_ms src/MoveToGoalMS.cpp src/MoveToGoalMS.h src/move_to_goal_ms_node.cpp src/MotorSchema.h)

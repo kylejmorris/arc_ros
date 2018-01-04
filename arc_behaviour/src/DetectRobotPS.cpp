@@ -24,7 +24,7 @@ DetectRobotPS::DetectRobotPS() {
 
     int max_range;
     local_handle.getParam("max_range", max_range);
-    //TODO: Stage has it's own max_range. Make stage use the max_range from parameter server, so they are both in sync. This way in stage the marker_detection will use the same max range as the behaviour module does.
+    //TODO: Stage has it's own sensingRange. Make stage use the sensingRange from parameter server, so they are both in sync. This way in stage the marker_detection will use the same max range as the behaviour module does.
     this->setMaxRange(max_range);
 }
 
@@ -57,7 +57,7 @@ void DetectRobotPS::ProcessStageFiducial() {
 
 void DetectRobotPS::setMaxRange(int new_range) {
     if(new_range<=0) {
-        ROS_WARN("Unable to set parameter: max_range. Value must be > 0. Using default.");
+        ROS_WARN("Unable to set parameter: sensingRange. Value must be > 0. Using default.");
         this->max_range = DEFAULT_MAX_RANGE;
     } else {
         this->max_range = new_range;

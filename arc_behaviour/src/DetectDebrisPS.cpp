@@ -39,7 +39,7 @@ ros::NodeHandle *DetectDebrisPS::getNodeHandle() {
 
 void DetectDebrisPS::setMaxRange(int new_range) {
     if(new_range<=0) {
-        ROS_WARN("Unable to set parameter: max_range. Value must be > 0. Using default.");
+        ROS_WARN("Unable to set parameter: sensingRange. Value must be > 0. Using default.");
         this->max_range = DEFAULT_MAX_RANGE;
     } else {
         this->max_range = new_range;

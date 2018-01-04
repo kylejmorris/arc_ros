@@ -1,9 +1,9 @@
 #include "ros/ros.h"
-#include "../include/DetectVictimPS.h"
+#include "AdvancedDetectVictimPS.h"
 
 int main(int argc, char **argv) {
     ros::init(argc, argv, "detect_robot_ps_node");
-    arc_behaviour::DetectVictimPS detector;
+    arc_behaviour::AdvancedDetectVictimPS detector;
 
     detector.run();
 

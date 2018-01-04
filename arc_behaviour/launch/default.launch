@@ -3,23 +3,23 @@
 	<rosparam param="schemas">[random_wander_ms]</rosparam>
     </node>
     <node name="detect_marker_ps" pkg="arc_behaviour" type="detect_marker_ps">
-        <param name="max_range" value="5"/>
+        <param name="sensingRange" value="5"/>
     </node>
     <node name="detect_robot_ps" pkg="arc_behaviour" type="detect_robot_ps">
-        <param name="max_range" value="5"/>
+        <param name="sensingRange" value="5"/>
     </node>
     <node name="detect_victim_ps" pkg="arc_behaviour" type="detect_victim_ps">
-        <param name="max_range" value="6"/>
+        <param name="sensingRange" value="6"/>
     </node>
     <node name="detect_debris_ps" pkg="arc_behaviour" type="detect_debris_ps">
-        <param name="max_range" value="6"/>
+        <param name="sensingRange" value="6"/>
     </node>
 
     <node name="navigation_adapter" pkg="arc_behaviour" type="navigation_adapter">
     </node>
 
     <node name="random_wander_ms" pkg="arc_behaviour" type="random_wander_ms">
-	<param name="max_range" value="15"/>
+	<param name="sensingRange" value="15"/>
 	<param name="update_goal_freq" value="0.05"/>
 	<param name="priority" value="1"/>
     </node>

@@ -21,7 +21,7 @@ RandomWanderMS::RandomWanderMS() {
     this->toggle_server = this->local_handle.advertiseService("toggle", &RandomWanderMS::toggle_cb, this);
     this->base_pose_sub = this->global_handle.subscribe("base_pose_ground_truth", MAX_QUEUE_SIZE, &RandomWanderMS::process_base_pose_cb, this);
     this->priority = local_handle.getParam("priority", this->DEFAULT_PRIORITY);
-    ROS_INFO("Parameter max_range set: %f", this->max_range);
+    ROS_INFO("Parameter sensingRange set: %f", this->max_range);
     ROS_INFO("Parameter update_goal_freq set: %d", this->random_choice_rate);
     ROS_INFO("Parameter frame_id set: %s", this->frame_id.c_str());
 
@@ -48,7 +48,7 @@ RandomWanderMS::RandomWanderMS() {
 
 void RandomWanderMS::setMaxRange(double max_range) {
     if(max_range<=0) {
-        ROS_WARN("Unable to set parameter: max_range. Value must be > 0. Using default.");
+        ROS_WARN("Unable to set parameter: sensingRange. Value must be > 0. Using default.");
         this->max_range = this->DEFAULT_MAX_RANGE;
     } else {
         this->max_range = max_range;
@@ -112,7 +112,7 @@ arc_msgs::NavigationRequest RandomWanderMS::generateRequest() {
 
     if(this->frame_id=="base_link") {
         //points are relative to robots current position
-        double delta_x = (rand() % (int)this->max_range) - ((int)this->max_range)/2.0; //TODO: If maxrange is a double, this will truncate some accuracy. Fix the mod op to support double value for max_range
+        double delta_x = (rand() % (int)this->max_range) - ((int)this->max_range)/2.0; //TODO: If maxrange is a double, this will truncate some accuracy. Fix the mod op to support double value for sensingRange
         double delta_y = (rand() % (int)this->max_range) - ((int)this->max_range)/2.0; //TODO: Test this random generation, make sure it's proper.
         double current_x = this->recent_position.pose.pose.position.x;
         double current_y = this->recent_position.pose.pose.position.y;

@@ -14,7 +14,7 @@
 
 namespace arc_behaviour {
 
-class DetectVictimPS {
+class AdvancedDetectVictimPS {
 public:
     /*
      * Collection of the markers found in given perceptual instance.
@@ -28,8 +28,9 @@ public:
     /**
      * Maximum range that we can detect markers from Victims position.
      */
-    int max_range;
+    int sensingRange;
 
+    int maxVictimIdentificationDistance = 6;
     /**
      * Publish marker information, ie a simple boolean if markers are nearby.
      */
@@ -52,7 +53,7 @@ public:
      * Setup the detector with all of the ros topic publishers.
      * uses default global/local node handles
      */
-    DetectVictimPS();
+    AdvancedDetectVictimPS();
 
     /**
      * Check output from stage and prune markers to ones only within our maximum range.
@@ -69,7 +70,6 @@ public:
     void run();
 };
 };
-
 
 #endif //ARC_BEHAVIOUR_DETECTVICTIMSPS_H
 //TODO: Change stage to not publish marker information, ie for every single marker on a topic. Just let Victim detect it in map, and publish info when it finds them. We have to mod stage to move markers using a service, not by having cmd_vel publishing nonsense. ROS can't handle 100's of markers all publishing odom info, they aren't Victims.
