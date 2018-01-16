@@ -36,19 +36,19 @@ The launch file for a single debrisbot.
 	<param name="priority" value="2"/>
    </node>
 
-   <node pkg="arc_behaviour" type="move_to_goal_ms" name="move_to_goal_ms" output="screen"/>
+   <node pkg="arc_behaviour" type="move_to_goal_ms" name="move_to_goal_ms"/>
 
    <node name="clean_debris_ms" pkg="arc_behaviour" type="clean_debris_ms">
 	<param name="max_cleaning_range" value="0.5"/>
 	<param name="priority" value="2"/>
    </node>
 
-    <node name="navigation_adapter" pkg="arc_behaviour" type="navigation_adapter" output="screen">
+    <node name="navigation_adapter" pkg="arc_behaviour" type="navigation_adapter">
     </node>
 
     <!-- NAVIGATION CONFIG -->
     <param name="tf_prefix" value="$(arg robot_name)" />
-    <node pkg="fake_localization" type="fake_localization" name="fake_localization" respawn="false" output="screen"> 
+    <node pkg="fake_localization" type="fake_localization" name="fake_localization" respawn="false"> 
 	  <param name="tf_prefix" value="$(arg robot_name)" />
       <param name="odom_frame_id" value="$(arg robot_name)/odom" />
       <param name="base_frame_id" value="$(arg robot_name)/base_link" />

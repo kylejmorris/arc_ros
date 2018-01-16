@@ -2,9 +2,8 @@
 * CLASS: DetectVictimPS
 * DATE: 14/02/17
 * AUTHOR: Kyle Morris
-* DESCRIPTION: Determine if Victims are nearby.
+* DESCRIPTION: Determine if Victims are nearby. Can only detect potential victims, never guranteed positive/negative samples.
 */
-
 #ifndef ARC_BEHAVIOUR_DETECTVICTIMSPS_H
 #define ARC_BEHAVIOUR_DETECTVICTIMSPS_H
 
@@ -25,12 +24,16 @@ public:
      * List of actual Victims found after done pruning markers
      */
     arc_msgs::DetectedVictims found_victims;
+
     /**
      * Maximum range that we can detect markers from Victims position.
      */
     int sensingRange;
 
     int maxVictimIdentificationDistance = 6;
+
+    bool advanced = false; //if the sensor is advanced, it will take into account distance of robot as a factor of how likely we are to detect it correctly.
+
     /**
      * Publish marker information, ie a simple boolean if markers are nearby.
      */
@@ -44,10 +47,8 @@ public:
     ros::NodeHandle local_handle;
 
     //callbacks
-
     //update us with most recent stage information
     void process_detect_victim_cb(const marker_msgs::MarkerDetection marker_info);
-
 public:
     /**
      * Setup the detector with all of the ros topic publishers.

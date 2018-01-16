@@ -24,6 +24,8 @@ AdvancedDetectVictimPS::AdvancedDetectVictimPS() {
     int max_range;
     local_handle.getParam("max_range", max_range);
     local_handle.getParam("max_victim_detect_range", maxVictimIdentificationDistance);
+    local_handle.getParam("advanced_mode", this->advanced);
+
     //TODO: Stage has it's own sensingRange. Make stage use the sensingRange from parameter server, so they are both in sync. This way in stage the marker_detection will use the same max range as the behaviour module does.
     this->setMaxRange(max_range);
 }
@@ -48,7 +50,13 @@ void AdvancedDetectVictimPS::ProcessStageFiducial() {
             }
 
             //if we are out of range of being able to see the victim correctly, forcefully label it as potential victim.
-            if((curr_victim.status==3||curr_victim.status==2) && (distance_away >= maxVictimIdentificationDistance)) {
+            if(this->advanced) { //in the advanced mode, we only say the victim is potential if they are out of some range to us.
+                if ((curr_victim.status == 3 || curr_victim.status == 2) &&
+                    (distance_away >= maxVictimIdentificationDistance)) {
+                    curr_victim.status = 1;
+                }
+            } else {
+                //in the basic sensing mode, all victims are potential
                 curr_victim.status = 1;
             }
 

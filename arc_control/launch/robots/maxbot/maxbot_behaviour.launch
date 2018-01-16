@@ -11,6 +11,8 @@ The launch file for a single maxbot.
 	<rosparam param="schemas">["random_wander_ms", "move_to_goal_ms"]</rosparam>
     </node>
 
+    <node name="move_to_goal_ms" pkg="arc_behaviour" type="move_to_goal_ms"/>
+
     <node name="random_wander_ms" pkg="arc_behaviour" type="random_wander_ms">
 	<rosparam param="frame_id">"map"</rosparam>
 	<rosparam param="update_goal_freq">10</rosparam>
@@ -26,6 +28,7 @@ The launch file for a single maxbot.
     <node name="detect_victim_ps" pkg="arc_behaviour" type="detect_victim_ps">
         <param name="max_range" value="6"/>
         <param name="max_victim_detect_range" value="4"/>
+	    <rosparam param="advanced_mode">True</rosparam>
     </node>
 
     <node name="detect_debris_ps" pkg="arc_behaviour" type="detect_debris_ps">
