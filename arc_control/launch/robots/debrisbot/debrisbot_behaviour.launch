@@ -24,6 +24,8 @@ The launch file for a single debrisbot.
     </node>
     <node name="detect_victim_ps" pkg="arc_behaviour" type="detect_victim_ps">
         <param name="max_range" value="6"/>
+	<param name="max_victim_detect_range" value="4"/>
+	<rosparam param="advanced_mode">True</rosparam>
     </node>
 
     <node name="detect_debris_ps" pkg="arc_behaviour" type="detect_debris_ps">

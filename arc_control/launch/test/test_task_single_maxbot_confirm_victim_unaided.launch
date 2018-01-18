@@ -50,8 +50,7 @@ request_type: 0"
 <node name="rviz" pkg="rviz" type="rviz" args="-d $(find arc_navigation)/single_robot.rviz" />
 <group ns="test_bot">
 	<node pkg="arc_tasks" type="task_confirm_victim_server" name="task_confirm_victim_server" output="screen"/>
-	<node pkg="arc_tasks" type="task_confirm_victim_client" name="task_confirm_victim_client" output="screen"/>
-
+	<node pkg="arc_tasks" type="task_confirm_victim_client" name="task_confirm_victim_client" output="screen"/> 
   <include file="$(find arc_control)/launch/robots/$(arg robot_type)/$(arg robot_type)_behaviour.launch">
 	<arg name="robot_name" value="test_bot"/>
 </include>

@@ -40,6 +40,11 @@ private:
     ros::Subscriber victim_sub;
 
     /**
+     * Publish results about if you found victim or not at a given location.
+     */
+    ros::Publisher victim_status_pub;
+
+    /**
      * Subscribes to our current position
      */
     //TODO: Instead of tracking position using base_pose an such, just use the TF support. You can do this in quite a few places in the framework now instead of this gibberish.
@@ -65,6 +70,12 @@ private:
      * Current potential victim we are navigating to.
      */
     arc_msgs::DetectedVictim target_victim;
+
+    /**
+     * List of the victims we have handled already. Don't recheck them now... this is to prevent us from detecting the victim in front of us repeatedly, and getting stuck in
+     * infinite loop as we confirm their status.
+     */
+    arc_msgs::DetectedVictims checkedVictims;
 
     /**
      * After getting the target debris location relative to us, we set it's position as navigation goal
@@ -136,6 +147,7 @@ private:
      */
     int victim_success_count = 0;
 
+
     /**
      * How many debris objects were requested to be cleaned this task instance.
      */
@@ -147,7 +159,7 @@ private:
      */
     constexpr static double MAX_VICTIM_DISPLACMENT_THRESHOLD = 0.5;
 
-//PARAMETERS and their default vlaues.
+//PARAMETERS and their default values;
     double stopping_distance_from_victim = 0.5;
 
     /**
@@ -166,6 +178,14 @@ private:
      * @return list of debris found in input string
      */
     arc_msgs::DetectedVictims parseVictimList(std::string input);
+
+    /**
+     * Check if we already visited this victim yet or not.
+     */
+    bool alreadyCheckedVictim(const arc_msgs::DetectedVictim &victim);
+
+    template <typename T>
+    double dist(const T &first, const T &second );
 
 public:
     TaskConfirmVictimServer();

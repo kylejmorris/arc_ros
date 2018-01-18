@@ -1,5 +1,6 @@
 
 #include "arc_msgs/ToggleSchema.h"
+#include <arc_msgs/WirelessAnnouncement.h>
 #include "TaskConfirmVictimServer.h"
 #include "dynamic_reconfigure/Config.h"
 #include <arc_msgs/DetectedVictims.h>
@@ -14,6 +15,7 @@ TaskConfirmVictimServer::TaskConfirmVictimServer() : server(global_handle, "task
     ros::NodeHandle local_handle("task_guided_clean_debris_server");
     ros::Timer timer = global_handle.createTimer(ros::Duration(60), &TaskConfirmVictimServer::explore_timer_cb, this, false);
     this->victim_sub = global_handle.subscribe("detect_victim_ps/found_victims", MAX_QUEUE_SIZE, &TaskConfirmVictimServer::found_victims_cb, this);
+    this->victim_status_pub = global_handle.advertise<arc_msgs::WirelessAnnouncement>("wifi_handler/outgoing_announcements", MAX_QUEUE_SIZE, true);
     this->base_pos_sub = global_handle.subscribe("base_pose_ground_truth", MAX_QUEUE_SIZE, &TaskConfirmVictimServer::base_pose_cb, this);
     this->pose_listener;
 
@@ -66,7 +68,22 @@ void TaskConfirmVictimServer::shutdown() {
 }
 
 void TaskConfirmVictimServer::found_victims_cb(const arc_msgs::DetectedVictims &victims) {
-    this->victims_found_nearby = victims;
+    victims_found_nearby.victims.clear();
+
+    for(const auto &victim  : victims.victims) {
+        bool seenBefore = false;
+            for(const auto &other : this->checkedVictims.victims) {
+                //ensure we have not seen this victim before.
+                double distBetween = dist(victim.pose.position, other.pose.position);
+                if (distBetween >= MAX_VICTIM_DISPLACMENT_THRESHOLD) {
+                    seenBefore = true;
+                    ROS_INFO("We've seen this victim before.");
+                }
+            }
+        if(!seenBefore) {
+            victims_found_nearby.victims.push_back(victim);
+        }
+    }
 }
 
 std::string TaskConfirmVictimServer::stateToString(TaskConfirmVictimServer::State state) {
@@ -106,7 +123,7 @@ void TaskConfirmVictimServer::StateSelectVictimTarget() {
             arc_msgs::DetectedVictim curr = this->victim_list.victims.at(pos);
             double curr_distance_away = sqrt(pow(curr.pose.position.x,2) + pow(curr.pose.position.y,2));
             double min_distance_away = sqrt(pow(this->target_victim.pose.position.x, 2) + pow(this->target_victim.pose.position.y,2));
-            ROS_DEBUG("checking debris at location %f, %f", curr.pose.position.x, curr.pose.position.y);
+            ROS_DEBUG("checking victim at location %f, %f", curr.pose.position.x, curr.pose.position.y);
 
             //compare the distance of current debris, and the current minimum to see if we have a new min
             if(curr_distance_away < min_distance_away) {
@@ -225,7 +242,6 @@ void TaskConfirmVictimServer::process() {
 
     //toggling of server (setSucceeded() etc, should only be done in this loop, not within state methods)
     while(ros::ok() && server.isActive()) {
-        ros::spinOnce();
         if (state == STATE_SelectVictimTarget) {
             ROS_INFO_ONCE("IN STATE: SelectVictimTarget");
             StateSelectVictimTarget();
@@ -235,6 +251,9 @@ void TaskConfirmVictimServer::process() {
             ROS_INFO_ONCE("IN STATE: DetectingVictim.");
             StateDetectingVictim();
         }
+
+
+        ros::spinOnce();
         r.sleep();
     }
 }
@@ -257,7 +276,6 @@ void TaskConfirmVictimServer::StateSeekingVictimLocation() {
 
         ROS_INFO("Sending navigation request to location (%f, %f)", req.request.pose.position.x, req.request.pose.position.y);
         this->move_to_debris_client.call(req);
-
     } else { //we are heading to the victim
         //check our current distance from victim
         double curr_x = this->recent_pose.pose.pose.position.x;
@@ -271,8 +289,8 @@ void TaskConfirmVictimServer::StateSeekingVictimLocation() {
             this->abort_all_goals_client.call(abort_trigger);
 
             //now we can start cleaning
-            this->state = STATE_DetectingVictim;
             this->instance_state.currently_seeking_debris = false;
+            this->state = STATE_DetectingVictim;
         }
     }
 
@@ -288,15 +306,27 @@ void TaskConfirmVictimServer::StateDetectingVictim() {
     while(it!=victims_found_nearby.victims.end()) {
         auto locationFound = it->pose.position;
 
-        double potentialVictimDisplacement = sqrt(pow(locationFound.x-this->target_pose.position.x, 2) + pow(locationFound.x - this->target_pose.position.y,2));
+        double potentialVictimDisplacement = sqrt(pow(locationFound.x, 2) + pow(locationFound.y,2));
 
+        //TODO: should map victims coordinates to /map frame so we can calculate this displacement.
         //if we found a victim within this area we claim we found our result
-        if(potentialVictimDisplacement <= MAX_VICTIM_DISPLACMENT_THRESHOLD) {
+        ROS_INFO("Victim displacement is %f", potentialVictimDisplacement);
+        if(potentialVictimDisplacement <= MAX_VICTIM_DISPLACMENT_THRESHOLD+this->stopping_distance_from_victim) {
             this->instance_state.found_debris_target = true;
             victimFound = *it;
             it = victims_found_nearby.victims.erase(it);
             break;
         }
+
+        //there is actually a victim near us at this point
+       /* ROS_INFO("Victim distance is %f", potentialVictimDistance);
+        if(potentialVictimDistance <= this->stopping_distance_from_victim) {
+            this->instance_state.found_debris_target = true;
+            victimFound = *it;
+            it = victims_found_nearby.victims.erase(it);
+            break;
+        }
+        */
 
         it++;
     }
@@ -305,11 +335,34 @@ void TaskConfirmVictimServer::StateDetectingVictim() {
         ROS_INFO("Moved to location (%f, %f) but could not find victim. Moving on.", (float)target_victim.pose.position.x, (float)target_victim.pose.position.y, (int)target_victim.status);
         //TODO: broadcast a failed to find victim message here.
     } else {
+        arc_msgs::WirelessAnnouncement victimFoundAnnouncement;
+        victimFoundAnnouncement.sender_location = this->recent_pose.pose.pose;
+
+        dynamic_reconfigure::DoubleParameter xloc, yloc;
+        xloc.name = "x"; xloc.value = victimFound.pose.position.x;
+        yloc.name = "y"; yloc.value = victimFound.pose.position.y;
+        victimFoundAnnouncement.announcement.doubles.push_back(xloc);
+        victimFoundAnnouncement.announcement.doubles.push_back(yloc);
+
         if(victimFound.status==POSITIVE) {
             //TODO: Broadcast a success in finding victim message.. no need to clean. Just go back to finding next victim
+            dynamic_reconfigure::BoolParameter positive;
+            positive.name = "positive";
+            positive.value = true;
+
+            victimFoundAnnouncement.announcement.bools.push_back(positive);
+            this->victim_status_pub.publish(victimFoundAnnouncement);
+
             ROS_INFO("The potential victim actually is a victim! CALL RESCUE TEAM.");
         } else if(victimFound.status==NEGATIVE) {
             //TODO: Broadcast a success in finding victim message.. no need to clean. Just go back to finding next victim
+            dynamic_reconfigure::BoolParameter positive;
+            positive.name = "positive";
+            positive.value = false;
+
+            victimFoundAnnouncement.announcement.bools.push_back(positive);
+            this->victim_status_pub.publish(victimFoundAnnouncement);
+
             ROS_INFO("The potential victim is actually not a victim... That's good.");
         } else if(victimFound.status==POTENTIAL) {
             ROS_INFO("You shouldn't have gone out looking to confirm this victim if you lack the sensor capability... silly. Also this should never happen.");
@@ -317,5 +370,13 @@ void TaskConfirmVictimServer::StateDetectingVictim() {
     }
 
     this->state = STATE_SelectVictimTarget;
+}
+
+bool TaskConfirmVictimServer::alreadyCheckedVictim(const arc_msgs::DetectedVictim &victim) {
+}
+
+template<typename T>
+double TaskConfirmVictimServer::dist(const T &first, const T &second) {
+    return sqrt(pow(first.x - second.x, 2) + pow(first.y - second.y, 2));
 }
 
