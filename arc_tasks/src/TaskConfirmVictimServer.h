@@ -51,6 +51,9 @@ private:
     ros::Subscriber base_pos_sub;
     tf::TransformListener pose_listener;
 
+    tf2_ros::Buffer *victim_buffer;
+    tf2_ros::TransformListener *victim_listener;
+
     /**
      * List of the debris we most recently detected. It is always being updated
      */

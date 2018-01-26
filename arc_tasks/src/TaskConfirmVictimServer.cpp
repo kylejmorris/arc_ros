@@ -6,6 +6,8 @@
 #include <arc_msgs/DetectedVictims.h>
 #include "boost/algorithm/string.hpp"
 #include "TaskServer.h"
+#include <tf2_geometry_msgs/tf2_geometry_msgs.h>
+#include <tf2_ros/transform_listener.h>
 
 
 #define MAX_QUEUE_SIZE 1000
@@ -37,6 +39,11 @@ TaskConfirmVictimServer::TaskConfirmVictimServer() : server(global_handle, "task
     this->arc_base_client.call(request);
     this->server.start();
 
+    tf2_ros::Buffer *victim_buffer = new tf2_ros::Buffer;
+
+    tf2_ros::TransformListener *victim_listener = new tf2_ros::TransformListener(*victim_buffer);
+    this->victim_listener = victim_listener;
+    this->victim_buffer = victim_buffer;
 }
 
 void TaskConfirmVictimServer::base_pose_cb(const nav_msgs::Odometry &odom) {
@@ -70,14 +77,36 @@ void TaskConfirmVictimServer::shutdown() {
 void TaskConfirmVictimServer::found_victims_cb(const arc_msgs::DetectedVictims &victims) {
     victims_found_nearby.victims.clear();
 
-    for(const auto &victim  : victims.victims) {
+    //transform content
+    arc_msgs::DetectedVictims victims_transformed;
+
+    geometry_msgs::TransformStamped fiducial_link_to_map_tf;
+    fiducial_link_to_map_tf = this->victim_buffer->lookupTransform("map", "test_bot/base_fiducial_link", ros::Time(0), ros::Duration(1.0));
+
+    for(const auto &victim : victims.victims) {
+        geometry_msgs::PoseStamped transformed;
+        geometry_msgs::PoseStamped victim_stamped;
+        victim_stamped.pose = victim.pose;
+        tf2::doTransform(victim_stamped, transformed, fiducial_link_to_map_tf);
+
+        arc_msgs::DetectedVictim transformed_victim;
+        transformed_victim.victim_id = victim.victim_id;
+        transformed_victim.status = victim.status;
+        transformed_victim.pose = transformed.pose;
+
+        victims_transformed.victims.push_back(transformed_victim);
+    }
+
+    for(const auto &victim  : victims_transformed.victims) {
+        ROS_INFO("found victim at %f %f", victim.pose.position.x, victim.pose.position.y);
+
         bool seenBefore = false;
             for(const auto &other : this->checkedVictims.victims) {
                 //ensure we have not seen this victim before.
                 double distBetween = dist(victim.pose.position, other.pose.position);
                 if (distBetween >= MAX_VICTIM_DISPLACMENT_THRESHOLD) {
                     seenBefore = true;
-                    ROS_INFO("We've seen this victim before.");
+                    ROS_INFO("We have seen the victim at %f %f before...", victim.pose.position.x, victim.pose.position.y);
                 }
             }
         if(!seenBefore) {
@@ -306,7 +335,7 @@ void TaskConfirmVictimServer::StateDetectingVictim() {
     while(it!=victims_found_nearby.victims.end()) {
         auto locationFound = it->pose.position;
 
-        double potentialVictimDisplacement = sqrt(pow(locationFound.x, 2) + pow(locationFound.y,2));
+        double potentialVictimDisplacement = sqrt(pow(locationFound.x-this->recent_pose.pose.pose.position.x, 2) + pow(locationFound.y-this->recent_pose.pose.pose.position.y,2));
 
         //TODO: should map victims coordinates to /map frame so we can calculate this displacement.
         //if we found a victim within this area we claim we found our result
@@ -315,18 +344,9 @@ void TaskConfirmVictimServer::StateDetectingVictim() {
             this->instance_state.found_debris_target = true;
             victimFound = *it;
             it = victims_found_nearby.victims.erase(it);
+            ROS_FATAL("WE ACTUALLY FOUND A VICTIM WOAH! THIS GUY WAS FOUND! EXIT NOW!");
             break;
         }
-
-        //there is actually a victim near us at this point
-       /* ROS_INFO("Victim distance is %f", potentialVictimDistance);
-        if(potentialVictimDistance <= this->stopping_distance_from_victim) {
-            this->instance_state.found_debris_target = true;
-            victimFound = *it;
-            it = victims_found_nearby.victims.erase(it);
-            break;
-        }
-        */
 
         it++;
     }
@@ -335,6 +355,8 @@ void TaskConfirmVictimServer::StateDetectingVictim() {
         ROS_INFO("Moved to location (%f, %f) but could not find victim. Moving on.", (float)target_victim.pose.position.x, (float)target_victim.pose.position.y, (int)target_victim.status);
         //TODO: broadcast a failed to find victim message here.
     } else {
+        this->checkedVictims.victims.push_back(victimFound);
+
         arc_msgs::WirelessAnnouncement victimFoundAnnouncement;
         victimFoundAnnouncement.sender_location = this->recent_pose.pose.pose;
 
