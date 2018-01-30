@@ -187,11 +187,23 @@ private:
      */
     bool alreadyCheckedVictim(const arc_msgs::DetectedVictim &victim);
 
+    /**
+     * Record that we are done confirming a given victim. This will ensure we don't look for it again.
+     * @param victim: The victim to confirm
+     */
+    void completeConfirmingVictim(const arc_msgs::DetectedVictim &victim);
+
     template <typename T>
     double dist(const T &first, const T &second );
 
+    bool victimSeenAlready(const arc_msgs::DetectedVictim &victim);
+
 public:
-    TaskConfirmVictimServer();
+    /**
+     * @param robotName
+     * @param customNamespace  In case of debugging mode, we can specify a custom namespace so we can redirect topics to a debugger.
+     */
+    TaskConfirmVictimServer(const std::string &robotName, const std::string &customNamespace);
 
     /**
      * Perform any routine startup procedures when this task instance is started.

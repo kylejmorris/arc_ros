@@ -2,8 +2,8 @@
 #include "dynamic_reconfigure/Config.h"
 
 TaskConfirmVictimClient::TaskConfirmVictimClient(){
-    client = new ActionClient("task_guided_clean_debris", true);
-    ROS_INFO("Waiting for task_explore action server to start.");
+    client = new ActionClient("task_confirm_victim", true);
+    ROS_INFO("Waiting for task_confirm_victim action server to start.");
     client->waitForServer();
     ROS_INFO("Action server started....counting down");
 }
@@ -18,7 +18,7 @@ void TaskConfirmVictimClient::doTask(const ros::TimerEvent &event) {
     //Some contrived data. These debris exist in the environment.
     dynamic_reconfigure::StrParameter debris_list_param;
     debris_list_param.name = "victim_list";
-    debris_list_param.value = "(2,12.536,4.015)|(3,5.45,7.913)|(13,3.044,12.116)";
+    debris_list_param.value = "(2,12.536,4.015)|(3,5.45,7.913)|(1,9.0,6.43)";
     goal.parameters.strs.push_back(debris_list_param);
 
     ROS_INFO("Sending task");
