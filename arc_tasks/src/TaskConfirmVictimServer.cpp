@@ -31,6 +31,7 @@ TaskConfirmVictimServer::TaskConfirmVictimServer(const std::string &robotName, c
     this->victim_success_count = 0;
 
     this->local_handle = local_handle;
+    local_handle.param<std::string>("robot_name", this->robotName, "test_bot");
 
     //TODO: Handle pre-empt callback as well
     this->arc_base_client = global_handle.serviceClient<arc_msgs::ToggleSchema>((topic_ns+"arc_base/toggle_schema"));
@@ -87,7 +88,7 @@ void TaskConfirmVictimServer::found_victims_cb(const arc_msgs::DetectedVictims &
     arc_msgs::DetectedVictims victims_transformed;
 
     geometry_msgs::TransformStamped fiducial_link_to_map_tf;
-    fiducial_link_to_map_tf = this->victim_buffer->lookupTransform("map", "test_bot/base_fiducial_link", ros::Time(0), ros::Duration(1.0));
+    fiducial_link_to_map_tf = this->victim_buffer->lookupTransform("map", (this->robotName+"/base_fiducial_link"), ros::Time(0), ros::Duration(1.0));
 
     for(const auto &victim : victims.victims) {
         geometry_msgs::PoseStamped transformed;

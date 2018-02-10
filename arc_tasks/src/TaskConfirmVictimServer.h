@@ -139,6 +139,8 @@ private:
         POSITIVE
     };
 
+    std::string robotName;
+
     //These variables are only here to ensure we don't repeatedly call ROS services, we only have to do it once.
     /**
      * Whether or not the task is currently active.

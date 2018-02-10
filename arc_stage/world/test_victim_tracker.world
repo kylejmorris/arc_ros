@@ -1,13 +1,17 @@
-#created just to test if I can create an arc world that works with the navigation stack, but is composed of obstacles, and not map data from some png image. This is taken directly from the willow-full.pgm world provided by navigation_stage package.
-
 include "objects.inc"
 include "arc_robots.inc"
 include "environment.inc"
 
 debrisbot(
-	name "test_bot"
+	name "test_bot_1"
 	pose [1.512 2.216 0.000 -14.324]
 	color "blue"
+)
+
+maxbot(
+	name "test_bot_2"
+	pose [9.0 16.0 0.000 -14.324]
+	color "green"
 )
 
 #this is used to create a bounding box. The image we feed in is actually empty, but by definiing it as a model, we have some boundry the robot can't possibly escape through.

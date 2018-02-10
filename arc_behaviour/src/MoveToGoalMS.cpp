@@ -40,13 +40,12 @@ bool MoveToGoalMS::move_to_goal_cb(arc_msgs::NavigationRequest::Request &req, ar
 
 void MoveToGoalMS::run() {
     ros::Rate r(DEFAULT_RATE);
-    //set a timer to call random generation of goals every once in a while
 
+    //set a timer to call random generation of goals every once in a while
     while(ros::ok()) {
         ros::spinOnce();
         r.sleep();
     }
-
 }
 
 bool MoveToGoalMS::toggle_cb(std_srvs::SetBoolRequest &req, std_srvs::SetBoolResponse &res) {

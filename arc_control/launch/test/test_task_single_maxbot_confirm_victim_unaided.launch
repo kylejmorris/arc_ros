@@ -21,12 +21,12 @@ request_type: 0"
 ____
 
 -send this request below. the first victim in list is actually not a victim, so there is nothing there.  the robot should realize this and broadcast that it's actually not a victim, and move on to second potential victim, and report that it found 1 victims and 1 false positive.
-rostopic pub /artest_bot/task_handler/task_requests arc_msgs/TaskRequest "task_id: 0
+rostopic pub /arc/test_bot/task_handler/task_requests arc_msgs/TaskRequest "task_id: 0
 created: {secs: 0, nsecs: 0}
 task_name: 'confirm_victim'
 parameters:
   bools:
-  - {name: '', valu e: false}
+  - {name: '', value: false}
   ints:
   - {name: '', value: 0}
   strs:

@@ -16,10 +16,16 @@ The launch file for a single debrisbot.
     <node pkg="arc_tasks" type="task_unguided_clean_debris_server" name="task_unguided_clean_debris_server" output="screen"/>
     <node pkg="arc_tasks" type="task_guided_clean_debris_server" name="task_guided_clean_debris_server" output="screen"/>
     <node pkg="arc_tasks" type="task_explore_server" name="task_explore_server" output="screen"/>
+    <node pkg="arc_tasks" type="task_confirm_victim_server" name="task_confirm_victim_server" output="screen">
+		<param name="robot_name" value="test_bot_1"/>
+    </node>
+	<node pkg="arc_tasks" type="task_confirm_victim_client" name="task_confirm_victim_client" output="screen"/> 
 
+    <!-- victim handler -->
+    <node pkg="arc_core" type="victim_tracker" name="victim_tracker" output="screen"></node>
     <!-- the task handler that will manage task requests. -->
     <node pkg="arc_core" type="task_handler" name="task_handler">
-    <rosparam param="valid_tasks">["explore", "unguided_clean_debris", "guided_clean_debris"]</rosparam>
+    <rosparam param="valid_tasks">["explore", "unguided_clean_debris", "guided_clean_debris", "confirm_victim"]</rosparam>
     </node>
 
     <!-- THE CORE RECRUITMENT MANAGER OF ROBOT -->
