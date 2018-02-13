@@ -3,6 +3,7 @@
 #include <arc_msgs/DetectedVictims.h>
 #include <vector>
 #include <arc_msgs/TaskRequest.h>
+#include <arc_msgs/WirelessRequest.h>
 
 using namespace std;
 
@@ -16,7 +17,7 @@ VictimTracker::VictimTracker(const std::string &customNamespace) {
     ROS_INFO("ns is %s", ns.c_str());
 
     this->incoming_victims_sub = global_handle.subscribe(customNamespace + "detect_victim_ps/found_victims", MAX_QUEUE_SIZE, &VictimTracker::incoming_victims_cb, this);
-    this->confirm_victim_task_request_pub = global_handle.advertise<arc_msgs::TaskRequest>(customNamespace + "wifi_handler/outgoing_requests", MAX_QUEUE_SIZE, true);
+    this->confirm_victim_task_request_pub = global_handle.advertise<arc_msgs::WirelessRequest>(customNamespace + "wifi_handler/outgoing_requests", MAX_QUEUE_SIZE, true);
 
     tf2_ros::Buffer *victim_buffer = new tf2_ros::Buffer;
     tf2_ros::TransformListener *victim_listener = new tf2_ros::TransformListener(*victim_buffer);
@@ -127,10 +128,18 @@ void VictimTracker::evaluatePotentialVictims() {
 }
 
 void VictimTracker::broadcastConfirmVictimTask(const arc_msgs::DetectedVictims &victims) {
+    arc_msgs::WirelessRequest w_req;
     arc_msgs::TaskRequest req;
+
+    //TODO [HACK]: Specify the robots actual current location as part of wireless request
+    w_req.sender_location.position.x = 5.0;
+    w_req.sender_location.position.y = 5.0;
 
     req.task_id=1;
     req.task_name = "confirm_victim";
+
+    req.created= ros::Time::now();
+
 
     string victimList = "";
 
@@ -149,8 +158,11 @@ void VictimTracker::broadcastConfirmVictimTask(const arc_msgs::DetectedVictims &
     victim_list.value = victimList.c_str();
 
     req.parameters.strs.push_back(victim_list);
+    w_req.task = req;
 
-    this->confirm_victim_task_request_pub.publish(req);
+    w_req.request_type=w_req.task.TYPE_COMPLETION;
+
+    this->confirm_victim_task_request_pub.publish(w_req);
 }
 
 int main(int argc, char **argv)  {

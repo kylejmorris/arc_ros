@@ -1,0 +1,8 @@
+prefix=/usr/local
+
+Name: arc_tasks
+Description: Description of arc_tasks
+Version: 0.0.0
+Cflags: 
+Libs: -L/usr/local/lib 
+Requires: 

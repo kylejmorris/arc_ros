@@ -1,0 +1,8 @@
+prefix=/usr/local
+
+Name: arc_behaviour
+Description: Description of arc_behaviour
+Version: 0.0.0
+Cflags: 
+Libs: -L/usr/local/lib 
+Requires: roscpp

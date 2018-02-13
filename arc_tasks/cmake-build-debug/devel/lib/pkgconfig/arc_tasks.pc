@@ -1,0 +1,8 @@
+prefix=/home/gurren/workspace/arc_ws/src/arc_tasks/cmake-build-debug/devel
+
+Name: arc_tasks
+Description: Description of arc_tasks
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/gurren/workspace/arc_ws/src/arc_tasks/cmake-build-debug/devel/lib 
+Requires: 

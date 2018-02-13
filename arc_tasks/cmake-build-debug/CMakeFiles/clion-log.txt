@@ -1,0 +1,17 @@
+/home/gurren/software/clion-2017.1.1/bin/cmake/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/gurren/workspace/arc_ws/src/arc_tasks
+-- Using CATKIN_DEVEL_PREFIX: /home/gurren/workspace/arc_ws/src/arc_tasks/cmake-build-debug/devel
+-- Using CMAKE_PREFIX_PATH: /home/gurren/workspace/arc_ws/devel;/opt/ros/kinetic
+-- This workspace overlays: /home/gurren/workspace/arc_ws/devel;/opt/ros/kinetic
+-- Using PYTHON_EXECUTABLE: /usr/bin/python
+-- Using Debian Python package layout
+-- Using empy: /usr/bin/empy
+-- Using CATKIN_ENABLE_TESTING: ON
+-- Call enable_testing()
+-- Using CATKIN_TEST_RESULTS_DIR: /home/gurren/workspace/arc_ws/src/arc_tasks/cmake-build-debug/test_results
+-- Found gtest sources under '/usr/src/gtest': gtests will be built
+-- Using Python nosetests: /usr/bin/nosetests-2.7
+-- catkin 0.7.6
+-- Using these message generators: gencpp;geneus;genlisp;gennodejs;genpy
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/gurren/workspace/arc_ws/src/arc_tasks/cmake-build-debug

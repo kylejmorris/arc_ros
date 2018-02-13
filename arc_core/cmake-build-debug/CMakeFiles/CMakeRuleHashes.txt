@@ -1,0 +1,5 @@
+# Hashes of file build rules.
+40550bcfc3d90a40f8256c650c8f0fe4 CMakeFiles/_run_tests_arc_core_gtest_test_task_handler
+1c1b7a26319656d6f51150fd3854037b CMakeFiles/clean_test_results
+fc127fad27fa94bfdbba79917053b210 CMakeFiles/clean_test_results_arc_core
+40550bcfc3d90a40f8256c650c8f0fe4 CMakeFiles/run_tests_arc_core_gtest_test_task_handler

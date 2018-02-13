@@ -63,7 +63,6 @@ private:
     void evaluatePotentialVictims();
 
     void broadcastConfirmVictimTask(const arc_msgs::DetectedVictims &victims);
-
 public:
     VictimTracker(const std::string &customNamespace);
 

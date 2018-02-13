@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/gurren/workspace/arc_ws/src/arc_stage/cmake-build-debug/devel/setup.sh

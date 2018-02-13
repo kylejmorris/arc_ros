@@ -25,6 +25,7 @@ pose:
 
 
 PHASE 2
+test_bot_1 can't determine the victim so it broadcasts for help.
 test_bot_2 receives the task and goes to confirm victim. test_bot_2 finds that the victim is actually not a victim... Upon doing so it broadcasts result. Both robots store the result in their victim tracker...
 
 PHASE 3:
@@ -52,6 +53,13 @@ PHAES 6: Robots output their victim tracker states, they should all be equal .
 <group ns="arc">
 <!-- <node name="rviz" pkg="rviz" type="rviz" args="-d $(find arc_navigation)/single_robot.rviz" /> -->
 <group ns="test_bot_1">
+ <!-- The wifi handler -->
+    <node pkg="arc_core" type="wifi_handler_node" name="wifi_handler">
+        <param name="max_signal_range" value="15"/>
+    </node>
+
+    <!-- The communication manager -->
+    <node pkg="arc_core" type="communication_manager" name="communication_manager"></node>
 	<param name="tf_prefix" value="test_bot_1" />
 	<node pkg="arc_tasks" type="task_confirm_victim_server" name="task_confirm_victim_server" output="screen">
 		<param name="robot_name" value="test_bot_1"/>
@@ -67,6 +75,36 @@ PHAES 6: Robots output their victim tracker states, they should all be equal .
 	<arg name="robot_name" value="test_bot_1"/>
 </include>
 </group>
+
+<group ns="test_bot_2">
+ <node pkg="arc_core" type="wifi_handler_node" name="wifi_handler">
+        <param name="max_signal_range" value="15"/>
+    </node>
+
+    <!-- The communication manager -->
+    <node pkg="arc_core" type="communication_manager" name="communication_manager" output="screen"></node>
+
+    <!-- THE CORE RECRUITMENT MANAGER OF ROBOT -->
+    <node pkg="arc_recruitment_demos" type="minimal_recruitment_manager" name="recruitment_manager">
+    </node>
+
+	<param name="tf_prefix" value="test_bot_2" />
+
+	<node pkg="arc_tasks" type="task_confirm_victim_server" name="task_confirm_victim_server" output="screen">
+		<param name="robot_name" value="test_bot_2"/>
+	</node>
+	<node pkg="arc_tasks" type="task_confirm_victim_client" name="task_confirm_victim_client" output="screen"/> 
+
+	<node pkg="arc_core" type="victim_tracker" name="victim_tracker" output="screen">
+	</node>
+<node pkg="arc_core" type="task_handler" name="task_handler" output="screen">
+        <rosparam param="valid_tasks">["confirm_victim","move_to_goal"]</rosparam>
+    </node>
+  <include file="$(find arc_control)/launch/robots/$(arg robot_type)/$(arg robot_type)_behaviour.launch">
+	<arg name="robot_name" value="test_bot_2"/>
+</include>
+</group>
+
   <node pkg="arc_stage" type="arc_stage" name="arc_stage" args="-u $(find arc_stage)/world/test_victim_tracker.world" respawn="false">
     <param name="base_watchdog_timeout" value="0.2"/>
   </node>
