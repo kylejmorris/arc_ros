@@ -9,7 +9,6 @@
 #include <tf2_geometry_msgs/tf2_geometry_msgs.h>
 #include <tf2_ros/transform_listener.h>
 
-
 #define MAX_QUEUE_SIZE 1000
 
 TaskConfirmVictimServer::TaskConfirmVictimServer(const std::string &robotName, const std::string &customNamespace) : server(ros::NodeHandle(customNamespace), "task_confirm_victim", boost::bind(&TaskServer::goal_cb, this, _1), false)
@@ -183,6 +182,7 @@ void TaskConfirmVictimServer::startup(const arc_msgs::ArcTaskGoalConstPtr &goal)
     const char REQUEST_DELIMITER = '|';
     ROS_INFO("Starting up task_guidedcleandebris.");
 
+    //TODO: If this robot doesn't have advanced victim detector, we should exit here and reject the task
     try {
         //handling string parameters
         ROS_INFO("Trying to cycle through %d debris items", (int)goal->parameters.ints.size());
@@ -447,5 +447,9 @@ void TaskConfirmVictimServer::completeConfirmingVictim(const arc_msgs::DetectedV
             victimIt++;
         }
     }
+}
+
+void TaskConfirmVictimServer::announce_confirm_victim_cb(const arc_msgs::WirelessAnnouncement &msg) {
+    if(msg.announcement.strs.size()>0&&msg.announcement.strs[0]
 }
 

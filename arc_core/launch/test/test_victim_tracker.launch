@@ -61,14 +61,14 @@ PHAES 6: Robots output their victim tracker states, they should all be equal .
     <!-- The communication manager -->
     <node pkg="arc_core" type="communication_manager" name="communication_manager"></node>
 	<param name="tf_prefix" value="test_bot_1" />
-	<node pkg="arc_tasks" type="task_confirm_victim_server" name="task_confirm_victim_server" output="screen">
+	<node pkg="arc_tasks" type="task_confirm_victim_server" name="task_confirm_victim_server">
 		<param name="robot_name" value="test_bot_1"/>
 	</node>
-	<node pkg="arc_tasks" type="task_confirm_victim_client" name="task_confirm_victim_client" output="screen"/> 
+	<node pkg="arc_tasks" type="task_confirm_victim_client" name="task_confirm_victim_client"/> 
 
 	<node pkg="arc_core" type="victim_tracker" name="victim_tracker" output="screen">
 	</node>
-<node pkg="arc_core" type="task_handler" name="task_handler" output="screen">
+<node pkg="arc_core" type="task_handler" name="task_handler">
         <rosparam param="valid_tasks">["confirm_victim","move_to_goal"]</rosparam>
     </node>
   <include file="$(find arc_control)/launch/robots/$(arg robot_type)/$(arg robot_type)_behaviour.launch">
@@ -82,7 +82,7 @@ PHAES 6: Robots output their victim tracker states, they should all be equal .
     </node>
 
     <!-- The communication manager -->
-    <node pkg="arc_core" type="communication_manager" name="communication_manager" output="screen"></node>
+    <node pkg="arc_core" type="communication_manager" name="communication_manager"></node>
 
     <!-- THE CORE RECRUITMENT MANAGER OF ROBOT -->
     <node pkg="arc_recruitment_demos" type="minimal_recruitment_manager" name="recruitment_manager">
@@ -90,19 +90,77 @@ PHAES 6: Robots output their victim tracker states, they should all be equal .
 
 	<param name="tf_prefix" value="test_bot_2" />
 
-	<node pkg="arc_tasks" type="task_confirm_victim_server" name="task_confirm_victim_server" output="screen">
+	<node pkg="arc_tasks" type="task_confirm_victim_server" name="task_confirm_victim_server">
 		<param name="robot_name" value="test_bot_2"/>
 	</node>
-	<node pkg="arc_tasks" type="task_confirm_victim_client" name="task_confirm_victim_client" output="screen"/> 
+	<node pkg="arc_tasks" type="task_confirm_victim_client" name="task_confirm_victim_client"/> 
 
-	<node pkg="arc_core" type="victim_tracker" name="victim_tracker" output="screen">
+	<node pkg="arc_core" type="victim_tracker" name="victim_tracker">
 	</node>
-<node pkg="arc_core" type="task_handler" name="task_handler" output="screen">
+<node pkg="arc_core" type="task_handler" name="task_handler">
         <rosparam param="valid_tasks">["confirm_victim","move_to_goal"]</rosparam>
     </node>
-  <include file="$(find arc_control)/launch/robots/$(arg robot_type)/$(arg robot_type)_behaviour.launch">
-	<arg name="robot_name" value="test_bot_2"/>
-</include>
+
+ <!-- BEHAVIOUR FOR ROBOT-->
+    <node name="arc_base" pkg="arc_behaviour" type="arc_base">
+	<rosparam param="schemas">["random_wander_ms", "clean_debris_ms", "handle_marker_ms", "move_to_goal_ms"]</rosparam>
+    </node>
+
+    <node name="random_wander_ms" pkg="arc_behaviour" type="random_wander_ms">
+	<rosparam param="frame_id">"map"</rosparam>
+    </node>
+
+    <!-- Perceptual Schemas -->
+    <node name="detect_marker_ps" pkg="arc_behaviour" type="detect_marker_ps">
+        <param name="max_range" value="5"/>
+    </node>
+    <node name="detect_robot_ps" pkg="arc_behaviour" type="detect_robot_ps">
+        <param name="max_range" value="5"/>
+    </node>
+    <node name="detect_victim_ps" pkg="arc_behaviour" type="detect_victim_ps">
+        <param name="max_range" value="2"/>
+	<param name="max_victim_detect_range" value="1.5"/>
+	<rosparam param="advanced_mode">True</rosparam>
+    </node>
+
+    <node name="detect_debris_ps" pkg="arc_behaviour" type="detect_debris_ps">
+        <param name="max_range" value="3"/>
+    </node>
+
+   <!-- motor schemas -->
+   <node name="handle_marker_ms" pkg="arc_behaviour" type="handle_marker_ms">
+	<param name="max_pickup_range" value="2"/>
+	<param name="priority" value="2"/>
+   </node>
+
+   <node pkg="arc_behaviour" type="move_to_goal_ms" name="move_to_goal_ms"/>
+
+   <node name="clean_debris_ms" pkg="arc_behaviour" type="clean_debris_ms">
+	<param name="max_cleaning_range" value="0.5"/>
+	<param name="priority" value="2"/>
+   </node>
+
+    <node name="navigation_adapter" pkg="arc_behaviour" type="navigation_adapter">
+    </node>
+
+    <!-- NAVIGATION CONFIG -->
+    <param name="tf_prefix" value="test_bot_2" />
+    <node pkg="fake_localization" type="fake_localization" name="fake_localization" respawn="false"> 
+	  <param name="tf_prefix" value="test_bot_2" />
+      <param name="odom_frame_id" value="test_bot_2/odom" />
+      <param name="base_frame_id" value="test_bot_2/base_link" />
+    </node> 
+
+    <node pkg="move_base" type="move_base" respawn="false" name="move_base_node">
+      <remap from="map" to="/map" />
+      <param name="controller_frequency" value="10.0"/>
+      <rosparam file="$(find arc_navigation)/move_base_config/debrisbot_costmap_common_params.yaml" command="load" ns="local_costmap" />
+      <rosparam file="$(find arc_navigation)/move_base_config/debrisbot_local_costmap_params.yaml" command="load" />
+      <rosparam file="$(find arc_navigation)/move_base_config/debrisbot_global_costmap_params.yaml" command="load" />
+      <rosparam file="$(find arc_navigation)/move_base_config/debrisbot_base_local_planner_params.yaml" command="load" />
+      <rosparam file="$(find arc_navigation)/move_base_config/debrisbot_dwa_local_planner_params.yaml" command="load" />
+    </node>
+
 </group>
 
   <node pkg="arc_stage" type="arc_stage" name="arc_stage" args="-u $(find arc_stage)/world/test_victim_tracker.world" respawn="false">

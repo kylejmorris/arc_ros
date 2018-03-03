@@ -8,7 +8,7 @@ debrisbot(
 	color "blue"
 )
 
-maxbot(
+debrisbot(
 	name "test_bot_2"
 	pose [9.0 16.0 0.000 -14.324]
 	color "green"

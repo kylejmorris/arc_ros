@@ -18,6 +18,7 @@ VictimTracker::VictimTracker(const std::string &customNamespace) {
 
     this->incoming_victims_sub = global_handle.subscribe(customNamespace + "detect_victim_ps/found_victims", MAX_QUEUE_SIZE, &VictimTracker::incoming_victims_cb, this);
     this->confirm_victim_task_request_pub = global_handle.advertise<arc_msgs::WirelessRequest>(customNamespace + "wifi_handler/outgoing_requests", MAX_QUEUE_SIZE, true);
+    this->confirm_victim_task_response_sub = global_handle.subscribe(customNamespace + "wifi_handler/incoming_announcements", MAX_QUEUE_SIZE, &VictimTracker::incoming_confirm_victim_response_cb, this);
 
     tf2_ros::Buffer *victim_buffer = new tf2_ros::Buffer;
     tf2_ros::TransformListener *victim_listener = new tf2_ros::TransformListener(*victim_buffer);
@@ -106,7 +107,7 @@ void VictimTracker::evaluatePotentialVictims() {
     potentialVictimsMutex.lock();
     for(auto const &victim : this->potentialVictims) {
         if(victim.status==POTENTIAL_VICTIM_STATUS) {
-            ROS_WARN("Status of victim at %f %f is  %d", victim.pose.position.x, victim.pose.position.y, victim.status);
+            //ROS_WARN("Status of victim at %f %f is  %d", victim.pose.position.x, victim.pose.position.y, victim.status);
             confirmVictims.victims.push_back(victim);
         } else {
             this->confirmedVictims.push_back(victim);
@@ -119,7 +120,9 @@ void VictimTracker::evaluatePotentialVictims() {
 
         //move victims into pending list
         for (const auto &victim : confirmVictims.victims) {
-            this->awaitingConfirmation.push_back(victim);
+            if(!alreadyDetectedVictim(victim)) {
+                this->awaitingConfirmation.push_back(victim);
+            }
         }
     }
 
@@ -139,7 +142,6 @@ void VictimTracker::broadcastConfirmVictimTask(const arc_msgs::DetectedVictims &
     req.task_name = "confirm_victim";
 
     req.created= ros::Time::now();
-
 
     string victimList = "";
 
@@ -163,6 +165,34 @@ void VictimTracker::broadcastConfirmVictimTask(const arc_msgs::DetectedVictims &
     w_req.request_type=w_req.task.TYPE_COMPLETION;
 
     this->confirm_victim_task_request_pub.publish(w_req);
+}
+
+void VictimTracker::incoming_confirm_victim_response_cb(const arc_msgs::WirelessAnnouncement &msg) {
+    //is this announcement about victim detection?
+    //ROS_INFO("Received victim announcement");
+    if(msg.announcement.bools.size()>0 && msg.announcement.bools[0].name=="positive") {
+        //ROS_INFO("parsing victim announcement");
+        arc_msgs::DetectedVictim victim;
+        victim.status = msg.announcement.bools[0].value;
+        if(msg.announcement.doubles[0].name=="x") {
+            victim.pose.position.x = msg.announcement.doubles[0].value;
+        } else {
+            victim.pose.position.x = msg.announcement.doubles[1].value;
+        }
+
+        if(msg.announcement.doubles[0].name=="y") {
+            victim.pose.position.y = msg.announcement.doubles[0].value;
+        } else {
+            victim.pose.position.y = msg.announcement.doubles[1].value;
+        }
+
+         //TODO: Should double check here that victim isn't already tracked by us.
+         this->confirmedVictimMutex.lock();
+         this->confirmedVictims.push_back(victim);
+         this->confirmedVictimMutex.unlock();
+
+         ROS_INFO("Confirmed victim. Added to list.");
+    }
 }
 
 int main(int argc, char **argv)  {
