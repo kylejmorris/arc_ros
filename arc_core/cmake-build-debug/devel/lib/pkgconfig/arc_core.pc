@@ -1,8 +1,0 @@
-prefix=/home/gurren/workspace/arc_ws/src/arc_core/cmake-build-debug/devel
-
-Name: arc_core
-Description: Description of arc_core
-Version: 0.0.0
-Cflags: 
-Libs: -L/home/gurren/workspace/arc_ws/src/arc_core/cmake-build-debug/devel/lib 
-Requires: roscpp

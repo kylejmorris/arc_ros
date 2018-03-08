@@ -43,6 +43,7 @@ private:
      * Subscribe to incoming announcements from robots that are accepting a confirm_victim task themselves.
      */
     ros::Subscriber confirm_victim_announcement_sub;
+
     /**
      * Publish results about if you found victim or not at a given location.
      */
@@ -253,8 +254,6 @@ public:
     void explore_timer_cb(const ros::TimerEvent &event);
     void found_victims_cb(const arc_msgs::DetectedVictims &victims);
     void base_pose_cb(const nav_msgs::Odometry &odom);
-
-    void announce_confirm_victim_cb(const arc_msgs::WirelessAnnouncement &msg);
 };
 
 #endif //ARC_TASKS_TASKCONFIRMVICTIMSERVER_H

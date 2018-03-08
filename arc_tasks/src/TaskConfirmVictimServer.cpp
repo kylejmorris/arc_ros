@@ -1,4 +1,3 @@
-
 #include "arc_msgs/ToggleSchema.h"
 #include <arc_msgs/WirelessAnnouncement.h>
 #include "TaskConfirmVictimServer.h"
@@ -447,9 +446,5 @@ void TaskConfirmVictimServer::completeConfirmingVictim(const arc_msgs::DetectedV
             victimIt++;
         }
     }
-}
-
-void TaskConfirmVictimServer::announce_confirm_victim_cb(const arc_msgs::WirelessAnnouncement &msg) {
-    if(msg.announcement.strs.size()>0&&msg.announcement.strs[0]
 }
 

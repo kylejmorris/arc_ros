@@ -1,8 +1,0 @@
-prefix=/home/gurren/workspace/arc_ws/src/arc_behaviour/cmake-build-debug/devel
-
-Name: arc_behaviour
-Description: Description of arc_behaviour
-Version: 0.0.0
-Cflags: 
-Libs: -L/home/gurren/workspace/arc_ws/src/arc_behaviour/cmake-build-debug/devel/lib 
-Requires: roscpp

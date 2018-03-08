@@ -2,77 +2,77 @@
 <project version="4">
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true" buildAllGenerated="true">
     <generated>
-      <config projectName="arc_core" targetName="actionlib_generate_messages_cpp" />
-      <config projectName="arc_core" targetName="sensor_msgs_generate_messages_eus" />
-      <config projectName="arc_core" targetName="actionlib_msgs_generate_messages_py" />
-      <config projectName="arc_core" targetName="actionlib_msgs_generate_messages_nodejs" />
-      <config projectName="arc_core" targetName="sensor_msgs_generate_messages_lisp" />
-      <config projectName="arc_core" targetName="download_extra_data" />
-      <config projectName="arc_core" targetName="geometry_msgs_generate_messages_nodejs" />
-      <config projectName="arc_core" targetName="rosgraph_msgs_generate_messages_nodejs" />
-      <config projectName="arc_core" targetName="actionlib_msgs_generate_messages_cpp" />
-      <config projectName="arc_core" targetName="roscpp_generate_messages_cpp" />
-      <config projectName="arc_core" targetName="_run_tests_arc_core" />
-      <config projectName="arc_core" targetName="tf_generate_messages_py" />
-      <config projectName="arc_core" targetName="victim_tracker" />
-      <config projectName="arc_core" targetName="tf_generate_messages_nodejs" />
-      <config projectName="arc_core" targetName="_run_tests_arc_core_gtest_test_task_handler" />
-      <config projectName="arc_core" targetName="rosgraph_msgs_generate_messages_eus" />
-      <config projectName="arc_core" targetName="_catkin_empty_exported_target" />
-      <config projectName="arc_core" targetName="geometry_msgs_generate_messages_lisp" />
-      <config projectName="arc_core" targetName="sensor_msgs_generate_messages_py" />
-      <config projectName="arc_core" targetName="tf_generate_messages_lisp" />
-      <config projectName="arc_core" targetName="actionlib_generate_messages_eus" />
-      <config projectName="arc_core" targetName="sensor_msgs_generate_messages_cpp" />
-      <config projectName="arc_core" targetName="roscpp_generate_messages_nodejs" />
-      <config projectName="arc_core" targetName="tests" />
-      <config projectName="arc_core" targetName="tf2_msgs_generate_messages_nodejs" />
-      <config projectName="arc_core" targetName="actionlib_msgs_generate_messages_eus" />
+      <config projectName="arc_core" targetName="geometry_msgs_generate_messages_cpp" />
+      <config projectName="arc_core" targetName="arc_msgs_generate_messages_nodejs" />
+      <config projectName="arc_core" targetName="tf2_msgs_generate_messages_cpp" />
+      <config projectName="arc_core" targetName="gtest" />
+      <config projectName="arc_core" targetName="doxygen" />
       <config projectName="arc_core" targetName="actionlib_generate_messages_py" />
-      <config projectName="arc_core" targetName="std_msgs_generate_messages_py" />
-      <config projectName="arc_core" targetName="arc_msgs_generate_messages_py" />
+      <config projectName="arc_core" targetName="tf_generate_messages_nodejs" />
+      <config projectName="arc_core" targetName="std_msgs_generate_messages_nodejs" />
+      <config projectName="arc_core" targetName="actionlib_generate_messages_lisp" />
+      <config projectName="arc_core" targetName="arc_msgs_generate_messages_eus" />
       <config projectName="arc_core" targetName="roscpp_generate_messages_eus" />
+      <config projectName="arc_core" targetName="geometry_msgs_generate_messages_py" />
+      <config projectName="arc_core" targetName="_run_tests_arc_core_gtest_test_task_handler" />
+      <config projectName="arc_core" targetName="std_msgs_generate_messages_py" />
+      <config projectName="arc_core" targetName="geometry_msgs_generate_messages_eus" />
+      <config projectName="arc_core" targetName="tf2_msgs_generate_messages_eus" />
+      <config projectName="arc_core" targetName="run_tests_arc_core_gtest_test_task_handler" />
+      <config projectName="arc_core" targetName="victim_tracker" />
+      <config projectName="arc_core" targetName="sensor_msgs_generate_messages_cpp" />
+      <config projectName="arc_core" targetName="tf_generate_messages_lisp" />
+      <config projectName="arc_core" targetName="tf2_msgs_generate_messages_nodejs" />
+      <config projectName="arc_core" targetName="_catkin_empty_exported_target" />
+      <config projectName="arc_core" targetName="run_tests" />
+      <config projectName="arc_core" targetName="geometry_msgs_generate_messages_nodejs" />
+      <config projectName="arc_core" targetName="geometry_msgs_generate_messages_lisp" />
+      <config projectName="arc_core" targetName="std_msgs_generate_messages_cpp" />
+      <config projectName="arc_core" targetName="std_msgs_generate_messages_eus" />
+      <config projectName="arc_core" targetName="rosgraph_msgs_generate_messages_py" />
+      <config projectName="arc_core" targetName="_run_tests_arc_core" />
+      <config projectName="arc_core" targetName="run_tests_arc_core" />
+      <config projectName="arc_core" targetName="clean_test_results_arc_core" />
+      <config projectName="arc_core" targetName="actionlib_msgs_generate_messages_cpp" />
+      <config projectName="arc_core" targetName="wifi_handler_node" />
+      <config projectName="arc_core" targetName="roscpp_generate_messages_nodejs" />
+      <config projectName="arc_core" targetName="task_handler_lib" />
+      <config projectName="arc_core" targetName="rosgraph_msgs_generate_messages_nodejs" />
+      <config projectName="arc_core" targetName="roscpp_generate_messages_py" />
+      <config projectName="arc_core" targetName="sensor_msgs_generate_messages_eus" />
+      <config projectName="arc_core" targetName="tf_generate_messages_py" />
+      <config projectName="arc_core" targetName="rosgraph_msgs_generate_messages_cpp" />
+      <config projectName="arc_core" targetName="arc_msgs_generate_messages_lisp" />
+      <config projectName="arc_core" targetName="communication_manager" />
+      <config projectName="arc_core" targetName="actionlib_msgs_generate_messages_nodejs" />
+      <config projectName="arc_core" targetName="tf_generate_messages_cpp" />
       <config projectName="arc_core" targetName="std_msgs_generate_messages_lisp" />
       <config projectName="arc_core" targetName="run_tests_arc_core_gtest" />
-      <config projectName="arc_core" targetName="doxygen" />
-      <config projectName="arc_core" targetName="std_msgs_generate_messages_cpp" />
-      <config projectName="arc_core" targetName="arc_msgs_generate_messages_eus" />
-      <config projectName="arc_core" targetName="geometry_msgs_generate_messages_py" />
-      <config projectName="arc_core" targetName="actionlib_generate_messages_lisp" />
-      <config projectName="arc_core" targetName="rosgraph_msgs_generate_messages_cpp" />
-      <config projectName="arc_core" targetName="run_tests_arc_core_gtest_test_task_handler" />
-      <config projectName="arc_core" targetName="task_handler" />
-      <config projectName="arc_core" targetName="communication_manager" />
-      <config projectName="arc_core" targetName="arc_msgs_generate_messages_lisp" />
-      <config projectName="arc_core" targetName="roscpp_generate_messages_py" />
-      <config projectName="arc_core" targetName="tf2_msgs_generate_messages_cpp" />
-      <config projectName="arc_core" targetName="geometry_msgs_generate_messages_eus" />
-      <config projectName="arc_core" targetName="rosgraph_msgs_generate_messages_lisp" />
-      <config projectName="arc_core" targetName="actionlib_generate_messages_nodejs" />
-      <config projectName="arc_core" targetName="sensor_msgs_generate_messages_nodejs" />
-      <config projectName="arc_core" targetName="_run_tests_arc_core_gtest" />
-      <config projectName="arc_core" targetName="roscpp_generate_messages_lisp" />
       <config projectName="arc_core" targetName="actionlib_msgs_generate_messages_lisp" />
-      <config projectName="arc_core" targetName="std_msgs_generate_messages_eus" />
-      <config projectName="arc_core" targetName="arc_msgs_generate_messages_cpp" />
-      <config projectName="arc_core" targetName="tf_generate_messages_cpp" />
-      <config projectName="arc_core" targetName="gtest_main" />
-      <config projectName="arc_core" targetName="wifi_handler_node" />
-      <config projectName="arc_core" targetName="arc_msgs_generate_messages_nodejs" />
-      <config projectName="arc_core" targetName="rosgraph_msgs_generate_messages_py" />
-      <config projectName="arc_core" targetName="clean_test_results_arc_core" />
-      <config projectName="arc_core" targetName="geometry_msgs_generate_messages_cpp" />
-      <config projectName="arc_core" targetName="tf2_msgs_generate_messages_eus" />
-      <config projectName="arc_core" targetName="gtest" />
-      <config projectName="arc_core" targetName="run_tests_arc_core" />
-      <config projectName="arc_core" targetName="clean_test_results" />
-      <config projectName="arc_core" targetName="std_msgs_generate_messages_nodejs" />
+      <config projectName="arc_core" targetName="rosgraph_msgs_generate_messages_eus" />
+      <config projectName="arc_core" targetName="sensor_msgs_generate_messages_lisp" />
+      <config projectName="arc_core" targetName="rosgraph_msgs_generate_messages_lisp" />
       <config projectName="arc_core" targetName="tf2_msgs_generate_messages_lisp" />
-      <config projectName="arc_core" targetName="tf2_msgs_generate_messages_py" />
-      <config projectName="arc_core" targetName="run_tests" />
+      <config projectName="arc_core" targetName="sensor_msgs_generate_messages_py" />
+      <config projectName="arc_core" targetName="download_extra_data" />
+      <config projectName="arc_core" targetName="actionlib_msgs_generate_messages_py" />
       <config projectName="arc_core" targetName="test_task_handler" />
+      <config projectName="arc_core" targetName="gtest_main" />
+      <config projectName="arc_core" targetName="tests" />
+      <config projectName="arc_core" targetName="sensor_msgs_generate_messages_nodejs" />
+      <config projectName="arc_core" targetName="roscpp_generate_messages_lisp" />
+      <config projectName="arc_core" targetName="arc_msgs_generate_messages_py" />
+      <config projectName="arc_core" targetName="tf2_msgs_generate_messages_py" />
+      <config projectName="arc_core" targetName="actionlib_generate_messages_nodejs" />
       <config projectName="arc_core" targetName="tf_generate_messages_eus" />
-      <config projectName="arc_core" targetName="task_handler_lib" />
+      <config projectName="arc_core" targetName="task_handler" />
+      <config projectName="arc_core" targetName="_run_tests_arc_core_gtest" />
+      <config projectName="arc_core" targetName="actionlib_generate_messages_eus" />
+      <config projectName="arc_core" targetName="actionlib_generate_messages_cpp" />
+      <config projectName="arc_core" targetName="clean_test_results" />
+      <config projectName="arc_core" targetName="arc_msgs_generate_messages_cpp" />
+      <config projectName="arc_core" targetName="actionlib_msgs_generate_messages_eus" />
+      <config projectName="arc_core" targetName="roscpp_generate_messages_cpp" />
     </generated>
   </component>
   <component name="CMakeSettings">
@@ -96,23 +96,13 @@
       <file leaf-file-name="CommunicationManager.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/CommunicationManager.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="152">
-              <caret line="71" column="22" lean-forward="false" selection-start-line="71" selection-start-column="22" selection-end-line="71" selection-end-column="22" />
+            <state relative-caret-position="19">
+              <caret line="36" column="35" lean-forward="false" selection-start-line="36" selection-start-column="35" selection-end-line="36" selection-end-column="35" />
               <folding>
+                <element signature="e#0#28#0" expanded="true" />
                 <element signature="e#1610#1655#0" expanded="false" />
                 <element signature="e#2384#2535#0" expanded="false" />
-                <element signature="e#2537#2706#0" expanded="false" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CommunicationManager.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/include/CommunicationManager.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="44" column="29" lean-forward="false" selection-start-line="44" selection-start-column="29" selection-end-line="44" selection-end-column="29" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -120,12 +110,17 @@
       <file leaf-file-name="VictimTracker.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/VictimTracker.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="342">
-              <caret line="141" column="0" lean-forward="false" selection-start-line="141" selection-start-column="0" selection-end-line="141" selection-end-column="0" />
+            <state relative-caret-position="171">
+              <caret line="189" column="13" lean-forward="false" selection-start-line="189" selection-start-column="13" selection-end-line="189" selection-end-column="13" />
               <folding>
-                <element signature="e#0#26#0" expanded="true" />
-                <element signature="e#2718#2730#0" expanded="true" />
-                <element signature="e#2710#2864#0" expanded="false" />
+                <element signature="e#196#1368#0" expanded="false" />
+                <element signature="e#1370#1729#0" expanded="false" />
+                <element signature="e#1731#2910#0" expanded="false" />
+                <element signature="e#2912#3066#0" expanded="false" />
+                <element signature="e#3068#3748#0" expanded="false" />
+                <element signature="e#3750#4759#0" expanded="false" />
+                <element signature="e#4761#5942#0" expanded="false" />
+                <element signature="e#7118#7267#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -134,18 +129,8 @@
       <file leaf-file-name="CMakeLists.txt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="17" column="15" lean-forward="false" selection-start-line="17" selection-start-column="15" selection-end-line="17" selection-end-column="15" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="WifiHandler.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/WifiHandler.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="85" column="22" lean-forward="false" selection-start-line="85" selection-start-column="22" selection-end-line="85" selection-end-column="22" />
+            <state relative-caret-position="190">
+              <caret line="10" column="9" lean-forward="false" selection-start-line="10" selection-start-column="9" selection-end-line="10" selection-end-column="9" />
               <folding />
             </state>
           </provider>
@@ -154,11 +139,13 @@
       <file leaf-file-name="VictimTracker.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/include/VictimTracker.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="30" column="0" lean-forward="false" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
+            <state relative-caret-position="912">
+              <caret line="48" column="0" lean-forward="false" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
               <folding>
+                <element signature="e#0#138#0" expanded="false" />
                 <element signature="e#206#226#0" expanded="true" />
-                <element signature="e#1517#1529#0" expanded="true" />
+                <element signature="e#604#680#0" expanded="false" />
+                <element signature="e#1614#1626#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -177,7 +164,7 @@
       <file leaf-file-name="TaskHandler.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/TaskHandler.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="304">
+            <state relative-caret-position="3078">
               <caret line="162" column="20" lean-forward="false" selection-start-line="162" selection-start-column="20" selection-end-line="162" selection-end-column="20" />
               <folding>
                 <element signature="e#213#553#0" expanded="false" />
@@ -204,8 +191,8 @@
       <file leaf-file-name="WifiHandler.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/include/WifiHandler.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="425">
-              <caret line="45" column="31" lean-forward="false" selection-start-line="45" selection-start-column="31" selection-end-line="45" selection-end-column="31" />
+            <state relative-caret-position="1767">
+              <caret line="93" column="9" lean-forward="false" selection-start-line="93" selection-start-column="9" selection-end-line="93" selection-end-column="9" />
               <folding />
             </state>
           </provider>
@@ -232,10 +219,10 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="65" />
-    <option name="y" value="-4" />
-    <option name="width" value="1301" />
-    <option name="height" value="772" />
+    <option name="x" value="258" />
+    <option name="y" value="279" />
+    <option name="width" value="1299" />
+    <option name="height" value="736" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -926,26 +913,32 @@
       <workItem from="1517433958214" duration="61000" />
       <workItem from="1518290153764" duration="7759000" />
       <workItem from="1518535290345" duration="628000" />
-      <workItem from="1518538834030" duration="2082000" />
+      <workItem from="1518538834030" duration="3948000" />
+      <workItem from="1518643725884" duration="47000" />
+      <workItem from="1518707667418" duration="38000" />
+      <workItem from="1519068610846" duration="49000" />
+      <workItem from="1519145239747" duration="3000" />
+      <workItem from="1520083583558" duration="7992000" />
+      <workItem from="1520093502890" duration="1986000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="26533000" />
+    <option name="totallyTimeSpent" value="38514000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="65" y="-4" width="1301" height="772" extended-state="6" />
+    <frame x="258" y="279" width="1299" height="736" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3396977" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2565737" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24923077" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.45276874" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.50461537" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.74615383" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -971,439 +964,36 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/WifiHandler.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1197">
-          <caret line="63" column="0" lean-forward="false" selection-start-line="63" selection-start-column="0" selection-end-line="63" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/include/VictimTracker.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="988">
-          <caret line="52" column="9" lean-forward="false" selection-start-line="52" selection-start-column="9" selection-end-line="52" selection-end-column="9" />
-          <folding>
-            <element signature="e#206#226#0" expanded="true" />
-            <element signature="e#1517#1529#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/include/WifiHandler.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="855">
-          <caret line="45" column="31" lean-forward="false" selection-start-line="45" selection-start-column="31" selection-end-line="45" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/VictimTracker.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2318">
-          <caret line="122" column="0" lean-forward="false" selection-start-line="122" selection-start-column="0" selection-end-line="122" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-            <element signature="e#2718#2730#0" expanded="true" />
-            <element signature="e#2710#2864#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/CommunicationManager.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="228">
-          <caret line="12" column="39" lean-forward="false" selection-start-line="12" selection-start-column="39" selection-end-line="12" selection-end-column="39" />
+        <state relative-caret-position="703">
+          <caret line="37" column="35" lean-forward="false" selection-start-line="37" selection-start-column="35" selection-end-line="37" selection-end-column="35" />
           <folding>
+            <element signature="e#0#28#0" expanded="true" />
             <element signature="e#1610#1655#0" expanded="false" />
             <element signature="e#2384#2535#0" expanded="false" />
-            <element signature="e#2537#2706#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/include/boost/bind/mem_fn_template.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15124">
-          <caret line="796" column="8" lean-forward="false" selection-start-line="796" selection-start-column="8" selection-end-line="796" selection-end-column="8" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="17" column="15" lean-forward="false" selection-start-line="17" selection-start-column="15" selection-end-line="17" selection-end-column="15" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/WifiHandler.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1197">
-          <caret line="63" column="0" lean-forward="false" selection-start-line="63" selection-start-column="0" selection-end-line="63" selection-end-column="0" />
+        <state relative-caret-position="190">
+          <caret line="10" column="9" lean-forward="false" selection-start-line="10" selection-start-column="9" selection-end-line="10" selection-end-column="9" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/include/VictimTracker.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="988">
-          <caret line="52" column="9" lean-forward="false" selection-start-line="52" selection-start-column="9" selection-end-line="52" selection-end-column="9" />
+        <state relative-caret-position="912">
+          <caret line="48" column="0" lean-forward="false" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
           <folding>
+            <element signature="e#0#138#0" expanded="false" />
             <element signature="e#206#226#0" expanded="true" />
-            <element signature="e#1517#1529#0" expanded="true" />
+            <element signature="e#604#680#0" expanded="false" />
+            <element signature="e#1614#1626#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/include/WifiHandler.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="855">
-          <caret line="45" column="31" lean-forward="false" selection-start-line="45" selection-start-column="31" selection-end-line="45" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/VictimTracker.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2318">
-          <caret line="122" column="0" lean-forward="true" selection-start-line="122" selection-start-column="0" selection-end-line="122" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-            <element signature="e#2718#2730#0" expanded="true" />
-            <element signature="e#2710#2864#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/CommunicationManager.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="228">
-          <caret line="12" column="39" lean-forward="false" selection-start-line="12" selection-start-column="39" selection-end-line="12" selection-end-column="39" />
-          <folding>
-            <element signature="e#1610#1655#0" expanded="false" />
-            <element signature="e#2384#2535#0" expanded="false" />
-            <element signature="e#2537#2706#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/include/boost/bind/mem_fn_template.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3135">
-          <caret line="165" column="0" lean-forward="false" selection-start-line="165" selection-start-column="0" selection-end-line="165" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="17" column="15" lean-forward="false" selection-start-line="17" selection-start-column="15" selection-end-line="17" selection-end-column="15" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/WifiHandler.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1197">
-          <caret line="63" column="0" lean-forward="false" selection-start-line="63" selection-start-column="0" selection-end-line="63" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/include/VictimTracker.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="988">
-          <caret line="52" column="9" lean-forward="false" selection-start-line="52" selection-start-column="9" selection-end-line="52" selection-end-column="9" />
-          <folding>
-            <element signature="e#206#226#0" expanded="true" />
-            <element signature="e#1517#1529#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/include/WifiHandler.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="855">
-          <caret line="45" column="31" lean-forward="false" selection-start-line="45" selection-start-column="31" selection-end-line="45" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/VictimTracker.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="475">
-          <caret line="25" column="0" lean-forward="false" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-            <element signature="e#2718#2730#0" expanded="true" />
-            <element signature="e#2710#2864#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/CommunicationManager.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="722">
-          <caret line="38" column="68" lean-forward="false" selection-start-line="38" selection-start-column="68" selection-end-line="38" selection-end-column="68" />
-          <folding>
-            <element signature="e#1610#1655#0" expanded="false" />
-            <element signature="e#2384#2535#0" expanded="false" />
-            <element signature="e#2537#2706#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/WifiHandler.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="817">
-          <caret line="43" column="0" lean-forward="false" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/include/VictimTracker.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="418">
-          <caret line="22" column="19" lean-forward="false" selection-start-line="22" selection-start-column="19" selection-end-line="22" selection-end-column="19" />
-          <folding>
-            <element signature="e#206#226#0" expanded="true" />
-            <element signature="e#1517#1529#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/VictimTracker.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="152">
-          <caret line="8" column="28" lean-forward="false" selection-start-line="8" selection-start-column="28" selection-end-line="8" selection-end-column="28" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-            <element signature="e#2718#2730#0" expanded="true" />
-            <element signature="e#2710#2864#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/CommunicationManager.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="722">
-          <caret line="38" column="68" lean-forward="false" selection-start-line="38" selection-start-column="68" selection-end-line="38" selection-end-column="68" />
-          <folding>
-            <element signature="e#1610#1655#0" expanded="false" />
-            <element signature="e#2384#2535#0" expanded="false" />
-            <element signature="e#2537#2706#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/WifiHandler.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="817">
-          <caret line="43" column="0" lean-forward="false" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/include/VictimTracker.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="418">
-          <caret line="22" column="19" lean-forward="false" selection-start-line="22" selection-start-column="19" selection-end-line="22" selection-end-column="19" />
-          <folding>
-            <element signature="e#206#226#0" expanded="true" />
-            <element signature="e#1517#1529#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/VictimTracker.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="11" column="28" lean-forward="false" selection-start-line="11" selection-start-column="28" selection-end-line="11" selection-end-column="28" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-            <element signature="e#2718#2730#0" expanded="true" />
-            <element signature="e#2710#2864#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/CommunicationManager.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="722">
-          <caret line="38" column="68" lean-forward="false" selection-start-line="38" selection-start-column="68" selection-end-line="38" selection-end-column="68" />
-          <folding>
-            <element signature="e#1610#1655#0" expanded="false" />
-            <element signature="e#2384#2535#0" expanded="false" />
-            <element signature="e#2537#2706#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/include/VictimTracker.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="418">
-          <caret line="22" column="19" lean-forward="false" selection-start-line="22" selection-start-column="19" selection-end-line="22" selection-end-column="19" />
-          <folding>
-            <element signature="e#206#226#0" expanded="true" />
-            <element signature="e#1517#1529#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/VictimTracker.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="456">
-          <caret line="24" column="0" lean-forward="false" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-            <element signature="e#2718#2730#0" expanded="true" />
-            <element signature="e#2710#2864#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/CommunicationManager.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="684">
-          <caret line="38" column="68" lean-forward="false" selection-start-line="38" selection-start-column="68" selection-end-line="38" selection-end-column="68" />
-          <folding>
-            <element signature="e#1610#1655#0" expanded="false" />
-            <element signature="e#2384#2535#0" expanded="false" />
-            <element signature="e#2537#2706#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/include/VictimTracker.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="22" column="19" lean-forward="false" selection-start-line="22" selection-start-column="19" selection-end-line="22" selection-end-column="19" />
-          <folding>
-            <element signature="e#206#226#0" expanded="true" />
-            <element signature="e#1517#1529#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/VictimTracker.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="14" column="21" lean-forward="false" selection-start-line="14" selection-start-column="21" selection-end-line="14" selection-end-column="21" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-            <element signature="e#2718#2730#0" expanded="true" />
-            <element signature="e#2710#2864#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/CommunicationManager.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="684">
-          <caret line="38" column="68" lean-forward="false" selection-start-line="38" selection-start-column="68" selection-end-line="38" selection-end-column="68" />
-          <folding>
-            <element signature="e#1610#1655#0" expanded="false" />
-            <element signature="e#2384#2535#0" expanded="false" />
-            <element signature="e#2537#2706#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/include/VictimTracker.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="25" column="0" lean-forward="false" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
-          <folding>
-            <element signature="e#206#226#0" expanded="true" />
-            <element signature="e#1517#1529#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/CommunicationManager.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="684">
-          <caret line="38" column="68" lean-forward="false" selection-start-line="38" selection-start-column="68" selection-end-line="38" selection-end-column="68" />
-          <folding>
-            <element signature="e#1610#1655#0" expanded="false" />
-            <element signature="e#2384#2535#0" expanded="false" />
-            <element signature="e#2537#2706#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/TaskHandler.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2556">
-          <caret line="142" column="0" lean-forward="false" selection-start-line="142" selection-start-column="0" selection-end-line="142" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/communication_manager_node.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="9" column="12" lean-forward="false" selection-start-line="9" selection-start-column="12" selection-end-line="9" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/include/VictimTracker.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="25" column="0" lean-forward="false" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
-          <folding>
-            <element signature="e#206#226#0" expanded="true" />
-            <element signature="e#1517#1529#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/VictimTracker.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="12" column="19" lean-forward="false" selection-start-line="12" selection-start-column="19" selection-end-line="12" selection-end-column="19" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-            <element signature="e#2718#2730#0" expanded="true" />
-            <element signature="e#2710#2864#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/communication_manager_node.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="9" column="12" lean-forward="false" selection-start-line="9" selection-start-column="12" selection-end-line="9" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/include/boost/bind/bind.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="313" column="0" lean-forward="false" selection-start-line="313" selection-start-column="0" selection-end-line="313" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/include/boost/bind/mem_fn_template.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="114">
-          <caret line="772" column="25" lean-forward="false" selection-start-line="772" selection-start-column="25" selection-end-line="772" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="17" column="15" lean-forward="false" selection-start-line="17" selection-start-column="15" selection-end-line="17" selection-end-column="15" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/include/WifiHandler.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="45" column="31" lean-forward="false" selection-start-line="45" selection-start-column="31" selection-end-line="45" selection-end-column="31" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1417,7 +1007,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/TaskHandler.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="304">
+        <state relative-caret-position="3078">
           <caret line="162" column="20" lean-forward="false" selection-start-line="162" selection-start-column="20" selection-end-line="162" selection-end-column="20" />
           <folding>
             <element signature="e#213#553#0" expanded="false" />
@@ -1440,53 +1030,237 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/include/VictimTracker.h">
+    <entry file="file://$PROJECT_DIR$/include/WifiHandler.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="30" column="0" lean-forward="false" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
+        <state relative-caret-position="1767">
+          <caret line="93" column="9" lean-forward="false" selection-start-line="93" selection-start-column="9" selection-end-line="93" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/VictimTracker.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2413">
+          <caret line="127" column="0" lean-forward="true" selection-start-line="127" selection-start-column="0" selection-end-line="127" selection-end-column="0" />
           <folding>
-            <element signature="e#206#226#0" expanded="true" />
-            <element signature="e#1517#1529#0" expanded="true" />
+            <element signature="e#196#1368#0" expanded="false" />
+            <element signature="e#1370#1729#0" expanded="false" />
+            <element signature="e#1731#2910#0" expanded="false" />
+            <element signature="e#2912#3066#0" expanded="false" />
+            <element signature="e#3068#3748#0" expanded="false" />
+            <element signature="e#3750#4759#0" expanded="false" />
+            <element signature="e#4761#5942#0" expanded="false" />
+            <element signature="e#7118#7267#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/CommunicationManager.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1349">
+          <caret line="71" column="22" lean-forward="false" selection-start-line="71" selection-start-column="22" selection-end-line="71" selection-end-column="22" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+            <element signature="e#1610#1655#0" expanded="false" />
+            <element signature="e#2384#2535#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/CommunicationManager.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="836">
+          <caret line="44" column="29" lean-forward="false" selection-start-line="44" selection-start-column="29" selection-end-line="44" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="17" column="15" lean-forward="false" selection-start-line="17" selection-start-column="15" selection-end-line="17" selection-end-column="15" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/WifiHandler.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
+        <state relative-caret-position="1615">
           <caret line="85" column="22" lean-forward="false" selection-start-line="85" selection-start-column="22" selection-end-line="85" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/VictimTracker.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="570">
+          <caret line="30" column="0" lean-forward="false" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#138#0" expanded="false" />
+            <element signature="e#206#226#0" expanded="true" />
+            <element signature="e#604#680#0" expanded="false" />
+            <element signature="e#1614#1626#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/TaskHandler.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/TaskHandler.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3078">
+          <caret line="162" column="20" lean-forward="false" selection-start-line="162" selection-start-column="20" selection-end-line="162" selection-end-column="20" />
+          <folding>
+            <element signature="e#213#553#0" expanded="false" />
+            <element signature="e#555#747#0" expanded="false" />
+            <element signature="e#749#1731#0" expanded="false" />
+            <element signature="e#1733#1808#0" expanded="false" />
+            <element signature="e#1810#2136#0" expanded="false" />
+            <element signature="e#2138#2377#0" expanded="false" />
+            <element signature="e#2379#2633#0" expanded="false" />
+            <element signature="e#2635#3077#0" expanded="false" />
+            <element signature="e#3079#3704#0" expanded="false" />
+            <element signature="e#3706#3784#0" expanded="false" />
+            <element signature="e#3786#4544#0" expanded="false" />
+            <element signature="e#4546#4880#0" expanded="false" />
+            <element signature="e#4882#4985#0" expanded="false" />
+            <element signature="e#5514#5683#0" expanded="false" />
+            <element signature="e#5685#5808#0" expanded="false" />
+            <element signature="e#5810#6035#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/WifiHandler.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="855">
+          <caret line="45" column="31" lean-forward="false" selection-start-line="45" selection-start-column="31" selection-end-line="45" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/VictimTracker.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="456">
+          <caret line="24" column="1" lean-forward="false" selection-start-line="24" selection-start-column="1" selection-end-line="24" selection-end-column="1" />
+          <folding>
+            <element signature="e#196#1368#0" expanded="false" />
+            <element signature="e#1370#1729#0" expanded="false" />
+            <element signature="e#1731#2910#0" expanded="false" />
+            <element signature="e#2912#3066#0" expanded="false" />
+            <element signature="e#3068#3748#0" expanded="false" />
+            <element signature="e#3750#4759#0" expanded="false" />
+            <element signature="e#4761#5942#0" expanded="false" />
+            <element signature="e#7118#7267#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/TaskHandler.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/TaskHandler.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3078">
+          <caret line="162" column="20" lean-forward="false" selection-start-line="162" selection-start-column="20" selection-end-line="162" selection-end-column="20" />
+          <folding>
+            <element signature="e#213#553#0" expanded="false" />
+            <element signature="e#555#747#0" expanded="false" />
+            <element signature="e#749#1731#0" expanded="false" />
+            <element signature="e#1733#1808#0" expanded="false" />
+            <element signature="e#1810#2136#0" expanded="false" />
+            <element signature="e#2138#2377#0" expanded="false" />
+            <element signature="e#2379#2633#0" expanded="false" />
+            <element signature="e#2635#3077#0" expanded="false" />
+            <element signature="e#3079#3704#0" expanded="false" />
+            <element signature="e#3706#3784#0" expanded="false" />
+            <element signature="e#3786#4544#0" expanded="false" />
+            <element signature="e#4546#4880#0" expanded="false" />
+            <element signature="e#4882#4985#0" expanded="false" />
+            <element signature="e#5514#5683#0" expanded="false" />
+            <element signature="e#5685#5808#0" expanded="false" />
+            <element signature="e#5810#6035#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/WifiHandler.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1767">
+          <caret line="93" column="9" lean-forward="false" selection-start-line="93" selection-start-column="9" selection-end-line="93" selection-end-column="9" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/include/CommunicationManager.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="44" column="29" lean-forward="false" selection-start-line="44" selection-start-column="29" selection-end-line="44" selection-end-column="29" />
+        <state relative-caret-position="114">
+          <caret line="37" column="0" lean-forward="false" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/WifiHandler.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="75" column="0" lean-forward="false" selection-start-line="75" selection-start-column="0" selection-end-line="75" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/VictimTracker.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="912">
+          <caret line="48" column="0" lean-forward="false" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#138#0" expanded="false" />
+            <element signature="e#206#226#0" expanded="true" />
+            <element signature="e#604#680#0" expanded="false" />
+            <element signature="e#1614#1626#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="190">
+          <caret line="10" column="9" lean-forward="false" selection-start-line="10" selection-start-column="9" selection-end-line="10" selection-end-column="9" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/CommunicationManager.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="152">
-          <caret line="71" column="22" lean-forward="false" selection-start-line="71" selection-start-column="22" selection-end-line="71" selection-end-column="22" />
+        <state relative-caret-position="19">
+          <caret line="36" column="35" lean-forward="false" selection-start-line="36" selection-start-column="35" selection-end-line="36" selection-end-column="35" />
           <folding>
+            <element signature="e#0#28#0" expanded="true" />
             <element signature="e#1610#1655#0" expanded="false" />
             <element signature="e#2384#2535#0" expanded="false" />
-            <element signature="e#2537#2706#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/VictimTracker.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="141" column="0" lean-forward="false" selection-start-line="141" selection-start-column="0" selection-end-line="141" selection-end-column="0" />
+        <state relative-caret-position="171">
+          <caret line="189" column="13" lean-forward="false" selection-start-line="189" selection-start-column="13" selection-end-line="189" selection-end-column="13" />
           <folding>
-            <element signature="e#0#26#0" expanded="true" />
-            <element signature="e#2718#2730#0" expanded="true" />
-            <element signature="e#2710#2864#0" expanded="false" />
+            <element signature="e#196#1368#0" expanded="false" />
+            <element signature="e#1370#1729#0" expanded="false" />
+            <element signature="e#1731#2910#0" expanded="false" />
+            <element signature="e#2912#3066#0" expanded="false" />
+            <element signature="e#3068#3748#0" expanded="false" />
+            <element signature="e#3750#4759#0" expanded="false" />
+            <element signature="e#4761#5942#0" expanded="false" />
+            <element signature="e#7118#7267#0" expanded="false" />
           </folding>
         </state>
       </provider>

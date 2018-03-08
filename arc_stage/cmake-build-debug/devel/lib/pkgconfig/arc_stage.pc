@@ -1,8 +1,0 @@
-prefix=/home/gurren/workspace/arc_ws/src/arc_stage/cmake-build-debug/devel
-
-Name: arc_stage
-Description: Description of arc_stage
-Version: 0.0.0
-Cflags: -I/home/gurren/workspace/arc_ws/src/arc_stage/cmake-build-debug/devel/include
-Libs: -L/home/gurren/workspace/arc_ws/src/arc_stage/cmake-build-debug/devel/lib 
-Requires: 
