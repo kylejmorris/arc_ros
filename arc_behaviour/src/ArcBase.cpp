@@ -52,7 +52,6 @@ void ArcBase::setup() {
     this->setupSchemas();
 }
 
-
 bool ArcBase::toggleSchema(std::string type, bool state) {
     std_srvs::SetBool req;
     req.request.data = state;

@@ -1,0 +1,54 @@
+#created just to test if I can create an arc world that works with the navigation stack, but is composed of obstacles, and not map data from some png image. This is taken directly from the willow-full.pgm world provided by navigation_stage package.
+
+include "objects.inc"
+include "arc_robots.inc"
+include "environment.inc"
+
+debrisbot(
+	name "test_bot"
+	pose [1.512 2.216 0.000 -14.324]
+	color "blue"
+)
+
+#this is used to create a bounding box. The image we feed in is actually empty, but by definiing it as a model, we have some boundry the robot can't possibly escape through.
+#everything else in the environment is debris, or wall, or in some other way manipulatable.
+define floorplan model
+(
+  # sombre, sensible, artistic
+  color "gray30"
+
+  # most maps will need a bounding box
+  boundary 1
+
+  gui_nose 0
+  gui_grid 0
+
+  gui_outline 0
+  gripper_return 0
+  fiducial_return 0
+  ranger_return 1.000
+)
+#floorplan
+floorplan
+( 
+  name "arc_small"
+  bitmap "../maps/test/test_clean_debris_ms.pgm"
+  size [20.000 20.000 2.000 2]
+  pose [10.000 10.000 0.000 0.000]
+)
+
+#ROBOTS
+#BOARDER WALLS
+unperson(name "altenv_person_1" pose [ 9.058 6.435 0.000 0.000 ] fiducial_return 2)
+person(name "altenv_person_2" pose [ 12.536 4.015 0.000 0.000 ] fiducial_return 3)
+person(name "altenv_person_3" pose [ 5.450 7.913 0.000 0.000 ] fiducial_return 3)
+unperson(name "altenv_person_4" pose [ 14.739 15.652 0.000 0.000 ] fiducial_return 2)
+debris(name "altenv_debris_5" pose [ 9.860 11.634 0.000 0.000 ] size [0.500 0.500 0.100] fiducial_return 5) 
+debris(name "altenv_debris_6" pose [ 7.935 14.736 0.000 0.000 ] size [0.500 0.500 0.100] fiducial_return 6)
+debris(name "altenv_debris_7" pose [ 9.906 11.057 0.000 0.000 ] size [0.500 0.500 0.100] fiducial_return 7)
+debris(name "altenv_debris_8" pose [ 10.426 11.140 0.000 0.000 ] size [0.500 0.500 0.100] fiducial_return 8) 
+debris(name "altenv_debris_9" pose [ 9.313 14.750 0.000 0.000 ] size [0.500 0.500 0.100] fiducial_return 9)
+debris(name "altenv_debris_10" pose [ 9.340 11.071 0.000 0.000 ] size [0.500 0.500 0.100] fiducial_return 10)
+person(name "altenv_person_11" pose [ 9.788 10.488 0.000 0.000 ] fiducial_return 3) 
+debris(name "altenv_debris_12" pose [ 11.083 14.750 0.000 0.000 ] size [0.500 0.500 0.100] fiducial_return 12)
+person(name "altenv_person_13" pose [ 3.044 12.116 0.000 0.000 ] fiducial_return 3)

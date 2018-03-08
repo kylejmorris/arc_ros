@@ -33,7 +33,7 @@ CleanDebrisMS::CleanDebrisMS() {
 
 void CleanDebrisMS::setMaxRange(double max_range) {
     if(max_range<=0) {
-        ROS_WARN("Unable to set parameter: max_range. Value must be > 0. Using default.");
+        ROS_WARN("Unable to set parameter: sensingRange. Value must be > 0. Using default.");
         this->max_cleaning_range = this->DEFAULT_MAX_CLEANING_RANGE;
     } else {
         this->max_cleaning_range = max_range;

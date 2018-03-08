@@ -2,9 +2,8 @@
 * CLASS: DetectVictimPS
 * DATE: 14/02/17
 * AUTHOR: Kyle Morris
-* DESCRIPTION: Determine if Victims are nearby.
+* DESCRIPTION: Determine if Victims are nearby. Can only detect potential victims, never guranteed positive/negative samples.
 */
-
 #ifndef ARC_BEHAVIOUR_DETECTVICTIMSPS_H
 #define ARC_BEHAVIOUR_DETECTVICTIMSPS_H
 
@@ -14,7 +13,7 @@
 
 namespace arc_behaviour {
 
-class DetectVictimPS {
+class AdvancedDetectVictimPS {
 public:
     /*
      * Collection of the markers found in given perceptual instance.
@@ -25,10 +24,15 @@ public:
      * List of actual Victims found after done pruning markers
      */
     arc_msgs::DetectedVictims found_victims;
+
     /**
      * Maximum range that we can detect markers from Victims position.
      */
-    int max_range;
+    int sensingRange;
+
+    int maxVictimIdentificationDistance = 6;
+
+    bool advanced = false; //if the sensor is advanced, it will take into account distance of robot as a factor of how likely we are to detect it correctly.
 
     /**
      * Publish marker information, ie a simple boolean if markers are nearby.
@@ -43,16 +47,14 @@ public:
     ros::NodeHandle local_handle;
 
     //callbacks
-
     //update us with most recent stage information
     void process_detect_victim_cb(const marker_msgs::MarkerDetection marker_info);
-
 public:
     /**
      * Setup the detector with all of the ros topic publishers.
      * uses default global/local node handles
      */
-    DetectVictimPS();
+    AdvancedDetectVictimPS();
 
     /**
      * Check output from stage and prune markers to ones only within our maximum range.
@@ -69,7 +71,6 @@ public:
     void run();
 };
 };
-
 
 #endif //ARC_BEHAVIOUR_DETECTVICTIMSPS_H
 //TODO: Change stage to not publish marker information, ie for every single marker on a topic. Just let Victim detect it in map, and publish info when it finds them. We have to mod stage to move markers using a service, not by having cmd_vel publishing nonsense. ROS can't handle 100's of markers all publishing odom info, they aren't Victims.

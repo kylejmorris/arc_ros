@@ -2,7 +2,8 @@ cmake_minimum_required(VERSION 2.8.3)
 project(arc_tasks)
 
 ## Add support for C++11, supported in ROS Kinetic and newer
-# add_definitions(-std=c++11)
+add_definitions(-std=c++11)
+
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -12,7 +13,10 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   actionlib
-  tf
+        tf2_ros
+        tf
+        tf2_msgs
+
 )
 
 ## System dependencies are found with CMake's conventions
@@ -139,8 +143,10 @@ add_executable(task_explore_server src/task_explore_server_node.cpp src/TaskExpl
 add_executable(task_explore_client src/task_explore_client_node.cpp src/TaskExploreClient.cpp src/TaskExploreClient.h src/TaskUnguidedCleanDebrisClient.cpp src/TaskUnguidedCleanDebrisClient.h)
 add_executable(task_unguided_clean_debris_server src/task_unguided_clean_debris_server_node.cpp src/TaskUnguidedCleanDebrisServer.cpp src/TaskUnguidedCleanDebrisServer.h src/TaskServer.cpp src/TaskServer.h)
 add_executable(task_unguided_clean_debris_client src/task_unguided_clean_debris_client_node.cpp src/TaskUnguidedCleanDebrisClient.cpp src/TaskUnguidedCleanDebrisClient.h)
-add_executable(task_guided_clean_debris_server src/task_guided_clean_debris_server_node.cpp src/TaskGuidedCleanDebrisServer.cpp src/TaskGuidedCleanDebrisServer.h src/TaskServer.cpp src/TaskServer.h)
 add_executable(task_guided_clean_debris_client src/task_guided_clean_debris_client_node.cpp src/TaskGuidedCleanDebrisClient.cpp src/TaskGuidedCleanDebrisClient.h)
+add_executable(task_guided_clean_debris_server src/task_guided_clean_debris_server_node.cpp src/TaskGuidedCleanDebrisServer.cpp src/TaskGuidedCleanDebrisServer.h src/TaskServer.cpp src/TaskServer.h)
+add_executable(task_confirm_victim_client src/task_confirm_victim_client_node.cpp src/TaskConfirmVictimClient.cpp src/TaskConfirmVictimClient.h src/task_confirm_victim_client_node.cpp)
+add_executable(task_confirm_victim_server src/TaskConfirmVictimServer.cpp src/TaskConfirmVictimServer.h src/TaskServer.cpp src/TaskServer.h src/task_confirm_victim_server_node.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -156,6 +162,8 @@ add_dependencies(task_unguided_clean_debris_server arc_msgs_generate_messages_cp
 add_dependencies(task_unguided_clean_debris_client arc_msgs_generate_messages_cpp)
 add_dependencies(task_guided_clean_debris_server arc_msgs_generate_messages_cpp)
 add_dependencies(task_guided_clean_debris_client arc_msgs_generate_messages_cpp)
+add_dependencies(task_confirm_victim_client arc_msgs_generate_messages_cpp)
+add_dependencies(task_confirm_victim_server arc_msgs_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(task_explore_server
@@ -175,6 +183,12 @@ target_link_libraries(task_guided_clean_debris_server
    ${catkin_LIBRARIES}
 )
 target_link_libraries(task_guided_clean_debris_client
+   ${catkin_LIBRARIES}
+)
+target_link_libraries(task_confirm_victim_client
+   ${catkin_LIBRARIES}
+)
+target_link_libraries(task_confirm_victim_server
    ${catkin_LIBRARIES}
 )
 #############
