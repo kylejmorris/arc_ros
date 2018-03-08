@@ -57,6 +57,7 @@ private:
     std::mutex confirmedVictimMutex;
 
     bool alreadyDetectedVictim(const arc_msgs::DetectedVictim &victim);
+    bool alreadyRequestedVictim(const arc_msgs::DetectedVictim &victim);
 
 
     template<typename T>

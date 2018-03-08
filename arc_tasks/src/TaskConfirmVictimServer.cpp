@@ -65,19 +65,13 @@ void TaskConfirmVictimServer::explore_timer_cb(const ros::TimerEvent &event) {
 void TaskConfirmVictimServer::shutdown() {
     arc_msgs::ToggleSchema request;
 
-    //disable schemas
-    dynamic_reconfigure::BoolParameter schema_clean;
-    schema_clean.name = "clean_debris_ms";
-    schema_clean.value = false;
-    request.request.schema.push_back(schema_clean);
-
-    this->arc_base_client.call(request);
-
     //turn off flags
+    this->result.completed = true;
     this->result.task_id = this->recent_goal.task_id;
+    this->result.final_state = stateToString(this->state).c_str();
     this->instance_state.currently_seeking_debris = false;
 
-    this->server.setSucceeded(this->result);
+    ROS_ERROR("Sent success result to task client.");
 }
 
 void TaskConfirmVictimServer::found_victims_cb(const arc_msgs::DetectedVictims &victims) {
@@ -133,9 +127,7 @@ void TaskConfirmVictimServer::StateSelectVictimTarget() {
             result.result.completed = false;
         }
 
-        this->result.final_state = stateToString(this->state).c_str();
-        this->server.setSucceeded(this->result);
-
+        ROS_ERROR("SHUTTING DOWN TASK");
         this->shutdown();
     } else {
         //find victim closest to us.
@@ -284,8 +276,17 @@ void TaskConfirmVictimServer::process() {
         } else if (state == STATE_DetectingVictim) {
             ROS_INFO_ONCE("IN STATE: DetectingVictim.");
             StateDetectingVictim();
+            if(this->result.completed) {
+                ROS_INFO("Setting succeeded task.");
+                server.setSucceeded(this->result);
+            }
         }
 
+        if(this->result.completed) {
+            ROS_INFO("Setting succeeded task.");
+            server.setSucceeded(this->result);
+            this->cleanup();
+        }
 
         ros::spinOnce();
         r.sleep();
@@ -387,9 +388,6 @@ void TaskConfirmVictimServer::StateDetectingVictim() {
         } else if(victimFound.status==NEGATIVE) {
             //TODO: Broadcast a success in finding victim message.. no need to clean. Just go back to finding next victim
             ROS_FATAL("FAILED TO FIND FVICTIM");
-            //while(true) {
-
-            //}
             dynamic_reconfigure::BoolParameter positive;
             positive.name = "positive";
             positive.value = false;
@@ -446,5 +444,17 @@ void TaskConfirmVictimServer::completeConfirmingVictim(const arc_msgs::DetectedV
             victimIt++;
         }
     }
+}
+
+void TaskConfirmVictimServer::cleanup() {
+    this->victims_found_nearby.victims.clear();
+    this->victim_list.victims.clear();
+    this->active = false;
+    this->checkedVictims.victims.clear();
+    instance_state.currently_seeking_debris = false;
+    instance_state.found_debris_target = false;
+    this->victim_success_count = 0;
+    this->victim_count = 0;
+    this->result.completed = false;
 }
 

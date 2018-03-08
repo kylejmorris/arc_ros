@@ -1,6 +1,5 @@
 #include "TaskExploreServer.h"
 #include "arc_msgs/ToggleSchema.h"
-
 TaskExploreServer::TaskExploreServer() : server(global_handle, "task_explore", boost::bind(&TaskExploreServer::goal_cb, this, _1), false)
 {
     ros::NodeHandle local_handle("task_explore_server");

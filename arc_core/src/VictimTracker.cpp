@@ -116,13 +116,18 @@ void VictimTracker::evaluatePotentialVictims() {
 
     //broadcast confirm victim task request.
     if(confirmVictims.victims.size()>0) {
-        broadcastConfirmVictimTask(confirmVictims);
 
         //move victims into pending list
+        arc_msgs::DetectedVictims requestedVictims;
         for (const auto &victim : confirmVictims.victims) {
-            if(!alreadyDetectedVictim(victim)) {
+            if(!alreadyRequestedVictim(victim)) {
                 this->awaitingConfirmation.push_back(victim);
+                requestedVictims.victims.push_back(victim);
             }
+        }
+
+        if(requestedVictims.victims.size()>0) {
+            broadcastConfirmVictimTask(requestedVictims);
         }
     }
 
@@ -193,6 +198,21 @@ void VictimTracker::incoming_confirm_victim_response_cb(const arc_msgs::Wireless
 
          ROS_INFO("Confirmed victim. Added to list.");
     }
+}
+
+bool VictimTracker::alreadyRequestedVictim(const arc_msgs::DetectedVictim &victim) {
+   for(const auto &other : this->awaitingConfirmation) {
+        if(dist(other.pose.position, victim.pose.position)<this->MAX_DISPLACEMENT_THRESHOLD) {
+            return true;
+        }
+    }
+
+    for(const auto &other : this->confirmedVictims) {
+        if(dist(other.pose.position, victim.pose.position)<this->MAX_DISPLACEMENT_THRESHOLD) {
+            return true;
+        }
+    }
+    return false;
 }
 
 int main(int argc, char **argv)  {

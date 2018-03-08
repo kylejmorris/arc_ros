@@ -254,6 +254,11 @@ public:
     void explore_timer_cb(const ros::TimerEvent &event);
     void found_victims_cb(const arc_msgs::DetectedVictims &victims);
     void base_pose_cb(const nav_msgs::Odometry &odom);
+
+    /**
+     * Cleanup the variables and state information set during a task so we may call it again.
+     */
+    void cleanup();
 };
 
 #endif //ARC_TASKS_TASKCONFIRMVICTIMSERVER_H
