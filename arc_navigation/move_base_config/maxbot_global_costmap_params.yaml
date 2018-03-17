@@ -17,6 +17,6 @@ global_costmap:
   rolling_window: false
 
 #robots radius: based on sqrt((width/2)^2 + (height/2)^2) of stage model
-  robot_radius: 0.324 
+  robot_radius: 0.1
 
   footprint_padding: 0.02

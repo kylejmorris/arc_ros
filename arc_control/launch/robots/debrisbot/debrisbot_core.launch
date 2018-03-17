@@ -4,7 +4,7 @@ The launch file for a single debrisbot.
 
 <launch>
     <master auto="start"/>
-    <arg name="robot_name" default="test_bot"/>
+<arg name="robot_name" default="test_bot"/>
     <!-- The wifi handler -->
 
     <param name="tf_prefix" value="$(arg robot_name)"/>
@@ -24,8 +24,6 @@ The launch file for a single debrisbot.
     <!-- <node pkg="arc_tasks" type="task_confirm_victim_server" name="task_confirm_victim_server" output="screen">
 		<param name="robot_name" value="test_bot_1"/>-->
 
-    <node pkg="arc_tasks" type="task_confirm_victim_client" name="task_confirm_victim_client"/> 
-    
     <!-- victim handler -->
     <!-- <node pkg="arc_core" type="victim_tracker" name="victim_tracker">
     </node>-->

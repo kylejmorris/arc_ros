@@ -12,25 +12,25 @@ include "include/objects/chair.inc"
 
 maxbot(
 	name "demo_maxbot_1"
-	pose [4.0 5.5 0.000 90.0]
+	pose [15.0 18.0 0.000 90.0]
 	color "blue"
 )
 
 midbot(
 	name "demo_midbot_1"
-	pose [3.0 7.5 0.000 -2.878]
+	pose [2.0 16.0 0.000 -2.878]
 	color "blue"
 )
 
 midbot(
 	name "demo_midbot_2"
-	pose [4.0 7.5 0.000 -2.878]
+	pose [2.0 18.0 0.000 -2.878]
 	color "blue"
 )
 
 midbot(
 	name "demo_midbot_3"
-	pose [5.0 7.5 0.000 -2.878]
+	pose [2.0 17.0 0.000 -2.878]
 	color "blue"
 )
 
@@ -177,8 +177,8 @@ person(name "altenv_person_0" pose [ 2.625 1.653 0.000 14.324 ] fiducial_return 
 person(name "altenv_person_1" pose [ 8.194 13.307 0.000 0.000 ] fiducial_return 27)
 person(name "altenv_person_2" pose [ 9.901 12.767 0.000 -34.377 ] fiducial_return 28)
 person(name "altenv_person_3" pose [ 14.516 4.299 0.000 -164.231 ] fiducial_return 29)
-unperson(name "altenv_unperson_1l" pose [13.097 9.017 0.000 -77.349 ] fiducial_return 30)
-unperson(name "altenv_unperson_2" pose [18.074 18.542 0.000 77.349 ] fiducial_return 31)
+unperson(name "altenv_unperson_1l" pose [8.0 2.0 0.000 -77.349 ] fiducial_return 30)
+unperson(name "altenv_unperson_2" pose [18.074 4.542 0.000 77.349 ] fiducial_return 31)
 
 
 #tunnel near bottom of map, only explorers can make it all the way.

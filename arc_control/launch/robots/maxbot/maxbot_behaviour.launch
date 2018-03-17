@@ -31,10 +31,11 @@ The launch file for a single maxbot.
 	<rosparam param="advanced_mode">True</rosparam>
     </node>
 
+<!--
     <node name="detect_debris_ps" pkg="arc_behaviour" type="detect_debris_ps">
         <param name="max_range" value="6"/>
     </node>
-
+-->
    <!-- motor schemas -->
    <node name="handle_marker_ms" pkg="arc_behaviour" type="handle_marker_ms">
 	<param name="max_pickup_range" value="2"/>

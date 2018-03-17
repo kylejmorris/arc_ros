@@ -4,9 +4,10 @@ The launch file for a single maxbot
 
 <launch>
     <master auto="start"/>
+    <arg name="robot_name" default="test_bot"/>
     <!-- The wifi handler -->
     <node pkg="arc_core" type="wifi_handler_node" name="wifi_handler">
-        <param name="max_signal_range" value="5"/>
+        <param name="max_signal_range" value="25"/>
     </node>
 
     <!-- The communication manager -->
@@ -17,13 +18,13 @@ The launch file for a single maxbot
     </node>
 
     <!-- tasks this robot can perform -->
-    <node pkg="arc_tasks" type="task_unguided_clean_debris_server" name="task_unguided_clean_debris_server" output="screen"/>
-    <node pkg="arc_tasks" type="task_guided_clean_debris_server" name="task_guided_clean_debris_server" output="screen"/>
     <node pkg="arc_tasks" type="task_explore_server" name="task_explore_server" output="screen"/>
-
+    <node pkg="arc_tasks" type="task_confirm_victim_server" name="task_confirm_victim_server" output="screen">
+    <param name="robot_name" value="$(arg robot_name)"/>
+    </node>
     <!-- the task handler that will manage task requests. -->
     <node pkg="arc_core" type="task_handler" name="task_handler">
-    <rosparam param="valid_tasks">["explore"]</rosparam>
+    <rosparam param="valid_tasks">["explore", "confirm_victim"]</rosparam>
     </node>
 
     <!-- THE CORE RECRUITMENT MANAGER OF ROBOT -->

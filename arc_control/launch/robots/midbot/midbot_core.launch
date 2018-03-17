@@ -4,14 +4,17 @@ The launch file for a single debrisbot.
 
 <launch>
     <master auto="start"/>
+    <arg name="robot_name" default="test_bot"/>
     <!-- The wifi handler -->
     <node pkg="arc_core" type="wifi_handler_node" name="wifi_handler">
-        <param name="max_signal_range" value="15"/>
+        <param name="max_signal_range" value="25"/>
     </node>
 
     <!-- The communication manager -->
     <node pkg="arc_core" type="communication_manager" name="communication_manager"></node>
 
+    <node pkg="arc_core" type="victim_tracker" name="victim_tracker">
+    </node>
     <!-- tasks this robot can perform -->
     <node pkg="arc_tasks" type="task_explore_server" name="task_explore_server"/>
 

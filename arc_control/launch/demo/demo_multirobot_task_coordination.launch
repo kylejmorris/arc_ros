@@ -57,7 +57,7 @@ request_type: 0"
 STEP 2: Have Debris bots do unguided cleaning
 Now we try to get the debris bots exploring around and cleaning debris.
 
-rostopic pub /arc/demo_maxbot_1/task_handler/task_requests arc_msgs/TaskRequest "task_id: 0
+rostopic pub /arc/demo_debrisbot_1/task_handler/task_requests arc_msgs/TaskRequest "task_id: 0
 created: {secs: 0, nsecs: 0}
 task_name: 'unguided_clean_debris'                   
 parameters:
@@ -73,7 +73,7 @@ parameters:
   - {name: '', state: false, id: 0, parent: 0}
 request_type: 0" 
 
-rostopic pub /arc/test_bot/task_handler/task_requests arc_msgs/TaskRequest "task_id: 0
+rostopic pub /arc/demo_debrisbot_2/task_handler/task_requests arc_msgs/TaskRequest "task_id: 0
 created: {secs: 0, nsecs: 0}
 task_name: 'unguided_clean_debris'                   
 parameters:
