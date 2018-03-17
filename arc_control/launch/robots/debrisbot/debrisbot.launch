@@ -13,6 +13,7 @@ ARC CORE
 #################################### 
 -->
 <include file="$(find arc_control)/launch/robots/debrisbot/debrisbot_core.launch">
+<arg name="robot_name" value="$(arg robot_name)"/>
 </include> 
 
 <!-- 
@@ -21,7 +22,7 @@ ARC BEHAVIOUR
 #################################### 
 -->
 <include file="$(find arc_control)/launch/robots/debrisbot/debrisbot_behaviour.launch">
-<arg name="robot_name" value="demo_debrisbot_1"/>
+<arg name="robot_name" value="$(arg robot_name)"/>
 </include> 
 </group>
 </launch>

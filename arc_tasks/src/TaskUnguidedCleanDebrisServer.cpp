@@ -5,7 +5,7 @@
 
 TaskUnguidedCleanDebrisServer::TaskUnguidedCleanDebrisServer() : server(global_handle, "task_unguided_clean_debris", boost::bind(&TaskUnguidedCleanDebrisServer::goal_cb, this, _1), false)
 {
-    ros::NodeHandle local_handle("task_unguided_clean_debris");
+    ros::NodeHandle local_handle("task_unguided_clean_debris_server");
     ros::Timer timer = global_handle.createTimer(ros::Duration(60), &TaskUnguidedCleanDebrisServer::explore_timer_cb, this, false);
     this->debris_sub = global_handle.subscribe("detect_debris_ps/debris_locations", MAX_QUEUE_SIZE, &TaskUnguidedCleanDebrisServer::debris_locations_cb, this);
     this->base_pos_sub = global_handle.subscribe("base_pose_ground_truth", MAX_QUEUE_SIZE, &TaskUnguidedCleanDebrisServer::base_pose_cb, this);
@@ -14,10 +14,15 @@ TaskUnguidedCleanDebrisServer::TaskUnguidedCleanDebrisServer() : server(global_h
     this->debris_success_count = 0;
 
     this->local_handle = local_handle;
+    local_handle.getParam("robot_name", this->robotName);
+    if(this->robotName.size()==0) {
+        ROS_ERROR("could not read robot name");
+    }
+
     this->explore_timer = timer;
     this->explore_timer.stop();
-    this->abandon_failed_debris_timer = global_handle.createTimer(ros::Duration(60), &TaskUnguidedCleanDebrisServer::abandon_failed_debris_timer_cb, this, false);
-    this->clean_debris_timer = global_handle.createTimer(ros::Duration(60), &TaskUnguidedCleanDebrisServer::clean_debris_timer_cb, this, false);
+    this->abandon_failed_debris_timer = global_handle.createTimer(ros::Duration(600), &TaskUnguidedCleanDebrisServer::abandon_failed_debris_timer_cb, this, false);
+    this->clean_debris_timer = global_handle.createTimer(ros::Duration(600), &TaskUnguidedCleanDebrisServer::clean_debris_timer_cb, this, false);
     this->clean_debris_timer.stop();
 
     //TODO: Handle pre-empt callback as well
@@ -64,7 +69,7 @@ void TaskUnguidedCleanDebrisServer::base_pose_cb(const nav_msgs::Odometry &odom)
 }
 
 void TaskUnguidedCleanDebrisServer::goal_cb(const arc_msgs::ArcTaskGoalConstPtr &goal) {
-    ROS_INFO("Executing task_explore");
+    ROS_INFO("Executing task_unguided_clean_debris");
 
     this->startup(goal);
     this->process();
@@ -229,15 +234,15 @@ void TaskUnguidedCleanDebrisServer::StateFoundDebris() {
 
     //Since debris messages are not stamped, we have to make a stamped one.
     geometry_msgs::PoseStamped stamped_pose;
-    stamped_pose.header.frame_id = "/test_bot/base_fiducial_link";
+    stamped_pose.header.frame_id =  this->robotName + "/base_fiducial_link";
     stamped_pose.pose = this->target_debris.pose;
 
 
     tf::StampedTransform transform;
     geometry_msgs::PoseStamped stamped_out; //the transformed point
     try {
-        pose_listener.transformPose("/test_bot/base_link",stamped_pose,stamped_out);
-        stamped_out.header.frame_id = "/test_bot/base_fiducial_link";
+        pose_listener.transformPose(("/" + this->robotName + "/base_link"),stamped_pose,stamped_out);
+        stamped_out.header.frame_id = ("/" + this->robotName + "/base_fiducial_link");
         pose_listener.transformPose("/map",stamped_out, stamped_out);
     } catch(tf::TransformException &ex) {
         ROS_ERROR("%s", ex.what());
@@ -277,6 +282,7 @@ void TaskUnguidedCleanDebrisServer::StateSeekingDebrisLocation() {
         double curr_x = this->recent_pose.pose.pose.position.x;
         double curr_y = this->recent_pose.pose.pose.position.y;
         double distance_from_debris = sqrt(pow(curr_x - target_pose.position.x, 2) + pow(curr_y - target_pose.position.y,2));
+        ROS_INFO("Robot Name %s", this->robotName.c_str());
         ROS_INFO("Currently %f meters away from the debris.", distance_from_debris);
 
         if(distance_from_debris < this->stopping_distance_from_debris) {

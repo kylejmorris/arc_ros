@@ -27,6 +27,10 @@ VictimTracker::VictimTracker(const std::string &customNamespace) {
     this->victim_listener = victim_listener;
 
     global_handle.param<string>("tf_prefix", tf_prefix, "");
+    if(tf_prefix.size()==0) {
+        ROS_ERROR("tf prefix not specified");
+    }
+
 }
 
 void VictimTracker::start() {

@@ -13,6 +13,7 @@ ARC CORE
 #################################### 
 -->
 <include file="$(find arc_control)/launch/robots/maxbot/maxbot_core.launch">
+<arg name="robot_name" value="$(arg robot_name)"/>
 </include> 
 
 <!-- 

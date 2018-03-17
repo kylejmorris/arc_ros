@@ -51,6 +51,7 @@ private:
      */
     ros::Subscriber debris_sub;
 
+    std::string robotName = "";
     /**
      * Subscribes to our current position
      */

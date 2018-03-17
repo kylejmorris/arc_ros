@@ -16,9 +16,6 @@ The launch file for a single debrisbot.
     </node>
 
     <!-- Perceptual Schemas -->
-    <node name="detect_marker_ps" pkg="arc_behaviour" type="detect_marker_ps">
-        <param name="max_range" value="5"/>
-    </node>
     <node name="detect_robot_ps" pkg="arc_behaviour" type="detect_robot_ps">
         <param name="max_range" value="5"/>
     </node>
@@ -33,11 +30,6 @@ The launch file for a single debrisbot.
     </node>
 
    <!-- motor schemas -->
-   <node name="handle_marker_ms" pkg="arc_behaviour" type="handle_marker_ms">
-	<param name="max_pickup_range" value="2"/>
-	<param name="priority" value="2"/>
-   </node>
-
    <node pkg="arc_behaviour" type="move_to_goal_ms" name="move_to_goal_ms"/>
 
    <node name="clean_debris_ms" pkg="arc_behaviour" type="clean_debris_ms">

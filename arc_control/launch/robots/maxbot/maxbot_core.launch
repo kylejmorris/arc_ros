@@ -13,7 +13,7 @@ The launch file for a single maxbot
     <node pkg="arc_core" type="communication_manager" name="communication_manager" output="screen"></node>
 
     <!-- The victim tracker -->   
-    <node pkg="arc_core" type="victim_tracker" name="victim_tracker" output="screen">
+    <node pkg="arc_core" type="victim_tracker" name="victim_tracker">
     </node>
 
     <!-- tasks this robot can perform -->
@@ -23,7 +23,7 @@ The launch file for a single maxbot
 
     <!-- the task handler that will manage task requests. -->
     <node pkg="arc_core" type="task_handler" name="task_handler">
-    <rosparam param="valid_tasks">["explore", "unguided_clean_debris", "guided_clean_debris"]</rosparam>
+    <rosparam param="valid_tasks">["explore"]</rosparam>
     </node>
 
     <!-- THE CORE RECRUITMENT MANAGER OF ROBOT -->

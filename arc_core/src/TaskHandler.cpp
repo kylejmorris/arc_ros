@@ -58,7 +58,7 @@ void TaskHandler::processRequest(const TaskHandler::TaskGoal &goal) {
         //call upon the task if it is acceptable
         ROS_DEBUG_NAMED("TaskHandler", "Accepting task request with id %d.", goal.task_id);
         acceptRequest(goal);
-    }
+   }
 }
 
 void TaskHandler::acceptRequest(const TaskHandler::TaskGoal goal) {
@@ -128,6 +128,7 @@ void TaskHandler::beginTask(const TaskHandler::TaskGoal goal) {
             pos_of_task = pos;
         }
     }
+
     this->task_backlog.erase(this->task_backlog.begin()+pos_of_task);
     this->active_tasks.push_back(goal);
 }
